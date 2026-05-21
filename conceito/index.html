@@ -1,0 +1,850 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Conceito Arquitetônico · Casa Luiz & Priscila</title>
+  <style>
+    :root {
+      --off-white: #f7f4ef;
+      --wood: #c4935a;
+      --sage: #9aab8f;
+      --stone: #c8bfb0;
+      --dark: #1a1a1a;
+      --mid: #555;
+      --light: #888;
+      --accent: #2c3e50;
+      --budget-low: #27ae60;
+      --budget-mid: #e67e22;
+      --card-bg: #fff;
+      --border: #e8e0d4;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      background: var(--off-white);
+      color: var(--dark);
+      line-height: 1.6;
+    }
+
+    /* ── HERO ── */
+    .hero {
+      background: var(--accent);
+      color: white;
+      padding: 4rem 2rem 3rem;
+      text-align: center;
+    }
+    .hero-tag { font-size: 0.8rem; letter-spacing: 0.15em; text-transform: uppercase; opacity: 0.6; margin-bottom: 0.75rem; }
+    .hero h1 { font-size: clamp(1.8rem, 5vw, 3rem); font-weight: 300; margin-bottom: 0.5rem; }
+    .hero h1 strong { font-weight: 700; }
+    .hero .sub { font-size: 1rem; opacity: 0.7; margin-bottom: 2rem; }
+    .hero-meta {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      flex-wrap: wrap;
+      font-size: 0.85rem;
+      opacity: 0.8;
+    }
+    .hero-meta span { display: flex; align-items: center; gap: 0.4rem; }
+
+    /* ── LAYOUT ── */
+    .container { max-width: 1100px; margin: 0 auto; padding: 0 1.5rem; }
+
+    section { padding: 4rem 0; }
+    section + section { border-top: 1px solid var(--border); }
+
+    .section-label {
+      font-size: 0.75rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--wood);
+      margin-bottom: 0.5rem;
+      font-weight: 600;
+    }
+    h2 { font-size: 1.7rem; font-weight: 300; margin-bottom: 0.3rem; }
+    h2 strong { font-weight: 700; }
+    .lead { color: var(--mid); font-size: 1.05rem; margin-bottom: 2rem; max-width: 680px; }
+
+    /* ── PARTIDO ── */
+    .partido-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1.5rem;
+      margin-top: 2rem;
+    }
+    .partido-card {
+      background: var(--card-bg);
+      border-radius: 14px;
+      padding: 1.5rem;
+      border-left: 4px solid var(--wood);
+      box-shadow: 0 2px 12px rgba(0,0,0,0.05);
+    }
+    .partido-card .icon { font-size: 1.8rem; margin-bottom: 0.75rem; }
+    .partido-card h3 { font-size: 0.95rem; font-weight: 700; margin-bottom: 0.4rem; }
+    .partido-card p { font-size: 0.85rem; color: var(--mid); }
+
+    /* ── PLANTAS ── */
+    .plants-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+      align-items: start;
+    }
+    @media (max-width: 720px) { .plants-row { grid-template-columns: 1fr; } }
+
+    .plant-block h3 {
+      font-size: 1rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 2px solid var(--wood);
+    }
+
+    /* ─── térreo grid ─── */
+    .floor-grid {
+      display: grid;
+      gap: 3px;
+      font-size: 0.68rem;
+      font-weight: 600;
+      text-align: center;
+      line-height: 1.2;
+    }
+
+    .floor-ground {
+      grid-template-columns: 1fr 0.85fr 1.1fr;
+      grid-template-rows: 0.9fr 1fr 0.85fr 1.1fr;
+      grid-template-areas:
+        "gar  hall sala"
+        "gar  escr coz"
+        "ofic wc   hosp"
+        "jard lvan chur";
+      height: 320px;
+    }
+
+    .floor-upper {
+      grid-template-columns: 0.6fr 1fr 0.9fr;
+      grid-template-rows: 1fr 0.85fr 0.85fr;
+      grid-template-areas:
+        "circ suit  suit"
+        "esc  clos  banh"
+        "esc  vran  vran";
+      height: 240px;
+    }
+
+    .room {
+      border-radius: 4px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 4px;
+      color: var(--dark);
+    }
+    .room .rm-icon { font-size: 1rem; margin-bottom: 2px; }
+    .room .rm-name { font-size: 0.62rem; font-weight: 700; line-height: 1.1; }
+    .room .rm-area { font-size: 0.58rem; opacity: 0.7; margin-top: 1px; }
+
+    /* room colors */
+    .rm-gar  { grid-area: gar;  background: #dce3ea; }
+    .rm-hall { grid-area: hall; background: #e8e4df; }
+    .rm-sala { grid-area: sala; background: #f0ece6; }
+    .rm-escr { grid-area: escr; background: #e5ede0; }
+    .rm-coz  { grid-area: coz;  background: #fdf5eb; }
+    .rm-ofic { grid-area: ofic; background: #e8f0e5; }
+    .rm-wc   { grid-area: wc;   background: #e4eef3; }
+    .rm-hosp { grid-area: hosp; background: #ede8f5; }
+    .rm-jard { grid-area: jard; background: #d5e8d0; }
+    .rm-lvan { grid-area: lvan; background: #e8f4e8; }
+    .rm-chur { grid-area: chur; background: #f5ead0; }
+    .rm-circ { grid-area: circ; background: #e8e4df; }
+    .rm-suit { grid-area: suit; background: #f5ead0; }
+    .rm-clos { grid-area: clos; background: #ede8f5; }
+    .rm-banh { grid-area: banh; background: #e4eef3; }
+    .rm-vran { grid-area: vran; background: #d5e8d0; }
+    .rm-esc  { grid-area: esc;  background: #e8e4df; }
+
+    .floor-legend {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-top: 1rem;
+    }
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+      font-size: 0.72rem;
+      color: var(--mid);
+    }
+    .legend-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 2px;
+      flex-shrink: 0;
+    }
+
+    /* ── NOTE ABOUT GARDEN CONNECTIONS ── */
+    .plant-note {
+      background: #e8f0e5;
+      border-radius: 8px;
+      padding: 0.75rem 1rem;
+      font-size: 0.8rem;
+      color: #3a5e34;
+      margin-top: 1rem;
+      border-left: 3px solid var(--sage);
+    }
+
+    /* ── AREA TABLE ── */
+    .area-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.9rem;
+    }
+    .area-table th {
+      text-align: left;
+      font-size: 0.75rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--light);
+      padding: 0.6rem 0.75rem;
+      border-bottom: 2px solid var(--border);
+    }
+    .area-table td {
+      padding: 0.65rem 0.75rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .area-table tr:last-child td { border-bottom: none; }
+    .area-table tr.section-row td {
+      font-weight: 700;
+      font-size: 0.8rem;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      color: var(--wood);
+      background: var(--off-white);
+      padding-top: 1.2rem;
+    }
+    .area-table tr.total-row td {
+      font-weight: 700;
+      font-size: 1rem;
+      border-top: 2px solid var(--dark);
+      border-bottom: none;
+      padding-top: 1rem;
+    }
+    .area-num { text-align: right; font-variant-numeric: tabular-nums; }
+
+    /* ── PALETTE ── */
+    .palette-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+      gap: 1.25rem;
+      margin-top: 1.5rem;
+    }
+    .palette-item { }
+    .swatch {
+      height: 80px;
+      border-radius: 10px;
+      margin-bottom: 0.6rem;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    }
+    .palette-item h4 { font-size: 0.82rem; font-weight: 700; }
+    .palette-item p { font-size: 0.75rem; color: var(--mid); }
+
+    /* ── BUDGET ── */
+    .budget-wrap {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+      margin-top: 2rem;
+    }
+    .budget-card {
+      background: var(--card-bg);
+      border-radius: 16px;
+      padding: 2rem;
+      box-shadow: 0 2px 16px rgba(0,0,0,0.06);
+      position: relative;
+      overflow: hidden;
+    }
+    .budget-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 4px;
+    }
+    .budget-card.eco::before { background: var(--budget-low); }
+    .budget-card.rec::before { background: var(--budget-mid); }
+    .budget-tag {
+      font-size: 0.72rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+    .budget-card.eco .budget-tag { color: var(--budget-low); }
+    .budget-card.rec .budget-tag { color: var(--budget-mid); }
+    .budget-price { font-size: 2.2rem; font-weight: 700; margin-bottom: 0.25rem; }
+    .budget-psm { font-size: 0.85rem; color: var(--mid); margin-bottom: 1.25rem; }
+    .budget-list { list-style: none; }
+    .budget-list li {
+      font-size: 0.82rem;
+      color: var(--mid);
+      padding: 0.3rem 0;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: flex-start;
+      gap: 0.5rem;
+    }
+    .budget-list li:last-child { border-bottom: none; }
+    .budget-list li::before { content: '·'; color: var(--wood); font-weight: bold; flex-shrink: 0; }
+
+    .budget-note {
+      background: #fff8f0;
+      border: 1px solid #f0d9b5;
+      border-radius: 10px;
+      padding: 1rem 1.25rem;
+      font-size: 0.82rem;
+      color: #7a5c2a;
+      margin-top: 1.5rem;
+    }
+
+    /* ── TIMELINE ── */
+    .timeline { margin-top: 2rem; }
+    .tl-item {
+      display: flex;
+      gap: 1.25rem;
+      margin-bottom: 2rem;
+      position: relative;
+    }
+    .tl-item::before {
+      content: '';
+      position: absolute;
+      left: 19px;
+      top: 40px;
+      bottom: -2rem;
+      width: 2px;
+      background: var(--border);
+    }
+    .tl-item:last-child::before { display: none; }
+    .tl-dot {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: var(--accent);
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 0.85rem;
+      flex-shrink: 0;
+    }
+    .tl-dot.done { background: var(--sage); }
+    .tl-dot.now  { background: var(--wood); box-shadow: 0 0 0 4px rgba(196,147,90,0.2); }
+    .tl-body { padding-top: 0.4rem; }
+    .tl-body h4 { font-size: 0.95rem; font-weight: 700; margin-bottom: 0.2rem; }
+    .tl-body p { font-size: 0.82rem; color: var(--mid); }
+    .tl-body .duration { font-size: 0.75rem; color: var(--wood); font-weight: 600; margin-top: 0.2rem; }
+
+    /* ── FEEDBACK ── */
+    .feedback-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 1.5rem;
+      margin-top: 2rem;
+    }
+    .feedback-card {
+      background: var(--card-bg);
+      border-radius: 14px;
+      padding: 1.5rem;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.05);
+    }
+    .feedback-card h3 {
+      font-size: 0.9rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .feedback-q {
+      font-size: 0.85rem;
+      color: var(--mid);
+      padding: 0.5rem 0;
+      border-bottom: 1px solid var(--border);
+      cursor: default;
+    }
+    .feedback-q:last-child { border-bottom: none; }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--accent);
+      color: white;
+      text-align: center;
+      padding: 2rem;
+      font-size: 0.82rem;
+      opacity: 0.9;
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 520px) {
+      .hero { padding: 2.5rem 1rem 2rem; }
+      section { padding: 2.5rem 0; }
+      .floor-ground { height: 260px; }
+      .floor-upper  { height: 200px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ══════════════════ HERO ══════════════════ -->
+<div class="hero">
+  <div class="hero-tag">Briefing · Partido Arquitetônico · Maio 2026</div>
+  <h1><strong>Casa Luiz & Priscila</strong></h1>
+  <p class="sub">Conceito inicial para discussão — Lote 12 · Quadra F · Villagio Brunelli</p>
+  <div class="hero-meta">
+    <span>🏡 521,30 m² de terreno</span>
+    <span>🔨 ~262 m² construídos</span>
+    <span>💰 R$ 763 k – 938 k</span>
+    <span>📍 Araçoiaba da Serra / SP</span>
+  </div>
+</div>
+
+<!-- ══════════════════ PARTIDO ══════════════════ -->
+<section>
+  <div class="container">
+    <div class="section-label">Conceito</div>
+    <h2>O <strong>Partido Arquitetônico</strong></h2>
+    <p class="lead">Uma casa que cresce junto com a família — aberta ao jardim agora, pronta para as crianças depois. Interior fluido no térreo, refúgio íntimo no andar. Materiais naturais que envelhecem bem.</p>
+
+    <div class="partido-grid">
+      <div class="partido-card">
+        <div class="icon">🌿</div>
+        <h3>Interior ↔ Exterior</h3>
+        <p>O garden e a churrasqueira coberta são a extensão da sala. Escritório e quarto de hóspedes abrem diretamente para o jardim — light e ar circulam livremente.</p>
+      </div>
+      <div class="partido-card">
+        <div class="icon">📐</div>
+        <h3>Vantagem do Lote</h3>
+        <p>Lado direito confronta com a área de lazer do condomínio — sem vizinhos. Janelas amplas nessa face trazem visual verde sem abrir mão de privacidade.</p>
+      </div>
+      <div class="partido-card">
+        <div class="icon">🔄</div>
+        <h3>Flexibilidade no Tempo</h3>
+        <p>Escritório com sofá-cama vira quarto de hóspedes (ou dos filhos) quando a família crescer. Planta pensada para os próximos 5–10 anos.</p>
+      </div>
+      <div class="partido-card">
+        <div class="icon">🏠</div>
+        <h3>Intimidade no Andar</h3>
+        <p>Suíte master completa com closet e banheiro duplo no 1° andar. Varanda privativa virada para o verde — o refúgio do casal.</p>
+      </div>
+      <div class="partido-card">
+        <div class="icon">💧</div>
+        <h3>Eficiência Hidráulica</h3>
+        <p>Os dois banheiros do térreo (banheiro social + lavabo) compartilham o mesmo shaft hidráulico — simplifica instalação e reduz custo de obra.</p>
+      </div>
+      <div class="partido-card">
+        <div class="icon">🚗</div>
+        <h3>Garagem Integrada</h3>
+        <p>2 vagas cobertas integradas à fachada, com acesso direto à circulação interna — sem exposição ao tempo ao entrar em casa.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════ PLANTAS ══════════════════ -->
+<section>
+  <div class="container">
+    <div class="section-label">Planta Esquemática</div>
+    <h2>A <strong>Distribuição dos Espaços</strong></h2>
+    <p class="lead">Diagrama de zoneamento — proporções aproximadas, não cotadas. Serve para validar o programa antes do projeto executivo.</p>
+
+    <div class="plants-row">
+      <!-- TÉRREO -->
+      <div class="plant-block">
+        <h3>Térreo (nível rua)</h3>
+        <div class="floor-grid floor-ground">
+          <div class="room rm-gar">
+            <div class="rm-icon">🚗</div>
+            <div class="rm-name">Garagem</div>
+            <div class="rm-area">2 vagas · ~36 m²</div>
+          </div>
+          <div class="room rm-hall">
+            <div class="rm-icon">🚪</div>
+            <div class="rm-name">Hall / Circulação</div>
+            <div class="rm-area">~10 m²</div>
+          </div>
+          <div class="room rm-sala">
+            <div class="rm-icon">🛋️</div>
+            <div class="rm-name">Sala de Estar + TV</div>
+            <div class="rm-area">~35 m²</div>
+          </div>
+          <div class="room rm-escr">
+            <div class="rm-icon">💻</div>
+            <div class="rm-name">Escritório</div>
+            <div class="rm-area">sofá-cama · ~16 m²</div>
+          </div>
+          <div class="room rm-coz">
+            <div class="rm-icon">🍳</div>
+            <div class="rm-name">Cozinha + Jantar</div>
+            <div class="rm-area">~38 m²</div>
+          </div>
+          <div class="room rm-ofic">
+            <div class="rm-icon">🌱</div>
+            <div class="rm-name">Quarto Hóspedes / Filhos</div>
+            <div class="rm-area">→ garden · ~14 m²</div>
+          </div>
+          <div class="room rm-wc">
+            <div class="rm-icon">🚿</div>
+            <div class="rm-name">Banheiro + Lavabo</div>
+            <div class="rm-area">shaft único · ~8 m²</div>
+          </div>
+          <div class="room rm-jard" style="grid-area: jard;">
+            <div class="rm-icon">🏡</div>
+            <div class="rm-name">Garden / Pergolado</div>
+            <div class="rm-area">descoberto · ~80 m²</div>
+          </div>
+          <div class="room rm-lvan" style="grid-area: lvan;">
+            <div class="rm-icon">👕</div>
+            <div class="rm-name">Lavanderia</div>
+            <div class="rm-area">~9 m²</div>
+          </div>
+          <div class="room rm-chur" style="grid-area: chur;">
+            <div class="rm-icon">🔥</div>
+            <div class="rm-name">Churrasqueira</div>
+            <div class="rm-area">coberta · ~20 m²</div>
+          </div>
+        </div>
+        <div class="plant-note">
+          Escritório e quarto hóspedes têm portas diretas para o garden — dois pontos de conexão com o exterior no mesmo eixo.
+        </div>
+        <div class="floor-legend">
+          <div class="legend-item"><div class="legend-dot" style="background:#dce3ea"></div>Garagem</div>
+          <div class="legend-item"><div class="legend-dot" style="background:#f0ece6"></div>Sala</div>
+          <div class="legend-item"><div class="legend-dot" style="background:#fdf5eb"></div>Cozinha</div>
+          <div class="legend-item"><div class="legend-dot" style="background:#e5ede0"></div>Escritório</div>
+          <div class="legend-item"><div class="legend-dot" style="background:#ede8f5"></div>Quarto Hósp.</div>
+          <div class="legend-item"><div class="legend-dot" style="background:#d5e8d0"></div>Garden</div>
+          <div class="legend-item"><div class="legend-dot" style="background:#f5ead0"></div>Churrasqueira</div>
+        </div>
+      </div>
+
+      <!-- 1° ANDAR -->
+      <div class="plant-block">
+        <h3>1° Andar (dormitórios)</h3>
+        <div class="floor-grid floor-upper">
+          <div class="room rm-circ">
+            <div class="rm-icon">↕️</div>
+            <div class="rm-name">Escada + Corredor</div>
+            <div class="rm-area">~14 m²</div>
+          </div>
+          <div class="room rm-suit">
+            <div class="rm-icon">🛏️</div>
+            <div class="rm-name">Suíte Master</div>
+            <div class="rm-area">~28 m²</div>
+          </div>
+          <div class="room rm-esc">
+            <div class="rm-icon">📚</div>
+            <div class="rm-name">Espaço Flex / Escritório 2</div>
+            <div class="rm-area">~10 m²</div>
+          </div>
+          <div class="room rm-clos">
+            <div class="rm-icon">👗</div>
+            <div class="rm-name">Closet</div>
+            <div class="rm-area">walk-in · ~14 m²</div>
+          </div>
+          <div class="room rm-banh">
+            <div class="rm-icon">🛁</div>
+            <div class="rm-name">Banheiro Suíte</div>
+            <div class="rm-area">duplo · ~12 m²</div>
+          </div>
+          <div class="room rm-vran">
+            <div class="rm-icon">🌳</div>
+            <div class="rm-name">Varanda</div>
+            <div class="rm-area">→ lazer cond. · ~14 m²</div>
+          </div>
+        </div>
+        <div class="plant-note">
+          Varanda do andar voltada para o lado da área de lazer do condomínio — vista verde, sem vizinhos diretos.
+        </div>
+        <div class="floor-legend">
+          <div class="legend-item"><div class="legend-dot" style="background:#f5ead0"></div>Suíte Master</div>
+          <div class="legend-item"><div class="legend-dot" style="background:#ede8f5"></div>Closet</div>
+          <div class="legend-item"><div class="legend-dot" style="background:#e4eef3"></div>Banheiro</div>
+          <div class="legend-item"><div class="legend-dot" style="background:#d5e8d0"></div>Varanda</div>
+          <div class="legend-item"><div class="legend-dot" style="background:#e8e4df"></div>Circulação</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════ QUADRO DE ÁREAS ══════════════════ -->
+<section>
+  <div class="container">
+    <div class="section-label">Programa</div>
+    <h2><strong>Quadro de Áreas</strong></h2>
+    <p class="lead">Estimativa de áreas para o programa definido. Valores finais serão calculados no projeto arquitetônico.</p>
+
+    <table class="area-table">
+      <thead>
+        <tr>
+          <th>Ambiente</th>
+          <th class="area-num">Área (m²)</th>
+          <th>Observação</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="section-row"><td colspan="3">Térreo</td></tr>
+        <tr><td>Garagem</td><td class="area-num">36</td><td>2 vagas cobertas</td></tr>
+        <tr><td>Hall / Circulação</td><td class="area-num">10</td><td>Entrada e distribuição</td></tr>
+        <tr><td>Sala de Estar + TV</td><td class="area-num">35</td><td>Pé-direito duplo (opcional)</td></tr>
+        <tr><td>Cozinha + Jantar</td><td class="area-num">38</td><td>Integrado, ilha central</td></tr>
+        <tr><td>Escritório</td><td class="area-num">16</td><td>Sofá-cama, porta p/ garden</td></tr>
+        <tr><td>Quarto Hóspedes / Filhos</td><td class="area-num">14</td><td>Porta p/ garden</td></tr>
+        <tr><td>Banheiro Social + Lavabo</td><td class="area-num">8</td><td>Shaft hidráulico compartilhado</td></tr>
+        <tr><td>Lavanderia</td><td class="area-num">9</td><td>Área de serviço</td></tr>
+        <tr><td><em>Garden descoberto</em></td><td class="area-num"><em>80</em></td><td><em>Área externa (não computa)</em></td></tr>
+        <tr><td><em>Churrasqueira coberta</em></td><td class="area-num"><em>20</em></td><td><em>Área coberta externa</em></td></tr>
+
+        <tr class="section-row"><td colspan="3">1° Andar</td></tr>
+        <tr><td>Escada + Corredor</td><td class="area-num">14</td><td></td></tr>
+        <tr><td>Suíte Master</td><td class="area-num">28</td><td></td></tr>
+        <tr><td>Closet</td><td class="area-num">14</td><td>Walk-in, iluminação zenital</td></tr>
+        <tr><td>Banheiro Suíte</td><td class="area-num">12</td><td>2 chuveiros, 2 pias, WC separado</td></tr>
+        <tr><td>Varanda</td><td class="area-num">14</td><td>Vista lazer condomínio</td></tr>
+        <tr><td>Espaço Flex</td><td class="area-num">10</td><td>Home office Priscila / biblioteca</td></tr>
+
+        <tr class="section-row"><td colspan="3">Área Construída</td></tr>
+        <tr class="total-row">
+          <td><strong>Total construído (interno)</strong></td>
+          <td class="area-num"><strong>~249 m²</strong></td>
+          <td></td>
+        </tr>
+        <tr class="total-row">
+          <td><strong>Total com cobertura externa</strong></td>
+          <td class="area-num"><strong>~262 m²</strong></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td style="font-size:0.8rem;color:var(--mid);padding-top:0.75rem">Área permeável mínima exigida (10%)</td>
+          <td class="area-num" style="font-size:0.8rem;color:var(--mid);padding-top:0.75rem">52 m²</td>
+          <td style="font-size:0.8rem;color:var(--mid);padding-top:0.75rem">Garden + recuos = confortável</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ══════════════════ PALETA ══════════════════ -->
+<section>
+  <div class="container">
+    <div class="section-label">Estética</div>
+    <h2><strong>Paleta</strong> de Materiais</h2>
+    <p class="lead">Referência inicial de acabamentos. Linguagem contemporânea-orgânica: materiais naturais, tons terrosos, muito verde.</p>
+
+    <div class="palette-grid">
+      <div class="palette-item">
+        <div class="swatch" style="background: #f2ede4; border: 1px solid #e0d8cc;"></div>
+        <h4>Reboco Texturado</h4>
+        <p>Fachada e paredes internas — tom off-white quente, sem frieza do branco puro</p>
+      </div>
+      <div class="palette-item">
+        <div class="swatch" style="background: linear-gradient(135deg, #b8833a 0%, #c4935a 50%, #d4a96a 100%);"></div>
+        <h4>Madeira Natural</h4>
+        <p>Esquadrias, pergolado, bancadas — ipê, cumaru ou eucalipto tratado</p>
+      </div>
+      <div class="palette-item">
+        <div class="swatch" style="background: #9aab8f;"></div>
+        <h4>Verde Sálvia</h4>
+        <p>Parede de destaque interna (sala ou cozinha), plantas, vegetação de transição</p>
+      </div>
+      <div class="palette-item">
+        <div class="swatch" style="background: linear-gradient(135deg, #c8bfb0, #d4c9b8);"></div>
+        <h4>Pedra Natural / Concreto</h4>
+        <p>Piso externo, churrasqueira, bancada cozinha — ardósia, quartzito ou concreto polido</p>
+      </div>
+      <div class="palette-item">
+        <div class="swatch" style="background: linear-gradient(135deg, #e8e0d0, #f0e8d8);"></div>
+        <h4>Porcelanato Large Format</h4>
+        <p>Piso interno térreo — 90×90 ou 120×60 cm, tonalidade bege-greige</p>
+      </div>
+      <div class="palette-item">
+        <div class="swatch" style="background: #2c3e50;"></div>
+        <h4>Ferro / Corten</h4>
+        <p>Detalhes de fachada, guarda-corpo, caixilhos — contraste escuro e sofisticado</p>
+      </div>
+      <div class="palette-item">
+        <div class="swatch" style="background: linear-gradient(to bottom, rgba(255,255,255,0.1), rgba(255,255,255,0.05)), #b5cfe0; border: 1px solid #b0cad8;"></div>
+        <h4>Vidro Estrutural</h4>
+        <p>Abertura máxima para o garden — esquadrias de correr de piso a teto</p>
+      </div>
+      <div class="palette-item">
+        <div class="swatch" style="background: linear-gradient(135deg, #a0896e, #b8a088);"></div>
+        <h4>Tijolo Aparente</h4>
+        <p>Ponto focal na churrasqueira ou parede da sala — textura e calor</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════ ORÇAMENTO ══════════════════ -->
+<section>
+  <div class="container">
+    <div class="section-label">Investimento</div>
+    <h2><strong>Estimativa</strong> de Orçamento</h2>
+    <p class="lead">Referência CUB/SP + benchmarks de mercado para alto padrão em Sorocaba/região. Valores de maio 2026, sem mobília.</p>
+
+    <div class="budget-wrap">
+      <div class="budget-card eco">
+        <div class="budget-tag">Econômico</div>
+        <div class="budget-price">R$ 763 mil</div>
+        <div class="budget-psm">~R$ 2.900/m² · 263 m²</div>
+        <ul class="budget-list">
+          <li>Estrutura convencional (alvenaria estrutural)</li>
+          <li>Acabamentos de médio padrão</li>
+          <li>Cozinha sem ilha central</li>
+          <li>Banheiro suíte com box simples</li>
+          <li>Churrasqueira em alvenaria simples</li>
+          <li>Porcelanato 60×60 convencional</li>
+        </ul>
+      </div>
+
+      <div class="budget-card rec">
+        <div class="budget-tag">Recomendado ★</div>
+        <div class="budget-price">R$ 938 mil</div>
+        <div class="budget-psm">~R$ 3.570/m² · 263 m²</div>
+        <ul class="budget-list">
+          <li>Estrutura em concreto com pé-direito duplo parcial</li>
+          <li>Esquadrias de alumínio de correr de piso a teto</li>
+          <li>Ilha de cozinha + pedra natural</li>
+          <li>Box duplo + 2 pias separadas na suíte</li>
+          <li>Pergolado de madeira no garden</li>
+          <li>Porcelanato large format 120×60</li>
+          <li>Automação básica (iluminação + ar)</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="budget-note">
+      <strong>Lembre-se:</strong> Estes valores são estimativas de referência. O orçamento real depende do detalhamento do projeto executivo, cotações locais e escolhas finais de acabamento. Recomendo levantar pelo menos 3 orçamentos de construtoras na região de Sorocaba antes de fechar contrato.
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════ PRÓXIMOS PASSOS ══════════════════ -->
+<section>
+  <div class="container">
+    <div class="section-label">Processo</div>
+    <h2><strong>Próximos Passos</strong></h2>
+    <p class="lead">O caminho da ideia à casa pronta — cada etapa com seus entregáveis.</p>
+
+    <div class="timeline">
+      <div class="tl-item">
+        <div class="tl-dot done">✓</div>
+        <div class="tl-body">
+          <h4>Briefing Individual</h4>
+          <p>Questionários de Luiz e Priscila respondidos e salvos. Programa consolidado com base nas respostas.</p>
+          <div class="duration">Concluído</div>
+        </div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-dot now">→</div>
+        <div class="tl-body">
+          <h4>Validação do Partido</h4>
+          <p>Luiz e Priscila revisam este conceito juntos — o que gostaram, o que mudariam, o que está faltando. Após aprovação, avança para o projeto.</p>
+          <div class="duration">Agora · 1–2 semanas</div>
+        </div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-dot">3</div>
+        <div class="tl-body">
+          <h4>Estudo Preliminar</h4>
+          <p>Planta baixa cotada, cortes e fachada. Definição de partido construtivo (estrutura, laje, cobertura). Primeira aprovação visual real da casa.</p>
+          <div class="duration">~4–6 semanas com arquiteto</div>
+        </div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-dot">4</div>
+        <div class="tl-body">
+          <h4>Aprovação Comissão Técnica</h4>
+          <p>Submissão do projeto à Associação Villagio Brunelli antes da prefeitura. Verificação de recuos, altura e demais restrições do regulamento.</p>
+          <div class="duration">~4–8 semanas (depende da comissão)</div>
+        </div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-dot">5</div>
+        <div class="tl-body">
+          <h4>Projeto Executivo + Aprovação Prefeitura</h4>
+          <p>Projetos complementares: estrutural, hidrossanitário, elétrico, SPDA. Aprovação na Prefeitura de Araçoiaba da Serra.</p>
+          <div class="duration">~3–4 meses</div>
+        </div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-dot">6</div>
+        <div class="tl-body">
+          <h4>Obra</h4>
+          <p>Levantamento de orçamentos com construtoras locais, assinatura de contrato e início. Acompanhamento de obra periódico.</p>
+          <div class="duration">~12–18 meses (depende do sistema construtivo)</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════ PERGUNTAS PARA DISCUTIR ══════════════════ -->
+<section>
+  <div class="container">
+    <div class="section-label">Para Debater</div>
+    <h2>Pontos Abertos para <strong>Decidir Juntos</strong></h2>
+    <p class="lead">Antes de avançar para o projeto, vale alinhar esses tópicos entre Luiz e Priscila com o arquiteto.</p>
+
+    <div class="feedback-grid">
+      <div class="feedback-card">
+        <h3>Sobre a Planta</h3>
+        <div class="feedback-q">O escritório no térreo está no local certo? Prefere mais perto da garagem ou da sala?</div>
+        <div class="feedback-q">Pé-direito duplo na sala — atraente mas eleva o custo. Vale para vocês?</div>
+        <div class="feedback-q">Lavanderia: prefere dentro de casa ou com acesso separado pelo garden?</div>
+        <div class="feedback-q">Quarto de hóspedes com banheiro próprio ou compartilhado com o social?</div>
+      </div>
+
+      <div class="feedback-card">
+        <h3>Sobre a Suíte</h3>
+        <div class="feedback-q">Closet integrado à suíte ou com corredor de separação?</div>
+        <div class="feedback-q">WC separado do banheiro principal — importante para a rotina de vocês?</div>
+        <div class="feedback-q">Varanda: prefere coberta, semi-coberta ou descoberta?</div>
+        <div class="feedback-q">Banheira de imersão — não está no programa, mas é desejo de algum de vocês?</div>
+      </div>
+
+      <div class="feedback-card">
+        <h3>Sobre o Garden</h3>
+        <div class="feedback-q">Churrasqueira: modelo tradicional em alvenaria ou grelha moderna embutida?</div>
+        <div class="feedback-q">O garden descoberto — quer cobertura parcial (pérgola) ou manter céu aberto?</div>
+        <div class="feedback-q">Horta ou canteiro de plantas — tem interesse em reservar espaço?</div>
+        <div class="feedback-q">Espaço para caixa d'água enterrada / cisterna de captação de chuva?</div>
+      </div>
+
+      <div class="feedback-card">
+        <h3>Sobre a Obra</h3>
+        <div class="feedback-q">Alvenaria estrutural (mais barato) ou concreto armado (mais livre na planta)?</div>
+        <div class="feedback-q">Cobertura: telha cerâmica, metálica ou laje impermeabilizada?</div>
+        <div class="feedback-q">Energia solar — já quer prever ponto para os painéis no projeto?</div>
+        <div class="feedback-q">Automação residencial — iluminação, ar, alarme — qual nível de interesse?</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════ FOOTER ══════════════════ -->
+<footer>
+  <strong>Projeto Casa · Luiz & Priscila</strong> · Lote 12 · Quadra F · Villagio Brunelli · Araçoiaba da Serra/SP<br>
+  Conceito inicial para discussão — Maio 2026 · Todas as áreas e valores são estimativas sujeitas a revisão
+</footer>
+
+</body>
+</html>
