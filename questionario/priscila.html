@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Briefing · Priscila · Projeto Casa</title>
+  <style>
+    :root {
+      --primary: #8b1a1a;
+      --accent: #c0392b;
+      --bg: #fdf5f5;
+      --card: #ffffff;
+      --text: #1a1a1a;
+      --muted: #888;
+      --border: #e8d5d5;
+      --selected-bg: #8b1a1a;
+      --selected-text: #ffffff;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Segoe UI', system-ui, sans-serif; background: var(--bg); min-height: 100vh; padding: 1rem; }
+
+    .header { max-width: 640px; margin: 0 auto 1.5rem; display: flex; align-items: center; justify-content: space-between; }
+    .back-btn { text-decoration: none; color: var(--muted); font-size: 0.85rem; display: flex; align-items: center; gap: 0.4rem; }
+    .who-tag { background: var(--primary); color: white; padding: 0.3rem 0.8rem; border-radius: 20px; font-size: 0.8rem; font-weight: 600; }
+
+    .progress-wrap { max-width: 640px; margin: 0 auto 1.5rem; }
+    .progress-bar { height: 4px; background: var(--border); border-radius: 4px; overflow: hidden; }
+    .progress-fill { height: 100%; background: var(--primary); transition: width 0.4s ease; border-radius: 4px; }
+    .progress-label { font-size: 0.78rem; color: var(--muted); margin-top: 0.4rem; text-align: right; }
+
+    .card { background: var(--card); border-radius: 20px; padding: 2rem; max-width: 640px; margin: 0 auto 1rem; box-shadow: 0 2px 20px rgba(0,0,0,0.06); }
+    .section-tag { font-size: 0.72rem; font-weight: 700; letter-spacing: 1px; color: var(--accent); text-transform: uppercase; margin-bottom: 0.5rem; }
+    .question { font-size: 1.15rem; font-weight: 600; color: var(--text); margin-bottom: 0.3rem; line-height: 1.4; }
+    .question-note { font-size: 0.82rem; color: var(--muted); margin-bottom: 1.2rem; }
+
+    .options { display: flex; flex-direction: column; gap: 0.6rem; }
+    .option {
+      border: 2px solid var(--border);
+      border-radius: 12px;
+      padding: 0.85rem 1rem;
+      cursor: pointer;
+      transition: all 0.15s;
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      font-size: 0.95rem;
+      color: var(--text);
+      user-select: none;
+    }
+    .option:hover { border-color: var(--primary); background: #fdf0f0; }
+    .option.selected { border-color: var(--primary); background: var(--primary); color: white; }
+    .option .emoji { font-size: 1.2rem; flex-shrink: 0; }
+    .option .label { font-weight: 500; }
+    .option .desc { font-size: 0.78rem; opacity: 0.7; display: block; margin-top: 0.15rem; }
+
+    .options-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.6rem; }
+    .options-grid .option { flex-direction: column; align-items: flex-start; text-align: left; }
+
+    .multi-hint { font-size: 0.75rem; color: var(--muted); margin-bottom: 0.8rem; display: flex; align-items: center; gap: 0.3rem; }
+
+    .text-input {
+      width: 100%;
+      border: 2px solid var(--border);
+      border-radius: 12px;
+      padding: 0.85rem 1rem;
+      font-size: 0.95rem;
+      font-family: inherit;
+      color: var(--text);
+      resize: vertical;
+      min-height: 80px;
+      transition: border-color 0.15s;
+    }
+    .text-input:focus { outline: none; border-color: var(--primary); }
+
+    .nav { display: flex; gap: 0.8rem; max-width: 640px; margin: 0 auto; }
+    .btn-prev {
+      flex: 1;
+      padding: 1rem;
+      border: 2px solid var(--border);
+      border-radius: 12px;
+      background: white;
+      color: var(--text);
+      font-size: 0.95rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .btn-prev:hover { border-color: var(--primary); }
+    .btn-next {
+      flex: 2;
+      padding: 1rem;
+      border: none;
+      border-radius: 12px;
+      background: var(--primary);
+      color: white;
+      font-size: 0.95rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .btn-next:hover { background: #5c1111; }
+    .btn-next:disabled { background: var(--border); color: var(--muted); cursor: not-allowed; }
+
+    .welcome { text-align: center; padding: 1rem 0; }
+    .welcome .big-icon { font-size: 4rem; margin-bottom: 1rem; }
+    .welcome h1 { font-size: 1.6rem; color: var(--text); margin-bottom: 0.5rem; }
+    .welcome p { color: var(--muted); font-size: 0.95rem; margin-bottom: 0.4rem; line-height: 1.6; }
+    .lot-info { background: var(--bg); border-radius: 12px; padding: 1rem; margin: 1.5rem 0; text-align: left; }
+    .lot-info .lot-title { font-size: 0.72rem; font-weight: 700; letter-spacing: 1px; color: var(--accent); text-transform: uppercase; margin-bottom: 0.5rem; }
+    .lot-info .lot-detail { font-size: 0.85rem; color: #555; line-height: 1.7; }
+    .lot-info strong { color: var(--text); }
+
+    .thankyou { text-align: center; padding: 1rem 0; }
+    .thankyou .big-icon { font-size: 4rem; margin-bottom: 1rem; }
+    .thankyou h1 { font-size: 1.6rem; color: var(--text); margin-bottom: 0.8rem; }
+    .thankyou p { color: var(--muted); font-size: 0.95rem; line-height: 1.6; }
+    .saved-tag { display: inline-block; background: #e8f5e9; color: #2e7d32; padding: 0.4rem 1rem; border-radius: 20px; font-size: 0.8rem; font-weight: 600; margin: 1rem 0; }
+
+    @media (max-width: 480px) {
+      .options-grid { grid-template-columns: 1fr; }
+      .card { padding: 1.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="header">
+  <a href="index.html" class="back-btn">← Início</a>
+  <span class="who-tag">Priscila</span>
+</div>
+
+<div class="progress-wrap">
+  <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+  <div class="progress-label" id="progressLabel"></div>
+</div>
+
+<div id="app"></div>
+
+<div class="nav" id="nav">
+  <button class="btn-prev" id="btnPrev" onclick="prev()">← Voltar</button>
+  <button class="btn-next" id="btnNext" onclick="next()">Próxima →</button>
+</div>
+
+<script>
+const RESPONDENTE = 'priscila';
+
+const questions = [
+  // 0 — Boas-vindas
+  { type: 'welcome' },
+
+  // SEÇÃO A — Rotina
+  {
+    section: 'A · Rotina e Dia a Dia',
+    question: 'Como você usa a casa no dia a dia?',
+    note: 'Pense na sua rotina típica',
+    type: 'single',
+    key: 'rotina_uso',
+    options: [
+      { emoji: '🌅', label: 'Manhã e noite', desc: 'Saio cedo, volto à noite' },
+      { emoji: '🏠', label: 'Maior parte do dia', desc: 'Trabalho em casa ou saio pouco' },
+      { emoji: '🌙', label: 'Mainly noturno', desc: 'Ativo à noite, durmo de manhã' },
+      { emoji: '🔄', label: 'Irregular', desc: 'Horários variados toda semana' },
+    ]
+  },
+  {
+    section: 'A · Rotina e Dia a Dia',
+    question: 'Você trabalha em home office?',
+    type: 'single',
+    key: 'home_office',
+    options: [
+      { emoji: '💻', label: 'Sim, todo dia', desc: 'Preciso de escritório dedicado' },
+      { emoji: '📅', label: 'Alguns dias', desc: '2-3x por semana em casa' },
+      { emoji: '🚗', label: 'Raramente', desc: 'Quase sempre vou ao escritório' },
+      { emoji: '❌', label: 'Não', desc: 'Trabalho fora 100%' },
+    ]
+  },
+  {
+    section: 'A · Rotina e Dia a Dia',
+    question: 'Como você gosta de receber pessoas em casa?',
+    type: 'single',
+    key: 'social_estilo',
+    options: [
+      { emoji: '🎉', label: 'Adoro! Frequente', desc: 'Churrascos, festas, amigos sempre' },
+      { emoji: '👨‍👩‍👧', label: 'Família em datas especiais', desc: 'Aniversários, feriados' },
+      { emoji: '☕', label: 'Intimista', desc: 'Amigos próximos, tranquilo' },
+      { emoji: '🏡', label: 'Prefiro privacidade', desc: 'Casa mais para mim' },
+    ]
+  },
+  {
+    section: 'A · Rotina e Dia a Dia',
+    question: 'Tem algum hobbie ou atividade que precisa de espaço na casa?',
+    note: 'Costura, pintura, leitura, yoga, academia, música...',
+    type: 'text',
+    key: 'hobbie_espaco',
+    placeholder: 'Descreva seu hobbie e o espaço ideal para ele'
+  },
+
+  // SEÇÃO B — Moradores e Futuro
+  {
+    section: 'B · Moradores e Futuro',
+    question: 'Pensando no futuro, quem você imagina morando nessa casa?',
+    note: 'Pode selecionar mais de um',
+    type: 'multi',
+    key: 'moradores_futuro',
+    options: [
+      { emoji: '👫', label: 'Eu e Luiz', desc: 'Somente vocês dois' },
+      { emoji: '👶', label: 'Filhos', desc: 'Planos de ter filhos' },
+      { emoji: '🐕', label: 'Pet', desc: 'Cachorro, gato ou outro' },
+      { emoji: '👴', label: 'Familiar', desc: 'Pai, mãe ou avós eventualmente' },
+    ]
+  },
+  {
+    section: 'B · Moradores e Futuro',
+    question: 'O espaço mais importante para você na casa é:',
+    type: 'single',
+    key: 'ambiente_mais_importante',
+    options: [
+      { emoji: '🛁', label: 'Quarto / suíte', desc: 'Onde você recarrega' },
+      { emoji: '🍳', label: 'Cozinha', desc: 'O coração da casa' },
+      { emoji: '🛋️', label: 'Sala de estar', desc: 'Para relaxar e conviver' },
+      { emoji: '🌿', label: 'Área externa', desc: 'Jardim, lazer, ar livre' },
+    ]
+  },
+  {
+    section: 'B · Moradores e Futuro',
+    question: 'Você gostaria de ter um espaço só seu na casa?',
+    type: 'single',
+    key: 'espaco_proprio',
+    options: [
+      { emoji: '👗', label: 'Closet grande', desc: 'Espaço generoso para roupas e acessórios' },
+      { emoji: '📚', label: 'Cantinho de leitura', desc: 'Um espaço aconchegante para ler' },
+      { emoji: '✂️', label: 'Ateliê / hobby room', desc: 'Para costura, artesanato, criatividade' },
+      { emoji: '💆', label: 'Espaço zen', desc: 'Meditação, yoga, paz' },
+      { emoji: '🏠', label: 'Não preciso', desc: 'Compartilho tudo' },
+    ]
+  },
+
+  // SEÇÃO C — Ambientes
+  {
+    section: 'C · Ambientes e Espaços',
+    question: 'Qual layout de casa te atrai mais?',
+    type: 'single',
+    key: 'layout_preferencia',
+    options: [
+      { emoji: '🌊', label: 'Integrado / Open', desc: 'Sala, cozinha e área gourmet tudo junto' },
+      { emoji: '🚪', label: 'Compartimentado', desc: 'Ambientes separados, mais fechado' },
+      { emoji: '⚖️', label: 'Híbrido', desc: 'Social integrado, íntimo fechado' },
+    ]
+  },
+  {
+    section: 'C · Ambientes e Espaços',
+    question: 'Quais ambientes são INDISPENSÁVEIS para você?',
+    note: 'Sem isso, não aprova o projeto',
+    type: 'multi',
+    key: 'ambientes_indispensaveis',
+    options: [
+      { emoji: '🛁', label: 'Suíte master', desc: 'Quarto com banheiro privativo' },
+      { emoji: '🔥', label: 'Churrasqueira', desc: 'Área gourmet com churrasco' },
+      { emoji: '🏊', label: 'Piscina', desc: 'Piscina no lote' },
+      { emoji: '👗', label: 'Closet', desc: 'Closet generoso' },
+      { emoji: '🛁', label: 'Banheira', desc: 'Banheira na suíte' },
+      { emoji: '🧺', label: 'Lavanderia', desc: 'Área de serviço separada' },
+      { emoji: '🌿', label: 'Jardim', desc: 'Área verde / paisagismo' },
+      { emoji: '💆', label: 'Spa / ofurô', desc: 'Espaço de relaxamento' },
+    ]
+  },
+  {
+    section: 'C · Ambientes e Espaços',
+    question: 'Banheiro da suíte: o que não pode faltar?',
+    note: 'Pode selecionar mais de um',
+    type: 'multi',
+    key: 'banheiro_suite',
+    options: [
+      { emoji: '🚿', label: 'Chuveiro duplo', desc: 'Para os dois ao mesmo tempo' },
+      { emoji: '🛁', label: 'Banheira', desc: 'Banheira de imersão' },
+      { emoji: '🪞', label: 'Bancada dupla', desc: 'Uma pia para cada' },
+      { emoji: '🚽', label: 'Sanitário separado', desc: 'Box privativo' },
+    ]
+  },
+  {
+    section: 'C · Ambientes e Espaços',
+    question: 'Quantos quartos você acha necessário?',
+    type: 'single',
+    key: 'num_quartos',
+    options: [
+      { emoji: '2️⃣', label: '2 quartos', desc: 'Casal + 1 reversível' },
+      { emoji: '3️⃣', label: '3 quartos', desc: 'Casal + 2 opcionais' },
+      { emoji: '4️⃣', label: '4 quartos', desc: 'Casal + 3 (hóspedes / filhos)' },
+    ]
+  },
+  {
+    section: 'C · Ambientes e Espaços',
+    question: 'Você gosta de cozinhar? Como é sua cozinha ideal?',
+    type: 'single',
+    key: 'cozinha_perfil',
+    options: [
+      { emoji: '👩‍🍳', label: 'Adoro cozinhar', desc: 'Cozinha ampla, ilha central, tudo de bom' },
+      { emoji: '🍽️', label: 'Cozinho bastante', desc: 'Funcional e bem equipada' },
+      { emoji: '🥡', label: 'Pouco', desc: 'Simples, não é prioridade' },
+      { emoji: '📦', label: 'Quase nunca', desc: 'Prefiro área mínima' },
+    ]
+  },
+
+  // SEÇÃO D — Estética
+  {
+    section: 'D · Estilo e Estética',
+    question: 'Qual estilo mais te representa?',
+    type: 'single',
+    key: 'estilo_arq',
+    options: [
+      { emoji: '⬛', label: 'Moderno minimalista', desc: 'Linhas retas, sem ornamentos, clean' },
+      { emoji: '🪵', label: 'Contemporâneo natural', desc: 'Moderno com madeira e pedra' },
+      { emoji: '🏡', label: 'Aconchegante', desc: 'Warmth, texturas, confortável' },
+      { emoji: '🌸', label: 'Clássico elegante', desc: 'Detalhes, moluras, atemporal' },
+    ]
+  },
+  {
+    section: 'D · Estilo e Estética',
+    question: 'Como você prefere as cores da casa?',
+    type: 'single',
+    key: 'paleta_cores',
+    options: [
+      { emoji: '⬜🤍', label: 'Todo branco / neutros', desc: 'Branco, off-white, bege' },
+      { emoji: '🌿', label: 'Tons naturais', desc: 'Verde sage, terracota, madeira' },
+      { emoji: '🎨', label: 'Com cores', desc: 'Gosto de cor nos detalhes' },
+      { emoji: '⬛', label: 'Tons escuros', desc: 'Grafite, chumbo, preto' },
+    ]
+  },
+  {
+    section: 'D · Estilo e Estética',
+    question: 'A casa ideal para você é:',
+    type: 'single',
+    key: 'sensacao_espacial',
+    options: [
+      { emoji: '🌬️', label: 'Espaçosa e clean', desc: 'Poucos objetos, muito espaço' },
+      { emoji: '🛋️', label: 'Aconchegante', desc: 'Almofadas, texturas, detalhes' },
+      { emoji: '⚖️', label: 'Equilibrada', desc: 'Clean mas com personalidade' },
+    ]
+  },
+  {
+    section: 'D · Estilo e Estética',
+    question: 'Plantas e natureza dentro de casa:',
+    type: 'single',
+    key: 'plantas_interior',
+    options: [
+      { emoji: '🌿🌿🌿', label: 'Adoro! Muitas plantas', desc: 'Jardim de inverno, vasos por todo lado' },
+      { emoji: '🌿🌿', label: 'Moderado', desc: 'Alguns vasos estratégicos' },
+      { emoji: '🌿', label: 'Um ou dois', desc: 'Prefiro exterior' },
+      { emoji: '❌', label: 'Prefiro sem', desc: 'Não curto manutenção' },
+    ]
+  },
+
+  // SEÇÃO E — Prioridades
+  {
+    section: 'E · Prioridades e Sonhos',
+    question: 'O que você JAMAIS quer ver nessa casa?',
+    note: 'Algo que você odeia em casas que visitou ou na onde mora',
+    type: 'text',
+    key: 'jamais_quero',
+    placeholder: 'Ex: área de serviço bagunçada à vista, quarto sem closet, banheiro pequeno...'
+  },
+  {
+    section: 'E · Prioridades e Sonhos',
+    question: 'O que é absolutamente INEGOCIÁVEL para você?',
+    note: '1 coisa que se não tiver, você não aprova o projeto',
+    type: 'text',
+    key: 'inegociavel',
+    placeholder: 'Ex: closet grande, banheira na suíte, jardim com flores...'
+  },
+  {
+    section: 'E · Prioridades e Sonhos',
+    question: 'Sustentabilidade e conforto térmico: qual seu interesse?',
+    type: 'single',
+    key: 'sustentabilidade',
+    options: [
+      { emoji: '🌱', label: 'Alta prioridade', desc: 'Energia solar, ventilação natural, tudo' },
+      { emoji: '❄️', label: 'Conforto climático', desc: 'Ar condicionado bem planejado' },
+      { emoji: '⚡', label: 'Energia solar', desc: 'Pelo menos isso' },
+      { emoji: '💡', label: 'Básico', desc: 'O padrão já está bom' },
+    ]
+  },
+  {
+    section: 'E · Prioridades e Sonhos',
+    question: 'Compartilhe inspirações — casas que você amaria morar',
+    note: 'Links do Pinterest, Instagram, ou descreva o que te inspira',
+    type: 'text',
+    key: 'inspiracao_links',
+    placeholder: 'https://pinterest.com/... ou descreva o estilo, cores, ambiente que você sonha'
+  },
+
+  // Fim
+  { type: 'thankyou' }
+];
+
+let current = 0;
+const answers = {};
+
+function render() {
+  const q = questions[current];
+  const total = questions.filter(q => q.type !== 'welcome' && q.type !== 'thankyou').length;
+  const answered = questions.slice(1, current).filter(q => q.type !== 'thankyou').length;
+
+  const pct = current === 0 ? 0 : Math.round((answered / total) * 100);
+  document.getElementById('progressFill').style.width = pct + '%';
+  document.getElementById('progressLabel').textContent =
+    q.type === 'welcome' ? '' :
+    q.type === 'thankyou' ? 'Concluído!' :
+    `Pergunta ${answered + 1} de ${total}`;
+
+  const nav = document.getElementById('nav');
+  const btnPrev = document.getElementById('btnPrev');
+  const btnNext = document.getElementById('btnNext');
+  if (q.type === 'welcome' || q.type === 'thankyou') {
+    nav.style.display = 'none';
+  } else {
+    nav.style.display = 'flex';
+    btnPrev.style.display = current <= 1 ? 'none' : '';
+    btnNext.textContent = current === questions.length - 2 ? 'Finalizar ✓' : 'Próxima →';
+    updateNextBtn();
+  }
+
+  const app = document.getElementById('app');
+
+  if (q.type === 'welcome') {
+    app.innerHTML = `
+      <div class="card">
+        <div class="welcome">
+          <div class="big-icon">💖</div>
+          <h1>Olá, Priscila!</h1>
+          <p>Preparei algumas perguntas para entender seus sonhos e preferências para a casa.</p>
+          <p>Responda com sinceridade, sem consultar o Luiz — depois comparamos juntos!</p>
+          <div class="lot-info">
+            <div class="lot-title">🏗️ O terreno de vocês</div>
+            <div class="lot-detail">
+              <strong>Lote 12 · Quadra F · Villagio Brunelli</strong><br>
+              521,30 m² · Araçoiaba da Serra/SP<br>
+              Lote de curva · Área de lazer e árvores ao lado
+            </div>
+          </div>
+          <button class="btn-next" style="background:var(--primary);width:100%;padding:1rem;border-radius:12px;font-size:1rem;font-weight:600;cursor:pointer;border:none;color:white;" onclick="next()">Começar →</button>
+        </div>
+      </div>`;
+    return;
+  }
+
+  if (q.type === 'thankyou') {
+    saveAnswers();
+    app.innerHTML = `
+      <div class="card">
+        <div class="thankyou">
+          <div class="big-icon">🌸</div>
+          <h1>Obrigada, Priscila!</h1>
+          <div class="saved-tag">Respostas salvas</div>
+          <p>Suas preferências foram registradas com carinho.</p>
+          <p style="margin-top:1rem;">Agora é só aguardar — quando o Luiz terminar o dele, analisamos as respostas dos dois e começamos o projeto dos sonhos de vocês!</p>
+          <a href="index.html" style="display:inline-block;margin-top:1.5rem;text-decoration:none;color:#888;font-size:0.85rem;">← Voltar ao início</a>
+        </div>
+      </div>`;
+    return;
+  }
+
+  const val = answers[q.key];
+  let optionsHtml = '';
+
+  if (q.type === 'single' || q.type === 'multi') {
+    const isMulti = q.type === 'multi';
+    const grid = q.options.length === 4 && q.options.every(o => !o.desc || o.desc.length < 40);
+    const cls = grid ? 'options-grid' : 'options';
+    optionsHtml = `
+      ${isMulti ? '<div class="multi-hint">✓ Pode selecionar mais de um</div>' : ''}
+      <div class="${cls}">
+        ${q.options.map((o, i) => `
+          <div class="option ${isSelected(q, i) ? 'selected' : ''}" onclick="select(${i})">
+            <span class="emoji">${o.emoji}</span>
+            <div>
+              <span class="label">${o.label}</span>
+              ${o.desc ? `<span class="desc">${o.desc}</span>` : ''}
+            </div>
+          </div>
+        `).join('')}
+      </div>`;
+  } else if (q.type === 'text') {
+    optionsHtml = `
+      <textarea class="text-input" id="textInput" placeholder="${q.placeholder || ''}"
+        oninput="answers['${q.key}']=this.value;updateNextBtn()">${val || ''}</textarea>`;
+  }
+
+  app.innerHTML = `
+    <div class="card">
+      <div class="section-tag">${q.section}</div>
+      <div class="question">${q.question}</div>
+      ${q.note ? `<div class="question-note">${q.note}</div>` : ''}
+      ${optionsHtml}
+    </div>`;
+}
+
+function isSelected(q, i) {
+  const val = answers[q.key];
+  if (q.type === 'multi') return Array.isArray(val) && val.includes(i);
+  return val === i;
+}
+
+function select(i) {
+  const q = questions[current];
+  if (q.type === 'multi') {
+    if (!Array.isArray(answers[q.key])) answers[q.key] = [];
+    const idx = answers[q.key].indexOf(i);
+    if (idx >= 0) answers[q.key].splice(idx, 1);
+    else answers[q.key].push(i);
+  } else {
+    answers[q.key] = i;
+  }
+  render();
+}
+
+function updateNextBtn() {
+  const q = questions[current];
+  const btn = document.getElementById('btnNext');
+  if (!btn) return;
+  if (q.type === 'text') { btn.disabled = false; return; }
+  const val = answers[q.key];
+  const hasAnswer = q.type === 'multi'
+    ? Array.isArray(val) && val.length > 0
+    : val !== undefined && val !== null;
+  btn.disabled = !hasAnswer;
+}
+
+function next() {
+  if (current < questions.length - 1) { current++; render(); window.scrollTo(0, 0); }
+}
+
+function prev() {
+  if (current > 0) { current--; render(); window.scrollTo(0, 0); }
+}
+
+function getLabel(q, val) {
+  if (!q || !q.options) return val;
+  if (q.type === 'multi') {
+    if (!Array.isArray(val)) return '';
+    return val.map(i => q.options[i]?.label).join(', ');
+  }
+  return q.options[val]?.label || val;
+}
+
+function saveAnswers() {
+  const result = { respondente: RESPONDENTE, timestamp: new Date().toISOString(), respostas: {} };
+  questions.forEach(q => {
+    if (q.key) {
+      const raw = answers[q.key];
+      result.respostas[q.key] = { valor: raw, label: getLabel(q, raw), pergunta: q.question };
+    }
+  });
+  localStorage.setItem('briefing_priscila', JSON.stringify(result));
+  console.log('Briefing salvo:', result);
+}
+
+render();
+</script>
+</body>
+</html>
