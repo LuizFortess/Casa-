@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Feedback · Luiz · Projeto Casa</title>
+  <style>
+    :root {
+      --primary: #2c3e50;
+      --accent: #e67e22;
+      --bg: #f5f0eb;
+      --card: #ffffff;
+      --text: #1a1a1a;
+      --muted: #888;
+      --border: #e0d8d0;
+      --selected-bg: #2c3e50;
+      --selected-text: #ffffff;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Segoe UI', system-ui, sans-serif; background: var(--bg); min-height: 100vh; padding: 1rem; }
+
+    .header { max-width: 640px; margin: 0 auto 1.5rem; display: flex; align-items: center; justify-content: space-between; }
+    .back-btn { text-decoration: none; color: var(--muted); font-size: 0.85rem; display: flex; align-items: center; gap: 0.4rem; }
+    .who-tag { background: var(--primary); color: white; padding: 0.3rem 0.8rem; border-radius: 20px; font-size: 0.8rem; font-weight: 600; }
+
+    .progress-wrap { max-width: 640px; margin: 0 auto 1.5rem; }
+    .progress-bar { height: 4px; background: var(--border); border-radius: 4px; overflow: hidden; }
+    .progress-fill { height: 100%; background: var(--primary); transition: width 0.4s ease; border-radius: 4px; }
+    .progress-label { font-size: 0.78rem; color: var(--muted); margin-top: 0.4rem; text-align: right; }
+
+    .card { background: var(--card); border-radius: 20px; padding: 2rem; max-width: 640px; margin: 0 auto 1rem; box-shadow: 0 2px 20px rgba(0,0,0,0.06); }
+    .section-tag { font-size: 0.72rem; font-weight: 700; letter-spacing: 1px; color: var(--accent); text-transform: uppercase; margin-bottom: 0.5rem; }
+    .question { font-size: 1.15rem; font-weight: 600; color: var(--text); margin-bottom: 0.3rem; line-height: 1.4; }
+    .question-note { font-size: 0.82rem; color: var(--muted); margin-bottom: 1.2rem; }
+
+    .options { display: flex; flex-direction: column; gap: 0.6rem; }
+    .option {
+      border: 2px solid var(--border);
+      border-radius: 12px;
+      padding: 0.85rem 1rem;
+      cursor: pointer;
+      transition: all 0.15s;
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      font-size: 0.95rem;
+      color: var(--text);
+      -webkit-user-select: none;
+      user-select: none;
+    }
+    .option:hover { border-color: var(--primary); background: #f8f6f3; }
+    .option.selected { border-color: var(--primary); background: var(--primary); color: white; }
+    .option .emoji { font-size: 1.4rem; flex-shrink: 0; }
+    .option .label { font-weight: 500; }
+    .option .desc { font-size: 0.78rem; opacity: 0.7; display: block; margin-top: 0.15rem; }
+
+    .options-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.6rem; }
+    .options-grid .option { flex-direction: column; align-items: flex-start; text-align: left; }
+
+    .multi-hint { font-size: 0.75rem; color: var(--muted); margin-bottom: 0.8rem; display: flex; align-items: center; gap: 0.3rem; }
+
+    .text-input {
+      width: 100%;
+      border: 2px solid var(--border);
+      border-radius: 12px;
+      padding: 0.85rem 1rem;
+      font-size: 0.95rem;
+      font-family: inherit;
+      color: var(--text);
+      resize: vertical;
+      min-height: 90px;
+      transition: border-color 0.15s;
+    }
+    .text-input:focus { outline: none; border-color: var(--primary); }
+
+    /* Satisfaction scale — 5 options full-width, icon centered */
+    .options-sat { display: flex; flex-direction: column; gap: 0.5rem; }
+    .option-sat {
+      border: 2px solid var(--border);
+      border-radius: 12px;
+      padding: 0.75rem 1rem;
+      cursor: pointer;
+      transition: all 0.15s;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      font-size: 0.95rem;
+      color: var(--text);
+      -webkit-user-select: none;
+      user-select: none;
+    }
+    .option-sat:hover { border-color: var(--primary); background: #f8f6f3; }
+    .option-sat.selected { border-color: var(--primary); background: var(--primary); color: white; }
+    .option-sat .sat-face { font-size: 1.6rem; flex-shrink: 0; width: 2rem; text-align: center; }
+    .option-sat .sat-label { font-weight: 600; }
+    .option-sat .sat-desc { font-size: 0.78rem; opacity: 0.7; }
+
+    .nav { display: flex; gap: 0.8rem; max-width: 640px; margin: 0 auto; }
+    .btn-prev {
+      flex: 1; padding: 1rem; border: 2px solid var(--border); border-radius: 12px;
+      background: white; color: var(--text); font-size: 0.95rem; font-weight: 600;
+      cursor: pointer; transition: all 0.15s;
+    }
+    .btn-prev:hover { border-color: var(--primary); }
+    .btn-next {
+      flex: 2; padding: 1rem; border: none; border-radius: 12px;
+      background: var(--primary); color: white; font-size: 0.95rem; font-weight: 600;
+      cursor: pointer; transition: all 0.15s;
+    }
+    .btn-next:hover { background: #1a252f; }
+    .btn-next:disabled { background: var(--border); color: var(--muted); cursor: not-allowed; }
+
+    .welcome { text-align: center; padding: 1rem 0; }
+    .welcome .big-icon { font-size: 4rem; margin-bottom: 1rem; }
+    .welcome h1 { font-size: 1.6rem; color: var(--text); margin-bottom: 0.5rem; }
+    .welcome p { color: var(--muted); font-size: 0.95rem; margin-bottom: 0.4rem; line-height: 1.6; }
+    .concept-box { background: var(--bg); border-radius: 12px; padding: 1rem; margin: 1.5rem 0; text-align: left; }
+    .concept-box .ct-title { font-size: 0.72rem; font-weight: 700; letter-spacing: 1px; color: var(--accent); text-transform: uppercase; margin-bottom: 0.5rem; }
+    .concept-box a { color: var(--primary); font-weight: 600; text-decoration: none; }
+    .concept-box a:hover { text-decoration: underline; }
+    .concept-box p { font-size: 0.85rem; color: #555; line-height: 1.6; }
+
+    .thankyou { text-align: center; padding: 1rem 0; }
+    .thankyou .big-icon { font-size: 4rem; margin-bottom: 1rem; }
+    .thankyou h1 { font-size: 1.6rem; color: var(--text); margin-bottom: 0.8rem; }
+    .thankyou p { color: var(--muted); font-size: 0.95rem; line-height: 1.6; }
+    .save-banner { border-radius: 14px; padding: 1.2rem 1.5rem; margin: 1rem 0; font-weight: 700; font-size: 1rem; transition: all 0.4s; }
+    .save-banner.saving { background: #fff8e1; color: #f57c00; }
+    .save-banner.success { background: #e8f5e9; color: #1b5e20; border: 2px solid #4caf50; font-size: 1.1rem; }
+    .save-banner.error { background: #fce4ec; color: #b71c1c; }
+
+    @media (max-width: 480px) {
+      .options-grid { grid-template-columns: 1fr; }
+      .card { padding: 1.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="header">
+  <a href="index.html" class="back-btn">← Início</a>
+  <span class="who-tag">Luiz · Feedback</span>
+</div>
+
+<div class="progress-wrap">
+  <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+  <div class="progress-label" id="progressLabel"></div>
+</div>
+
+<div id="app"></div>
+
+<div class="nav" id="nav">
+  <button type="button" class="btn-prev" id="btnPrev" onclick="prev()">← Voltar</button>
+  <button type="button" class="btn-next" id="btnNext" onclick="next()">Próxima →</button>
+</div>
+
+<script>
+const RESPONDENTE = 'luiz_fb';
+
+const questions = [
+  // 0 — Boas-vindas
+  { type: 'welcome' },
+
+  // ─── SEÇÃO A · VISÃO GERAL ───────────────────────────────────────────────
+  {
+    section: 'A · Visão Geral',
+    question: 'Qual é sua impressão geral do projeto?',
+    note: 'Pense no conjunto — conceito, planta, estilo, sensação',
+    type: 'sat',
+    key: 'impressao_geral',
+    options: [
+      { face: '😍', label: 'Amei!', desc: 'É praticamente o que eu imaginava' },
+      { face: '😊', label: 'Gostei muito', desc: 'Com poucos ajustes está ótimo' },
+      { face: '😐', label: 'Interessante', desc: 'Mas tem coisas importantes a mudar' },
+      { face: '😕', label: 'Não é o que imagino', desc: 'Precisa de revisão mais profunda' },
+    ]
+  },
+  {
+    section: 'A · Visão Geral',
+    question: 'O estilo arquitetônico combina com você?',
+    note: 'Madeira natural + vidro amplo + tons terrosos + linhas modernas',
+    type: 'sat',
+    key: 'estilo_satisfacao',
+    options: [
+      { face: '😍', label: 'Sim, é o meu estilo!', desc: 'Adorei a identidade do projeto' },
+      { face: '😊', label: 'Gosto, mudaria detalhes', desc: 'Conceito certo, ajustes de material' },
+      { face: '😐', label: 'Mais ou menos', desc: 'Tem aspectos que gosto, outros não' },
+      { face: '😕', label: 'Imagino algo diferente', desc: 'O estilo não é o que eu queria' },
+    ]
+  },
+  {
+    section: 'A · Visão Geral',
+    question: 'O que você mais gostou? O que te preocupa?',
+    note: 'Escreva livremente — impressão geral',
+    type: 'text',
+    key: 'geral_comentario',
+    placeholder: 'Ex: adorei o deck central, mas o escritório poderia ser maior...'
+  },
+
+  // ─── SEÇÃO B · TÉRREO ────────────────────────────────────────────────────
+  {
+    section: 'B · Térreo',
+    question: 'Satisfação com o Deck central',
+    note: 'Deck de madeira no coração do térreo — escritório e quarto hóspedes flanqueando, parede de vidro para a área de lazer',
+    type: 'sat',
+    key: 'deck_satisfacao',
+    options: [
+      { face: '😍', label: 'Perfeito!', desc: 'Quero exatamente isso' },
+      { face: '😊', label: 'Bom', desc: 'Ajustaria tamanho ou posição' },
+      { face: '😐', label: 'Razoável', desc: 'Aceitável, mas sem entusiasmo' },
+      { face: '😕', label: 'Preferia outra solução', desc: 'Esse espaço poderia ser outra coisa' },
+    ]
+  },
+  {
+    section: 'B · Térreo',
+    question: 'Satisfação com a integração Sala + Cozinha + Jantar',
+    note: 'Área social aberta, sem paredes separando — ilha de cozinha, mesa de jantar e sala no mesmo volume',
+    type: 'sat',
+    key: 'social_satisfacao',
+    options: [
+      { face: '😍', label: 'Ótima!', desc: 'Open plan é exatamente o que quero' },
+      { face: '😊', label: 'Boa', desc: 'Talvez mais definição entre ambientes' },
+      { face: '😐', label: 'Razoável', desc: 'Aceitável' },
+      { face: '😕', label: 'Preferia mais separação', desc: 'Quero ambientes mais definidos' },
+    ]
+  },
+  {
+    section: 'B · Térreo',
+    question: 'Satisfação com a Churrasqueira + Jardim',
+    note: 'Churrasqueira coberta nos fundos + jardim com vegetação densa ao lado',
+    type: 'sat',
+    key: 'churrasco_satisfacao',
+    options: [
+      { face: '😍', label: 'Perfeita!', desc: 'É exatamente o que quero no fundo' },
+      { face: '😊', label: 'Boa', desc: 'Acrescentaria algo (ofurô, fogão a lenha...)' },
+      { face: '😐', label: 'Razoável', desc: 'Ok, mas não é prioridade pra mim' },
+      { face: '😕', label: 'Preferia outra coisa', desc: 'Tenho outra ideia para esse espaço' },
+    ]
+  },
+  {
+    section: 'B · Térreo',
+    question: 'O que você mudaria no térreo?',
+    note: 'Pode selecionar mais de um',
+    type: 'multi',
+    key: 'terreo_mudancas',
+    options: [
+      { emoji: '🏢', label: 'Escritório diferente', desc: 'Posição, tamanho ou remover' },
+      { emoji: '🛏️', label: 'Quarto hóspedes diferente', desc: 'Tamanho, posição ou remover' },
+      { emoji: '🍳', label: 'Layout da cozinha', desc: 'Ilha, disposição, tamanho' },
+      { emoji: '🚗', label: 'Garagem diferente', desc: 'Mais vagas ou outra configuração' },
+      { emoji: '🔥', label: 'Churrasqueira maior', desc: 'Estrutura mais elaborada' },
+      { emoji: '🧺', label: 'Mais espaço de serviço', desc: 'Lavanderia, despensa...' },
+      { emoji: '✅', label: 'Nada — aprovo o térreo!', desc: '' },
+    ]
+  },
+  {
+    section: 'B · Térreo',
+    question: 'Justifique: por que essas mudanças no térreo?',
+    note: 'O que especificamente te incomoda ou está fora do lugar?',
+    type: 'text',
+    key: 'terreo_justifica',
+    placeholder: 'Ex: o escritório deveria ser mais próximo da entrada, a garagem precisa de 3 vagas...'
+  },
+
+  // ─── SEÇÃO C · 1° ANDAR ──────────────────────────────────────────────────
+  {
+    section: 'C · 1° Andar · Suíte',
+    question: 'Satisfação com a Suíte Master',
+    note: 'Cama king, espaço para circulação, TV na parede, vista integrada para a varanda',
+    type: 'sat',
+    key: 'suite_satisfacao',
+    options: [
+      { face: '😍', label: 'Adorei!', desc: 'É o quarto dos meus sonhos' },
+      { face: '😊', label: 'Bom', desc: 'Ajustaria tamanho ou algum detalhe' },
+      { face: '😐', label: 'Razoável', desc: 'Aceitável' },
+      { face: '😕', label: 'Precisa repensar', desc: 'Diferente do que imagino' },
+    ]
+  },
+  {
+    section: 'C · 1° Andar · Suíte',
+    question: 'Satisfação com o Banheiro da Suíte',
+    note: '2 chuveiros independentes + WC em cubículo fechado + ducha walk-in aberta',
+    type: 'sat',
+    key: 'banheiro_satisfacao',
+    options: [
+      { face: '😍', label: 'Perfeito!', desc: 'As 3 zonas são exatamente o que quero' },
+      { face: '😊', label: 'Bom', desc: 'Mudaria algum detalhe' },
+      { face: '😐', label: 'Razoável', desc: 'Aceitável' },
+      { face: '😕', label: 'Precisa mudanças', desc: 'Quero layout ou elementos diferentes' },
+    ]
+  },
+  {
+    section: 'C · 1° Andar · Suíte',
+    question: 'Satisfação com o Closet Walk-in',
+    note: 'Araras, prateleiras, cômoda e sapateira — espaço dedicado para os dois',
+    type: 'sat',
+    key: 'closet_satisfacao',
+    options: [
+      { face: '😍', label: 'Ótimo!', desc: 'Tamanho e layout certos' },
+      { face: '😊', label: 'Bom', desc: 'Poderia ser maior ou diferente' },
+      { face: '😐', label: 'Razoável', desc: 'Aceitável' },
+      { face: '😕', label: 'Preferia outro tipo', desc: 'Prefiro armários embutidos no quarto' },
+    ]
+  },
+  {
+    section: 'C · 1° Andar · Suíte',
+    question: 'Satisfação com a Varanda Privativa da Suíte',
+    note: 'Varanda em toda a largura do andar, voltada para a área de lazer do condomínio',
+    type: 'sat',
+    key: 'varanda_satisfacao',
+    options: [
+      { face: '😍', label: 'Incrível!', desc: 'Uma das partes que mais me animou' },
+      { face: '😊', label: 'Boa', desc: 'Seria um plus muito bem-vindo' },
+      { face: '😐', label: 'Razoável', desc: 'Ok, não é prioridade' },
+      { face: '😕', label: 'Usaria esse espaço diferente', desc: 'Preferia outro ambiente aqui' },
+    ]
+  },
+  {
+    section: 'C · 1° Andar · Suíte',
+    question: 'O que você mudaria no 1° andar?',
+    note: 'Pode selecionar mais de um',
+    type: 'multi',
+    key: 'andar_mudancas',
+    options: [
+      { emoji: '🛏️', label: 'Quarto maior', desc: 'Precisa de mais espaço' },
+      { emoji: '👗', label: 'Closet maior', desc: 'Mais espaço para roupas' },
+      { emoji: '🚿', label: 'Banheiro diferente', desc: 'Outra disposição dos elementos' },
+      { emoji: '🌿', label: 'Varanda diferente', desc: 'Coberta, maior ou outro uso' },
+      { emoji: '🏠', label: 'Segundo quarto no andar', desc: 'Para filho ou hóspede futuro' },
+      { emoji: '✅', label: 'Nada — aprovo o andar!', desc: '' },
+    ]
+  },
+  {
+    section: 'C · 1° Andar · Suíte',
+    question: 'Justifique: o que mudaria no 1° andar e por quê?',
+    note: 'Escreva o que específicamente está fora do lugar ou precisa de ajuste',
+    type: 'text',
+    key: 'andar_justifica',
+    placeholder: 'Ex: quero closets separados (um para cada), banheiro com banheira de imersão...'
+  },
+
+  // ─── SEÇÃO D · PRÓXIMOS PASSOS ───────────────────────────────────────────
+  {
+    section: 'D · Próximos Passos',
+    question: 'O que você quer VER na próxima versão do projeto?',
+    note: 'Escreva livremente — qualquer coisa que ajude a avançar',
+    type: 'text',
+    key: 'proximo_quero',
+    placeholder: 'Ex: quero ver a fachada, as cotas reais nas plantas, uma alternativa com 3 quartos...'
+  },
+  {
+    section: 'D · Próximos Passos',
+    question: 'Tem algo que você sonha para essa casa e ainda não viu no projeto?',
+    note: 'Qualquer detalhe, ambiente ou sensação — sem filtro',
+    type: 'text',
+    key: 'sonho_ausente',
+    placeholder: 'Ex: banheira de imersão, espaço para academia, pé-direito duplo na sala...'
+  },
+
+  // Fim
+  { type: 'thankyou' }
+];
+
+let current = 0;
+const answers = {};
+
+function render() {
+  const q = questions[current];
+  const total = questions.filter(q => q.type !== 'welcome' && q.type !== 'thankyou').length;
+  const answered = questions.slice(1, current).filter(q => q.type !== 'thankyou').length;
+
+  const pct = current === 0 ? 0 : Math.round((answered / total) * 100);
+  document.getElementById('progressFill').style.width = pct + '%';
+  document.getElementById('progressLabel').textContent =
+    q.type === 'welcome' ? '' :
+    q.type === 'thankyou' ? 'Concluído!' :
+    `Pergunta ${answered + 1} de ${total}`;
+
+  const nav = document.getElementById('nav');
+  const btnPrev = document.getElementById('btnPrev');
+  const btnNext = document.getElementById('btnNext');
+  if (q.type === 'welcome' || q.type === 'thankyou') {
+    nav.style.display = 'none';
+  } else {
+    nav.style.display = 'flex';
+    btnPrev.style.display = current <= 1 ? 'none' : '';
+    btnNext.textContent = current === questions.length - 2 ? 'Finalizar ✓' : 'Próxima →';
+    updateNextBtn();
+  }
+
+  const app = document.getElementById('app');
+
+  if (q.type === 'welcome') {
+    app.innerHTML = `
+      <div class="card">
+        <div class="welcome">
+          <div class="big-icon">📋</div>
+          <h1>Olá, Luiz!</h1>
+          <p>Chegou a hora de avaliar o projeto arquitetônico — conta o que você amou, o que mudaria e o que ainda falta.</p>
+          <p>Responda sem consultar a Priscila. Depois comparamos as avaliações juntos.</p>
+          <div class="concept-box">
+            <div class="ct-title">📐 Antes de começar</div>
+            <p>Recomendo rever o projeto antes de avaliar:<br>
+            <a href="../conceito/" target="_blank">Ver conceito arquitetônico →</a></p>
+          </div>
+          <button class="btn-next" style="width:100%;padding:1rem;border-radius:12px;font-size:1rem;font-weight:600;cursor:pointer;border:none;background:var(--primary);color:white;" onclick="next()">Começar avaliação →</button>
+        </div>
+      </div>`;
+    return;
+  }
+
+  if (q.type === 'thankyou') {
+    saveAnswers();
+    app.innerHTML = `
+      <div class="card">
+        <div class="thankyou">
+          <div class="big-icon">✅</div>
+          <h1>Obrigado, Luiz!</h1>
+          <div id="saveStatus" class="save-banner saving">⏳ Salvando sua avaliação...</div>
+          <p>Sua avaliação foi registrada. Agora é a vez da Priscila avaliar — sem ver as suas respostas.</p>
+          <p style="margin-top:1rem;">Depois que os dois terminarem, analisamos tudo junto e ajustamos o projeto!</p>
+          <button type="button" onclick="showLocalAnswers()" style="margin-top:1.5rem;background:none;border:2px solid #e0d8d0;border-radius:10px;padding:0.7rem 1.2rem;font-size:0.85rem;color:#555;cursor:pointer;">Ver minha avaliação</button>
+          <br><a href="index.html" style="display:inline-block;margin-top:1rem;text-decoration:none;color:#aaa;font-size:0.82rem;">← Voltar ao início</a>
+        </div>
+      </div>`;
+    return;
+  }
+
+  const val = answers[q.key];
+  let optionsHtml = '';
+
+  if (q.type === 'sat') {
+    optionsHtml = `
+      <div class="options-sat">
+        ${q.options.map((o, i) => `
+          <div class="option-sat ${val === i ? 'selected' : ''}" onclick="select(${i})">
+            <span class="sat-face">${o.face}</span>
+            <div>
+              <span class="sat-label">${o.label}</span>
+              ${o.desc ? `<span class="sat-desc"> — ${o.desc}</span>` : ''}
+            </div>
+          </div>
+        `).join('')}
+      </div>`;
+  } else if (q.type === 'single' || q.type === 'multi') {
+    const isMulti = q.type === 'multi';
+    const grid = q.options.length === 4 && q.options.every(o => !o.desc || o.desc.length < 40);
+    const cls = grid ? 'options-grid' : 'options';
+    optionsHtml = `
+      ${isMulti ? '<div class="multi-hint">✓ Pode selecionar mais de um</div>' : ''}
+      <div class="${cls}">
+        ${q.options.map((o, i) => `
+          <div class="option ${isSelected(q, i) ? 'selected' : ''}" onclick="select(${i})">
+            <span class="emoji">${o.emoji}</span>
+            <div>
+              <span class="label">${o.label}</span>
+              ${o.desc ? `<span class="desc">${o.desc}</span>` : ''}
+            </div>
+          </div>
+        `).join('')}
+      </div>`;
+  } else if (q.type === 'text') {
+    optionsHtml = `
+      <textarea class="text-input" id="textInput" placeholder="${q.placeholder || ''}"
+        oninput="answers['${q.key}']=this.value;updateNextBtn()">${val || ''}</textarea>`;
+  }
+
+  app.innerHTML = `
+    <div class="card">
+      <div class="section-tag">${q.section}</div>
+      <div class="question">${q.question}</div>
+      ${q.note ? `<div class="question-note">${q.note}</div>` : ''}
+      ${optionsHtml}
+    </div>`;
+}
+
+function isSelected(q, i) {
+  const val = answers[q.key];
+  if (q.type === 'multi') return Array.isArray(val) && val.includes(i);
+  return val === i;
+}
+
+function select(i) {
+  const q = questions[current];
+  if (q.type === 'multi') {
+    if (!Array.isArray(answers[q.key])) answers[q.key] = [];
+    const idx = answers[q.key].indexOf(i);
+    if (idx >= 0) answers[q.key].splice(idx, 1);
+    else answers[q.key].push(i);
+  } else {
+    answers[q.key] = i;
+  }
+  render();
+}
+
+function updateNextBtn() {
+  const q = questions[current];
+  const btn = document.getElementById('btnNext');
+  if (!btn) return;
+  if (q.type === 'text') { btn.disabled = false; return; }
+  const val = answers[q.key];
+  const hasAnswer = q.type === 'multi'
+    ? Array.isArray(val) && val.length > 0
+    : val !== undefined && val !== null;
+  btn.disabled = !hasAnswer;
+}
+
+function next() {
+  if (current < questions.length - 1) { current++; render(); window.scrollTo(0, 0); }
+}
+
+function prev() {
+  if (current > 0) { current--; render(); window.scrollTo(0, 0); }
+}
+
+function getLabel(q, val) {
+  if (!q) return val;
+  if (q.type === 'sat') {
+    if (!Array.isArray(q.options)) return val;
+    return q.options[val]?.label || val;
+  }
+  if (!q.options) return val;
+  if (q.type === 'multi') {
+    if (!Array.isArray(val)) return '';
+    return val.map(i => q.options[i]?.label).join(', ');
+  }
+  return q.options[val]?.label || val;
+}
+
+const SUPABASE_URL = 'https://cvjniixubgubvdnuaekz.supabase.co';
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImN2am5paXh1Ymd1YnZkbnVhZWt6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzkzMjY2OTYsImV4cCI6MjA5NDkwMjY5Nn0.bAoaP0D1o5nCNDZDap6IcmpPrwj7f32AYs-Gibk707E';
+
+async function saveAnswers() {
+  const result = { respondente: RESPONDENTE, timestamp: new Date().toISOString(), respostas: {} };
+  questions.forEach(q => {
+    if (q.key) {
+      const raw = answers[q.key];
+      result.respostas[q.key] = { valor: raw, label: getLabel(q, raw), pergunta: q.question };
+    }
+  });
+  localStorage.setItem('feedback_luiz', JSON.stringify(result));
+  try {
+    const res = await fetch(`${SUPABASE_URL}/rest/v1/briefing_responses`, {
+      method: 'POST',
+      headers: {
+        'apikey': SUPABASE_KEY,
+        'Authorization': `Bearer ${SUPABASE_KEY}`,
+        'Content-Type': 'application/json',
+        'Prefer': 'return=minimal'
+      },
+      body: JSON.stringify({ respondente: RESPONDENTE, respostas: result.respostas })
+    });
+    if (res.ok) {
+      const el = document.getElementById('saveStatus');
+      el.className = 'save-banner success';
+      el.textContent = '✅ Avaliação salva com sucesso!';
+    } else { throw new Error(res.status); }
+  } catch(e) {
+    const el = document.getElementById('saveStatus');
+    el.className = 'save-banner error';
+    el.textContent = '⚠️ Erro ao salvar — tente reenviar ou verifique conexão';
+  }
+}
+
+function showLocalAnswers() {
+  const data = localStorage.getItem('feedback_luiz');
+  if (!data) { alert('Nenhuma avaliação encontrada neste dispositivo.'); return; }
+  const parsed = JSON.parse(data);
+  let txt = '=== SUA AVALIAÇÃO ===\n\n';
+  Object.values(parsed.respostas).forEach(r => {
+    txt += `${r.pergunta}\n→ ${r.label || r.valor || '(não respondido)'}\n\n`;
+  });
+  const w = window.open('', '_blank');
+  w.document.write(`<pre style="font-family:sans-serif;padding:2rem;max-width:640px;margin:auto;line-height:1.8">${txt}</pre>`);
+  w.document.close();
+}
+
+render();
+</script>
+</body>
+</html>

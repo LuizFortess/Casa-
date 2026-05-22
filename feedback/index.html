@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Feedback · Projeto Casa</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      background: #f5f0eb;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+    }
+    .card {
+      background: white;
+      border-radius: 20px;
+      padding: 3rem;
+      max-width: 520px;
+      width: 100%;
+      text-align: center;
+      box-shadow: 0 4px 40px rgba(0,0,0,0.08);
+    }
+    .icon { font-size: 3rem; margin-bottom: 1rem; }
+    h1 { font-size: 1.8rem; color: #1a1a1a; margin-bottom: 0.5rem; }
+    .subtitle { color: #888; font-size: 0.95rem; margin-bottom: 1.5rem; }
+    .concept-box {
+      background: #f5f0eb;
+      border-radius: 12px;
+      padding: 1rem 1.2rem;
+      margin-bottom: 2rem;
+      font-size: 0.87rem;
+      color: #555;
+      line-height: 1.6;
+    }
+    .concept-box a {
+      color: #2c3e50;
+      font-weight: 700;
+      text-decoration: none;
+    }
+    .concept-box a:hover { text-decoration: underline; }
+    .btn {
+      display: block;
+      padding: 1.1rem 2rem;
+      border-radius: 12px;
+      text-decoration: none;
+      font-size: 1rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+      transition: transform 0.15s, box-shadow 0.15s;
+    }
+    .btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0,0,0,0.12); }
+    .btn-luiz { background: #2c3e50; color: white; }
+    .btn-priscila { background: #8b1a1a; color: white; }
+    .note { font-size: 0.8rem; color: #aaa; margin-top: 1.5rem; line-height: 1.5; }
+    .back { font-size: 0.8rem; margin-top: 1.2rem; }
+    .back a { color: #bbb; text-decoration: none; }
+    .back a:hover { color: #888; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div class="icon">📋</div>
+    <h1>Feedback do Projeto</h1>
+    <p class="subtitle">Avaliem o conceito arquitetônico — cada um individualmente</p>
+    <div class="concept-box">
+      Antes de avaliar, reveja o projeto completo:<br>
+      <a href="../conceito/" target="_blank">Ver conceito arquitetônico →</a>
+    </div>
+    <a href="luiz.html" class="btn btn-luiz">Sou o Luiz →</a>
+    <a href="priscila.html" class="btn btn-priscila">Sou a Priscila →</a>
+    <p class="note">Avalie sem consultar o outro — depois comparamos as opiniões juntos e ajustamos o projeto.</p>
+    <div class="back"><a href="../questionario/">← Voltar ao início</a></div>
+  </div>
+</body>
+</html>
