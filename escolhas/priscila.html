@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Escolhas Visuais — Priscila · Projeto Casa</title>
+  <style>
+    :root { --p:#8b1a1a; --p2:#a52020; --bg:#f5f0eb; }
+    *{ margin:0; padding:0; box-sizing:border-box; }
+    body{ font-family:'Segoe UI',system-ui,sans-serif; background:var(--bg); color:#1a1a1a; }
+
+    header{ background:var(--p); color:white; padding:1.5rem 2rem 0; }
+    .hd-title{ font-size:1.2rem; font-weight:800; }
+    .hd-sub{ font-size:0.82rem; opacity:0.65; margin-top:0.2rem; padding-bottom:1rem; }
+    .prog-out{ height:3px; background:rgba(255,255,255,0.2); }
+    .prog-in{ height:100%; background:white; transition:width 0.4s; width:0%; }
+
+    .container{ max-width:660px; margin:0 auto; padding:2rem 1.25rem; }
+
+    .q-card{ background:white; border-radius:16px; padding:1.75rem; margin-bottom:1.5rem; box-shadow:0 2px 12px rgba(0,0,0,0.05); }
+    .q-num{ display:inline-block; font-size:0.68rem; font-weight:700; letter-spacing:0.06em; text-transform:uppercase; color:var(--p); background:#e8f0f8; padding:0.18rem 0.55rem; border-radius:20px; margin-bottom:0.55rem; }
+    .q-title{ font-size:1.08rem; font-weight:700; margin-bottom:0.2rem; }
+    .q-sub{ font-size:0.82rem; color:#888; line-height:1.5; margin-bottom:1.2rem; }
+
+    .vis-grid{ display:grid; grid-template-columns:1fr 1fr; gap:0.65rem; margin-bottom:1.1rem; }
+
+    .vis-card{ border:2px solid #e8e0d8; border-radius:10px; overflow:hidden; cursor:pointer; position:relative; transition:border-color 0.15s,box-shadow 0.15s,transform 0.1s; user-select:none; }
+    .vis-card:hover{ border-color:#b0b8c8; transform:translateY(-1px); }
+    .vis-card.sel{ border-color:var(--p); box-shadow:0 0 0 2px var(--p); }
+
+    .vis-prev{ height:110px; position:relative; overflow:hidden; }
+    .vis-sq{ display:grid; grid-template-columns:1fr 1fr; grid-template-rows:1fr 1fr; position:absolute; inset:0; }
+    .vis-icon{ position:absolute; top:6px; right:8px; font-size:1.3rem; pointer-events:none; }
+
+    .vis-body{ padding:0.55rem 0.7rem 0.6rem; }
+    .vis-name{ font-size:0.85rem; font-weight:700; }
+    .vis-desc{ font-size:0.72rem; color:#888; line-height:1.35; margin-top:0.1rem; }
+
+    .vis-chk{ display:none; position:absolute; top:8px; right:8px; background:var(--p); color:white; width:22px; height:22px; border-radius:50%; text-align:center; line-height:22px; font-size:0.72rem; font-weight:700; z-index:2; }
+    .vis-card.sel .vis-chk{ display:block; }
+    .vis-card.sel .vis-icon{ display:none; }
+
+    .note-lbl{ font-size:0.78rem; color:#999; margin-bottom:0.3rem; }
+    textarea{ font-family:inherit; width:100%; padding:0.65rem; border:1.5px solid #e8e0d8; border-radius:8px; font-size:0.83rem; resize:vertical; min-height:58px; background:#fafaf8; }
+    textarea:focus{ outline:none; border-color:var(--p); background:white; }
+
+    .btn-sub{ display:block; width:100%; padding:1.15rem; background:var(--p); color:white; border:none; border-radius:12px; font-size:1rem; font-weight:700; cursor:pointer; margin-top:0.5rem; transition:background 0.15s; }
+    .btn-sub:hover{ background:var(--p2); }
+    .btn-sub:disabled{ background:#aaa; cursor:not-allowed; }
+
+    .status{ text-align:center; padding:0.9rem; border-radius:10px; margin-top:0.75rem; font-size:0.88rem; font-weight:600; }
+    .st-save{ background:#fff3cd; color:#856404; }
+    .st-ok{ background:#d1e7dd; color:#0a3622; }
+    .st-err{ background:#f8d7da; color:#842029; }
+
+    .done-screen{ display:none; text-align:center; background:white; border-radius:20px; padding:3rem 2rem; box-shadow:0 4px 30px rgba(0,0,0,0.08); }
+    .back-link{ text-align:center; margin-top:1.5rem; font-size:0.82rem; }
+    .back-link a{ color:#bbb; text-decoration:none; }
+    .back-link a:hover{ color:#888; }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="hd-title">Escolhas Visuais · Priscila</div>
+  <div class="hd-sub">Selecione a opção que mais combina com você em cada seção</div>
+  <div class="prog-out"><div class="prog-in" id="prog"></div></div>
+</header>
+
+<div class="container">
+  <div id="form-wrap"></div>
+  <div class="done-screen" id="done">
+    <div style="font-size:2.5rem;margin-bottom:0.75rem">🎉</div>
+    <h2 style="margin-bottom:0.5rem">Perfeito, Priscila!</h2>
+    <p style="color:#888;line-height:1.6">Suas preferências visuais foram salvas. Vamos cruzar com as do Luiz e refinar o partido.</p>
+    <a href="../conceito/" style="display:inline-block;margin-top:1.5rem;padding:0.85rem 1.8rem;background:#2c3e50;color:white;text-decoration:none;border-radius:10px;font-weight:700">Ver o Projeto →</a>
+  </div>
+  <div class="back-link"><a href="index.html">← Voltar</a></div>
+</div>
+
+<script>
+const SUPABASE_URL = 'https://cvjniixubgubvdnuaekz.supabase.co';
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImN2am5paXh1Ymd1YnZkbnVhZWt6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDQ0MDU0ODMsImV4cCI6MjA1OTk4MTQ4M30.JBjmS35yDqR4iM9lSiRFXf7LNyPJFqBBMOsHsOUGibk707E';
+const RESPONDENTE = 'priscila_esc';
+const STORAGE_KEY = 'escolhas_priscila';
+
+// sq: 4 CSS background values rendered as 2×2 color grid
+// w = wood grain, t = tile grid, m = marble veins applied to 1st square for texture
+const W = (a,b) => `repeating-linear-gradient(88deg,${a} 0,${a} 18px,${b} 18px,${b} 20px)`;
+const T = (c,g) => `repeating-conic-gradient(${c} 0 25%,${g} 0 50%) 0 0/28px 28px`;
+const M = () => `linear-gradient(148deg,#f8f8f8 0%,#ece8e2 28%,#e0dcd6 52%,#ece8e2 75%,#f8f8f8 100%)`;
+
+const SECTIONS = [
+  {
+    id:'s1', title:'Linguagem da Fachada',
+    sub:'Como você quer que a casa apareça para quem chega?',
+    opts:[
+      { v:'A', name:'Contemporânea Escura', desc:'Concreto, vidro e linhas retas — impacto visual', icon:'🏢',
+        sq:['#2c3a4a','#5a6070','#e8e8e8','#7ab4d0'] },
+      { v:'B', name:'Orgânica + Madeira', desc:'Madeira aparente, paredes brancas, vegetação integrada', icon:'🌿',
+        sq:[W('#7a5030','#6a4428'),'#c89870','#f5efe8','#5a8850'] },
+      { v:'C', name:'Minimalista Branca', desc:'Tudo branco, máximo de luz e leveza', icon:'☁️',
+        sq:['#fafafa','#f0ece8','#1a1a1a','#d0c8c0'] },
+      { v:'D', name:'Rústica Contemporânea', desc:'Pedra ou tijolo com detalhes modernos', icon:'🧱',
+        sq:['#8b3820','#a06840','#2a2418','#d0b090'] },
+    ]
+  },
+  {
+    id:'s2', title:'Tom de Madeira',
+    sub:'Se usar madeira na fachada, deck ou esquadrias — qual tom prefere?',
+    opts:[
+      { v:'A', name:'Ipê / Jatobá Escuro', desc:'Tom bem escuro, nobre, clássico', icon:'🌑',
+        sq:[W('#2a1808','#1e1208'),'#4a2c18','#6a4020','#8a5830'] },
+      { v:'B', name:'Teca / Cumaru Mel', desc:'Tom médio, quente, acolhedor', icon:'🍯',
+        sq:[W('#9a6828','#8a5c20'),'#b88030','#d4a050','#ecc870'] },
+      { v:'C', name:'Freijó / Carvalho Claro', desc:'Tom claro, moderno, escandinavo', icon:'🪵',
+        sq:[W('#c8904a','#b87e38'),'#d8b070','#edd09a','#f8e8c0'] },
+      { v:'D', name:'Pintada / Laqueada', desc:'Madeira pintada branca ou cinza — neutra como material', icon:'🤍',
+        sq:['#f8f4f0','#e8e4e0','#d0ccc8','#b8b4b0'] },
+    ]
+  },
+  {
+    id:'s3', title:'Piso Principal',
+    sub:'Qual piso você imagina para a sala, cozinha e corredor?',
+    opts:[
+      { v:'A', name:'Porcelanato Claro', desc:'60×60 em tons neutros — limpo, contemporâneo', icon:'⬜',
+        sq:[T('#f0ece8','#d8d4d0'),'#e0dcd8','#c8c4c0','#b0aca8'] },
+      { v:'B', name:'Madeira Mel', desc:'Piso de madeira ou vinílico que imita madeira', icon:'🪵',
+        sq:[W('#c8921c','#b08018'),'#b48020','#a87024','#906028'] },
+      { v:'C', name:'Cimento Queimado', desc:'Concreto polido, industrial, muito moderno', icon:'🔲',
+        sq:['#3a3830','#545250','#706e6a','#8c8a88'] },
+      { v:'D', name:'Cerâmica / Ladrilho Hidráulico', desc:'Formato menor, artesanal ou geométrico com personalidade', icon:'🏺',
+        sq:['#c87848','#e09858','#d0a870','#b87838'] },
+    ]
+  },
+  {
+    id:'s4', title:'Estilo da Cozinha',
+    sub:'Qual das combinações está mais próxima do que você imagina?',
+    opts:[
+      { v:'A', name:'Branco + Pedra Clara', desc:'Armários brancos, bancada de granito ou quartzo claro', icon:'☁️',
+        sq:['#fafafa','#f0ece8','#c8c4be','#b0a898'] },
+      { v:'B', name:'Escura + Detalhes Dourados', desc:'Armários cinza escuro ou preto, puxadores dourados', icon:'✨',
+        sq:['#1a1a22','#2c2c38','#c4a040','#ece4c0'] },
+      { v:'C', name:'Madeira Natural', desc:'Madeira mel ou carvalho nos armários, bancada de pedra', icon:'🌻',
+        sq:[W('#b88830','#a07820'),'#d4a450','#f0e0b8','#c8b488'] },
+      { v:'D', name:'Verde Sage + Madeira', desc:'Armários em verde sálvia com detalhes naturais', icon:'🌿',
+        sq:['#6a8870','#9ab89a','#f0ece4','#c0904a'] },
+    ]
+  },
+  {
+    id:'s5', title:'Banheiro Master',
+    sub:'Qual atmosfera você quer no banheiro da suíte?',
+    opts:[
+      { v:'A', name:'Mármore Branco + Prata', desc:'Mármore carrara ou porcelanato marmorizado, chuveiro cromado', icon:'🤍',
+        sq:[M(),'#e8e4de','#c0bcb4','#909088'] },
+      { v:'B', name:'Cimento + Madeira Escura', desc:'Parede de cimento queimado, bancada de madeira escura', icon:'🌑',
+        sq:['#3c3830','#545048',W('#8a6040','#7a5030'),'#c09870'] },
+      { v:'C', name:'Pedra Escura + Dourado', desc:'Slate ou basalto preto, torneiras e puxadores dourados', icon:'💫',
+        sq:['#2a2430','#3c3448','#c09830','#e8dca0'] },
+      { v:'D', name:'Azulejo Artesanal Colorido', desc:'Azulejos com padrão geométrico ou floral — personalidade', icon:'🎨',
+        sq:[T('#c87040','#a85c30'),'#1e4a6a','#d4b030','#f0e8d8'] },
+    ]
+  },
+  {
+    id:'s6', title:'Estilo do Jardim',
+    sub:'Como você imagina o quintal central da casa?',
+    opts:[
+      { v:'A', name:'Tropical Exuberante', desc:'Muitas plantas, folhagens grandes, palmeiras, muito verde', icon:'🌴',
+        sq:['#1a4820','#2d6830','#5a9a40','#c8901c'] },
+      { v:'B', name:'Horta + Pomar Produtivo', desc:'Canteiros de temperos, legumes e frutíferas — funcional', icon:'🥦',
+        sq:['#2c5018','#4a7828','#6a9840','#8a5828'] },
+      { v:'C', name:'Minimalista / Zen', desc:'Seixos, bambu, pedras — pouca manutenção, muito tranquilo', icon:'🪨',
+        sq:['#3a3828','#6a6858','#9a9888','#c8c4b8'] },
+      { v:'D', name:'Grama + Área de Convívio', desc:'Boa área de grama aberta, espaço para sentar e brincar', icon:'🏡',
+        sq:['#5a9020','#8aba30','#d4a030','#c87038'] },
+    ]
+  },
+  {
+    id:'s7', title:'Atmosfera dos Interiores',
+    sub:'Qual sensação você quer ter dentro da casa todo dia?',
+    opts:[
+      { v:'A', name:'Claro e Arejado', desc:'Branco, linho, madeira clara — leveza e muita luz', icon:'🌤️',
+        sq:['#f8f4ee','#e8dfc8','#d0bc90','#b0c8d8'] },
+      { v:'B', name:'Aconchegante e Quente', desc:'Tons âmbar, madeira mel, texturas — como um abraço', icon:'🕯️',
+        sq:['#d48828','#a06020','#f8e4c0','#e8c890'] },
+      { v:'C', name:'Sofisticado e Escuro', desc:'Paredes escuras, dourado, mármore — drama elegante', icon:'🌙',
+        sq:['#1c1c24','#2c2c38','#c4a040','#e8e0c8'] },
+      { v:'D', name:'Colorido e Alegre', desc:'Cores de acento, plantas, arte na parede — vida e personalidade', icon:'🌈',
+        sq:['#c87848','#7a9a60','#d4a830','#f0e8d8'] },
+    ]
+  },
+];
+
+const answers = {}, notes = {};
+const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
+if(saved.answers) Object.assign(answers, saved.answers);
+if(saved.notes) Object.assign(notes, saved.notes);
+
+function cardHtml(sec, opt) {
+  const sel = answers[sec.id] === opt.v;
+  const sq = opt.sq.map(s => `<div style="background:${s}"></div>`).join('');
+  return `<div class="vis-card${sel?' sel':''}" onclick="pick('${sec.id}','${opt.v}')">
+    <div class="vis-prev">
+      <div class="vis-sq">${sq}</div>
+      <div class="vis-icon">${opt.icon}</div>
+      <div class="vis-chk">✓</div>
+    </div>
+    <div class="vis-body">
+      <div class="vis-name">${opt.name}</div>
+      <div class="vis-desc">${opt.desc}</div>
+    </div>
+  </div>`;
+}
+
+function render() {
+  let html = '';
+  SECTIONS.forEach((sec, i) => {
+    html += `<div class="q-card" id="card-${sec.id}">
+      <div class="q-num">Seção ${i+1} de ${SECTIONS.length}</div>
+      <div class="q-title">${sec.title}</div>
+      <div class="q-sub">${sec.sub}</div>
+      <div class="vis-grid" id="grid-${sec.id}">
+        ${sec.opts.map(o => cardHtml(sec,o)).join('')}
+      </div>
+      <div class="note-lbl">Por que essa escolha? (opcional)</div>
+      <textarea placeholder="Escreva à vontade..."
+        oninput="saveNote('${sec.id}',this.value)">${notes[sec.id]||''}</textarea>
+    </div>`;
+  });
+  html += `<button class="btn-sub" id="btn">Enviar minhas escolhas →</button>
+    <div class="status" id="msg" style="display:none"></div>`;
+  document.getElementById('form-wrap').innerHTML = html;
+  document.getElementById('btn').onclick = submit;
+  updateProg();
+}
+
+function pick(sid, val) {
+  answers[sid] = val;
+  persist();
+  const sec = SECTIONS.find(s => s.id === sid);
+  document.getElementById('grid-'+sid).innerHTML = sec.opts.map(o => cardHtml(sec,o)).join('');
+  updateProg();
+}
+
+function saveNote(sid, val) { notes[sid] = val; persist(); }
+function persist() { localStorage.setItem(STORAGE_KEY, JSON.stringify({answers,notes})); }
+
+function updateProg() {
+  const pct = Math.round(Object.keys(answers).length / SECTIONS.length * 100);
+  document.getElementById('prog').style.width = pct + '%';
+}
+
+async function submit() {
+  const btn = document.getElementById('btn');
+  const msg = document.getElementById('msg');
+  const res = {};
+  SECTIONS.forEach(s => {
+    res[s.id] = answers[s.id] || null;
+    const opt = s.opts.find(o => o.v === res[s.id]);
+    if(opt) res[s.id+'_nome'] = opt.name;
+    if(notes[s.id]) res[s.id+'_nota'] = notes[s.id];
+  });
+  btn.disabled = true;
+  msg.style.display = 'block';
+  msg.className = 'status st-save';
+  msg.textContent = 'Salvando suas preferências...';
+  try {
+    const r = await fetch(`${SUPABASE_URL}/rest/v1/briefing_responses`, {
+      method:'POST',
+      headers:{
+        'Content-Type':'application/json',
+        'apikey':SUPABASE_KEY,
+        'Authorization':'Bearer '+SUPABASE_KEY,
+        'Prefer':'return=minimal'
+      },
+      body: JSON.stringify({ respondente: RESPONDENTE, respostas: res })
+    });
+    if(!r.ok) throw new Error('Status '+r.status);
+    msg.style.display = 'none';
+    document.getElementById('form-wrap').style.display = 'none';
+    document.getElementById('done').style.display = 'block';
+    document.querySelector('.back-link').style.display = 'none';
+    localStorage.removeItem(STORAGE_KEY);
+  } catch(e) {
+    btn.disabled = false;
+    msg.className = 'status st-err';
+    msg.textContent = 'Erro ao salvar — tente novamente. (' + e.message + ')';
+  }
+}
+
+render();
+</script>
+</body>
+</html>

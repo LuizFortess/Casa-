@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Escolhas Visuais · Projeto Casa</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      background: #f5f0eb;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+    }
+    .card {
+      background: white;
+      border-radius: 20px;
+      padding: 3rem;
+      max-width: 520px;
+      width: 100%;
+      text-align: center;
+      box-shadow: 0 4px 40px rgba(0,0,0,0.08);
+    }
+    .icon { font-size: 3rem; margin-bottom: 1rem; }
+    h1 { font-size: 1.75rem; color: #1a1a1a; margin-bottom: 0.5rem; }
+    .subtitle { color: #888; font-size: 0.95rem; margin-bottom: 1rem; line-height: 1.6; }
+    .preview-row {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0.35rem;
+      border-radius: 10px;
+      overflow: hidden;
+      margin-bottom: 2rem;
+      height: 52px;
+    }
+    .btn {
+      display: block;
+      padding: 1.1rem 2rem;
+      border-radius: 12px;
+      text-decoration: none;
+      font-size: 1rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+      transition: transform 0.15s, box-shadow 0.15s;
+    }
+    .btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0,0,0,0.12); }
+    .btn-luiz { background: #2c3e50; color: white; }
+    .btn-priscila { background: #8b1a1a; color: white; }
+    .note { font-size: 0.8rem; color: #aaa; margin-top: 1.5rem; line-height: 1.5; }
+    .back { font-size: 0.8rem; margin-top: 1.2rem; }
+    .back a { color: #bbb; text-decoration: none; }
+    .back a:hover { color: #888; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div class="icon">🎨</div>
+    <h1>Escolhas Visuais</h1>
+    <p class="subtitle">7 seções de preferências — cores, materiais, estilos. Cada um escolhe de forma independente para não influenciar o outro.</p>
+
+    <!-- mini palette preview strips -->
+    <div class="preview-row">
+      <div style="background:#2c3a4a"></div>
+      <div style="background:#c89870"></div>
+      <div style="background:#6a8870"></div>
+      <div style="background:#c4a040"></div>
+      <div style="background:#f0ece8"></div>
+      <div style="background:#5a9020"></div>
+      <div style="background:#c87848"></div>
+      <div style="background:#b0c8d8"></div>
+    </div>
+
+    <a href="luiz.html" class="btn btn-luiz">Sou o Luiz →</a>
+    <a href="priscila.html" class="btn btn-priscila">Sou a Priscila →</a>
+
+    <p class="note">Responda individualmente — depois comparamos as preferências e ajustamos o projeto com o arquiteto.</p>
+    <div class="back"><a href="../conceito/">← Ver o projeto</a></div>
+  </div>
+</body>
+</html>
