@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Plantas e Layouts · Projeto Casa</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      background: #f5f0eb;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+    }
+    .card {
+      background: white;
+      border-radius: 20px;
+      padding: 3rem;
+      max-width: 520px;
+      width: 100%;
+      text-align: center;
+      box-shadow: 0 4px 40px rgba(0,0,0,0.08);
+    }
+    .icon { font-size: 3rem; margin-bottom: 1rem; }
+    h1 { font-size: 1.75rem; color: #1a1a1a; margin-bottom: 0.5rem; }
+    .subtitle { color: #888; font-size: 0.95rem; margin-bottom: 1.5rem; line-height: 1.6; }
+    .preview-strip {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0.4rem;
+      margin-bottom: 2rem;
+      height: 56px;
+      border-radius: 10px;
+      overflow: hidden;
+    }
+    .preview-strip svg {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+    .btn {
+      display: block;
+      padding: 1.1rem 2rem;
+      border-radius: 12px;
+      text-decoration: none;
+      font-size: 1rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+      transition: transform 0.15s, box-shadow 0.15s;
+    }
+    .btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0,0,0,0.12); }
+    .btn-luiz { background: #2c3e50; color: white; }
+    .btn-priscila { background: #8b1a1a; color: white; }
+    .note { font-size: 0.8rem; color: #aaa; margin-top: 1.5rem; line-height: 1.5; }
+    .back { font-size: 0.8rem; margin-top: 1.2rem; }
+    .back a { color: #bbb; text-decoration: none; }
+    .back a:hover { color: #888; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div class="icon">🏠</div>
+    <h1>Plantas e Layouts</h1>
+    <p class="subtitle">7 seções com diagramas de planta — forma da casa, posição do jardim, garagem, quartos, sala, churrasqueira e escada. Cada um escolhe separado.</p>
+
+    <!-- mini floor plan preview strip -->
+    <div class="preview-strip">
+      <svg viewBox="0 0 50 44" xmlns="http://www.w3.org/2000/svg">
+        <rect width="50" height="44" fill="#e8f0e0"/>
+        <rect x="1" y="1" width="49" height="3" fill="#c8c4b8"/>
+        <rect x="1" y="4" width="49" height="22" fill="#e8dfd8" stroke="#555" stroke-width="1"/>
+        <rect x="1" y="27" width="24" height="16" fill="#e8dfd8" stroke="#555" stroke-width="1"/>
+        <rect x="26" y="27" width="24" height="16" fill="#b4e0aa"/>
+        <text x="25" y="17" text-anchor="middle" font-size="7" font-weight="700" fill="#555" font-family="system-ui">L</text>
+      </svg>
+      <svg viewBox="0 0 50 44" xmlns="http://www.w3.org/2000/svg">
+        <rect width="50" height="44" fill="#e8f0e0"/>
+        <rect x="1" y="1" width="49" height="3" fill="#c8c4b8"/>
+        <rect x="1" y="4" width="49" height="25" fill="#e8dfd8" stroke="#555" stroke-width="1"/>
+        <rect x="1" y="30" width="49" height="13" fill="#b4e0aa"/>
+        <text x="25" y="19" text-anchor="middle" font-size="7" font-weight="700" fill="#555" font-family="system-ui">━</text>
+      </svg>
+      <svg viewBox="0 0 50 44" xmlns="http://www.w3.org/2000/svg">
+        <rect width="50" height="44" fill="#e8f0e0"/>
+        <rect x="1" y="1" width="49" height="3" fill="#c8c4b8"/>
+        <rect x="1" y="4" width="49" height="14" fill="#e8dfd8" stroke="#555" stroke-width="1"/>
+        <rect x="1" y="19" width="13" height="24" fill="#e8dfd8" stroke="#555" stroke-width="1"/>
+        <rect x="36" y="19" width="13" height="24" fill="#e8dfd8" stroke="#555" stroke-width="1"/>
+        <rect x="15" y="19" width="20" height="24" fill="#b4e0aa"/>
+        <text x="25" y="13" text-anchor="middle" font-size="7" font-weight="700" fill="#555" font-family="system-ui">U</text>
+      </svg>
+      <svg viewBox="0 0 50 44" xmlns="http://www.w3.org/2000/svg">
+        <rect width="50" height="44" fill="#e8f0e0"/>
+        <rect x="1" y="1" width="49" height="3" fill="#c8c4b8"/>
+        <rect x="1" y="4" width="6" height="39" fill="#b4e0aa"/>
+        <rect x="43" y="4" width="6" height="39" fill="#b4e0aa"/>
+        <rect x="8" y="4" width="34" height="25" fill="#e8dfd8" stroke="#555" stroke-width="1"/>
+        <rect x="8" y="30" width="34" height="13" fill="#b4e0aa"/>
+        <text x="25" y="19" text-anchor="middle" font-size="6" font-weight="700" fill="#555" font-family="system-ui">2P</text>
+      </svg>
+    </div>
+
+    <a href="luiz.html" class="btn btn-luiz">Sou o Luiz →</a>
+    <a href="priscila.html" class="btn btn-priscila">Sou a Priscila →</a>
+
+    <p class="note">Responda individualmente — depois cruzamos as escolhas e levamos para o arquiteto como base para o partido arquitetônico.</p>
+    <div class="back"><a href="../conceito/">← Ver o projeto</a></div>
+  </div>
+</body>
+</html>
