@@ -194,14 +194,14 @@
     }
 
     .floor-upper {
-      grid-template-columns: 0.55fr 1fr 0.85fr;
-      grid-template-rows: 0.5fr 1fr 0.85fr 0.85fr;
+      grid-template-columns: 0.38fr 1fr 0.44fr 0.42fr 0.78fr;
+      grid-template-rows: 0.28fr 1fr 0.5fr 0.52fr;
       grid-template-areas:
-        "circ suit  suit"
-        "esc  suit  banh"
-        "esc  clos  banh"
-        "esc  vran  vran";
-      height: 280px;
+        "circ  suit  suit  suit  vran"
+        "esc   suit  suit  suit  vran"
+        "esc   clos  pias  wcu   vran"
+        "esc   clos  duch  duch  vran";
+      height: 360px;
     }
 
     .room {
@@ -233,11 +233,85 @@
 
     /* room colors — andar */
     .rm-circ { grid-area: circ; background: #e5e0da; }
-    .rm-suit { grid-area: suit; background: #f5ead0; }
-    .rm-clos { grid-area: clos; background: #ede8f5; }
+    .rm-suit {
+      grid-area: suit;
+      background: linear-gradient(160deg, #f8f0e0, #f2e8d0);
+      border: 1.5px solid #d8c8a0;
+      position: relative;
+    }
+    .rm-clos { grid-area: clos; background: #ede8f5; border: 1.5px solid #c8b8e0; }
     .rm-banh { grid-area: banh; background: #e0edf5; }
-    .rm-vran { grid-area: vran; background: #cce8c0; }
+    .rm-vran {
+      grid-area: vran;
+      background: linear-gradient(180deg, #b8e0b0, #cceac0, #d8f0d0);
+      border-left: 3px solid #7ab870;
+    }
     .rm-esc  { grid-area: esc;  background: #e5e0da; }
+
+    /* bathroom zones */
+    .rm-pias {
+      grid-area: pias;
+      background: #dceef8;
+      border-top: 1.5px solid #a8c8e0;
+      border-left: 1.5px solid #a8c8e0;
+    }
+    .rm-wcu {
+      grid-area: wcu;
+      background: #e8f2f8;
+      border: 2px solid #90b4cc;
+      position: relative;
+    }
+    .rm-wcu::after {
+      content: '';
+      position: absolute;
+      inset: 3px;
+      border-radius: 3px;
+      border: 1px dashed #90b4cc;
+    }
+    .rm-duch {
+      grid-area: duch;
+      background: repeating-linear-gradient(
+        -45deg,
+        #d0eaf8,
+        #d0eaf8 4px,
+        #e4f4fc 4px,
+        #e4f4fc 8px
+      );
+      border-left: 1.5px solid #a8c8e0;
+      border-bottom: 1.5px solid #a8c8e0;
+    }
+
+    /* room extras */
+    .room-tag {
+      font-size: 0.52rem;
+      opacity: 0.7;
+      margin-top: 2px;
+      font-style: italic;
+      font-weight: 400;
+    }
+    .vran-tag {
+      font-size: 0.58rem;
+      background: rgba(255,255,255,0.5);
+      border-radius: 8px;
+      padding: 1px 5px;
+      margin-top: 3px;
+      color: #2a6020;
+      font-weight: 600;
+    }
+    .bath-zone-bar {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.68rem;
+      color: var(--mid);
+      background: #dceef8;
+      border-radius: 6px;
+      padding: 0.3rem 0.5rem;
+      margin-top: 0.5rem;
+      border: 1px solid #a8c8e0;
+      gap: 0.5rem;
+    }
+    .bath-zone-bar span { opacity: 0.6; font-size: 0.6rem; }
 
     /* ── deck card especial ── */
     .deck-hero {
@@ -362,6 +436,8 @@
     .ld-clos { background: #ede8f5; }
     .ld-banh { background: #e0edf5; }
     .ld-vran { background: #cce8c0; }
+    .ld-bath { background: #dceef8; border: 1px solid #a8c8e0; }
+    .ld-circ { background: #e5e0da; }
 
     /* inspo strip variant */
     .inspo-strip--green { background: #f2f5f0; border-color: #d0ddc8; }
@@ -688,48 +764,89 @@
           <span class="floor-label">1° Andar</span>
           Suíte master
         </h3>
+
+        <div class="direction-strip">
+          <span>← Viz. Lote 11</span>
+          <span>Área de lazer cond. →</span>
+        </div>
+
         <div class="floor-grid floor-upper">
+
+          <!-- Circulação -->
           <div class="room rm-circ">
             <div class="rm-icon">↕️</div>
-            <div class="rm-name">Escada + Corredor</div>
+            <div class="rm-name">Escada + Hall</div>
             <div class="rm-area">~10 m²</div>
           </div>
+
+          <!-- Suíte Master — ocupa cols 2-4, rows 1-2 -->
           <div class="room rm-suit">
             <div class="rm-icon">🛏️</div>
             <div class="rm-name">Suíte Master</div>
             <div class="rm-area">~28 m²</div>
+            <div class="room-tag">janelas amplas → varanda</div>
           </div>
+
+          <!-- Varanda — coluna direita inteira, toda a altura -->
+          <div class="room rm-vran">
+            <div class="rm-icon">🌳</div>
+            <div class="rm-name">Varanda</div>
+            <div class="rm-area">~14 m²</div>
+            <div class="vran-tag">vista → verde do cond.</div>
+          </div>
+
+          <!-- Espaço flex -->
           <div class="room rm-esc">
             <div class="rm-icon">📚</div>
             <div class="rm-name">Espaço Flex</div>
-            <div class="rm-area">home office 2 · ~10 m²</div>
+            <div class="rm-area">home office · ~10 m²</div>
           </div>
+
+          <!-- Closet — col 2, rows 3-4 -->
           <div class="room rm-clos">
             <div class="rm-icon">👗</div>
             <div class="rm-name">Closet Walk-in</div>
             <div class="rm-area">~14 m²</div>
           </div>
-          <div class="room rm-banh">
-            <div class="rm-icon">🛁</div>
-            <div class="rm-name">Banheiro Suíte</div>
-            <div class="rm-area">duplo · ~12 m²</div>
+
+          <!-- Banheiro: 2 pias (bancada dupla) -->
+          <div class="room rm-pias">
+            <div class="rm-icon">🪥</div>
+            <div class="rm-name">2 Pias</div>
+            <div class="rm-area">bancada dupla</div>
           </div>
-          <div class="room rm-vran">
-            <div class="rm-icon">🌳</div>
-            <div class="rm-name">Varanda</div>
-            <div class="rm-area">→ lazer cond. · ~14 m²</div>
+
+          <!-- Banheiro: WC fechado -->
+          <div class="room rm-wcu">
+            <div class="rm-icon">🚽</div>
+            <div class="rm-name">WC</div>
+            <div class="rm-area">cubículo fechado</div>
           </div>
+
+          <!-- Banheiro: Ducha walk-in — cols 3-4, row 4 -->
+          <div class="room rm-duch">
+            <div class="rm-icon">🚿</div>
+            <div class="rm-name">Ducha Walk-in</div>
+            <div class="rm-area">2 chuveiros · sem box</div>
+          </div>
+
+        </div>
+
+        <div class="bath-zone-bar">
+          💧 <strong>Banheiro suíte · ~12 m²</strong>
+          <span>pias + wc fechado + ducha walk-in sem box · 2 chuveiros</span>
         </div>
 
         <div class="plant-note">
-          O andar superior é o refúgio do casal. Varanda voltada para o verde da área de lazer do condomínio — sem vizinhos na linha de visão.
+          Banheiro como Priscila quer: ducha walk-in estilo resort (sem box/porta), WC em cubículo separado para privacidade e bancada dupla com 2 pias. A varanda toma toda a face direita do andar — vista verde sem vizinhos.
         </div>
 
         <div class="floor-legend">
-          <div class="legend-item"><div class="legend-dot ld-suit"></div>Suíte Master</div>
+          <div class="legend-item"><div class="legend-dot ld-suit"></div>Suíte</div>
           <div class="legend-item"><div class="legend-dot ld-clos"></div>Closet</div>
-          <div class="legend-item"><div class="legend-dot ld-banh"></div>Banheiro</div>
+          <div class="legend-item"><div class="legend-dot ld-bath"></div>Banheiro</div>
           <div class="legend-item"><div class="legend-dot ld-vran"></div>Varanda</div>
+          <div class="legend-item"><div class="legend-dot ld-circ"></div>Circulação</div>
         </div>
       </div>
 
