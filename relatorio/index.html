@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Relatório de Briefing · Projeto Casa</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --luiz: #2c3e50;
+      --luiz2: #3d5166;
+      --pris: #8b1a1a;
+      --pris2: #a52020;
+      --ok: #2e7d32;
+      --warn: #e65100;
+      --bg: #f5f0eb;
+    }
+    body { font-family: 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: #1a1a1a; }
+
+    header {
+      background: #1a1a1a;
+      color: white;
+      padding: 2.5rem 2rem 2rem;
+      text-align: center;
+    }
+    header h1 { font-size: 1.6rem; font-weight: 800; margin-bottom: 0.3rem; }
+    header p { font-size: 0.9rem; opacity: 0.55; }
+    .header-badges { display: flex; gap: 1rem; justify-content: center; margin-top: 1.2rem; flex-wrap: wrap; }
+    .badge { background: rgba(255,255,255,0.1); border-radius: 20px; padding: 0.35rem 0.9rem; font-size: 0.78rem; }
+    .badge-luiz { border-left: 3px solid var(--luiz2); }
+    .badge-pris { border-left: 3px solid var(--pris); }
+
+    .container { max-width: 900px; margin: 0 auto; padding: 2.5rem 1.5rem; }
+
+    /* SECTION HEADER */
+    .sec-head {
+      display: flex; align-items: center; gap: 0.75rem;
+      margin: 3rem 0 1.25rem;
+      padding-bottom: 0.75rem;
+      border-bottom: 2px solid #e0d8d0;
+    }
+    .sec-icon { font-size: 1.5rem; }
+    .sec-title { font-size: 1.2rem; font-weight: 800; }
+    .sec-sub { font-size: 0.8rem; color: #888; margin-top: 0.1rem; }
+
+    /* CONSENSUS / DIVERGENCE CALLOUTS */
+    .callout {
+      border-radius: 12px; padding: 1.1rem 1.4rem; margin-bottom: 1rem;
+      display: flex; gap: 0.9rem; align-items: flex-start;
+    }
+    .callout-ok { background: #e8f5e9; border-left: 4px solid var(--ok); }
+    .callout-warn { background: #fff3e0; border-left: 4px solid var(--warn); }
+    .callout-icon { font-size: 1.2rem; margin-top: 0.05rem; }
+    .callout-body strong { font-size: 0.88rem; font-weight: 700; display: block; margin-bottom: 0.2rem; }
+    .callout-body p { font-size: 0.82rem; color: #555; line-height: 1.5; }
+
+    /* COMPARE TABLE */
+    .cmp-table { width: 100%; border-collapse: collapse; margin-bottom: 1.5rem; background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
+    .cmp-table th { padding: 0.75rem 1rem; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; }
+    .cmp-table th:first-child { background: #f8f4f0; color: #888; text-align: left; }
+    .cmp-table th.luiz-h { background: var(--luiz); color: white; text-align: center; }
+    .cmp-table th.pris-h { background: var(--pris); color: white; text-align: center; }
+    .cmp-table td { padding: 0.7rem 1rem; font-size: 0.85rem; border-top: 1px solid #f0ece8; vertical-align: top; }
+    .cmp-table td:first-child { font-weight: 600; color: #555; font-size: 0.8rem; width: 28%; }
+    .cmp-table td.luiz-c { text-align: center; background: #f8fafc; }
+    .cmp-table td.pris-c { text-align: center; background: #fdf8f8; }
+    .match { color: var(--ok); font-weight: 700; }
+    .diff { color: var(--warn); }
+    .pill {
+      display: inline-block; padding: 0.22rem 0.65rem; border-radius: 20px;
+      font-size: 0.78rem; font-weight: 600;
+    }
+    .pill-luiz { background: #e8edf2; color: var(--luiz); }
+    .pill-pris { background: #f5e8e8; color: var(--pris); }
+    .pill-match { background: #e8f5e9; color: var(--ok); }
+    .pill-warn { background: #fff3e0; color: var(--warn); }
+
+    /* QUOTE BLOCKS */
+    .quotes { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.5rem; }
+    @media (max-width: 600px) { .quotes { grid-template-columns: 1fr; } }
+    .quote-box {
+      border-radius: 10px; padding: 1rem 1.1rem; font-size: 0.82rem; line-height: 1.6;
+      position: relative;
+    }
+    .quote-box::before { content: '"'; font-size: 2.5rem; position: absolute; top: -0.3rem; left: 0.6rem; opacity: 0.2; font-family: Georgia, serif; }
+    .quote-luiz { background: #edf2f7; border-top: 3px solid var(--luiz); }
+    .quote-pris { background: #fdf2f2; border-top: 3px solid var(--pris); }
+    .quote-author { font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; margin-top: 0.6rem; opacity: 0.6; }
+
+    /* RATINGS */
+    .ratings-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 0.75rem; margin-bottom: 1.5rem; }
+    .rating-card { background: white; border-radius: 10px; padding: 0.9rem 1rem; box-shadow: 0 1px 6px rgba(0,0,0,0.05); }
+    .rating-label { font-size: 0.75rem; color: #888; margin-bottom: 0.5rem; }
+    .rating-row { display: flex; justify-content: space-between; align-items: center; gap: 0.5rem; margin-bottom: 0.25rem; }
+    .rating-name { font-size: 0.72rem; font-weight: 700; }
+    .rating-val { font-size: 0.8rem; }
+    .stars { color: #f0a000; font-size: 0.75rem; }
+
+    /* SUMMARY BOX */
+    .summary-box {
+      background: #1a1a1a; color: white; border-radius: 14px; padding: 2rem;
+      margin-top: 3rem;
+    }
+    .summary-box h2 { font-size: 1.1rem; margin-bottom: 1.2rem; }
+    .sum-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+    @media (max-width: 600px) { .sum-grid { grid-template-columns: 1fr; } }
+    .sum-col h3 { font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.06em; opacity: 0.5; margin-bottom: 0.75rem; }
+    .sum-item { display: flex; gap: 0.5rem; margin-bottom: 0.55rem; font-size: 0.85rem; }
+    .sum-item::before { content: '→'; opacity: 0.4; flex-shrink: 0; }
+
+    .back { text-align: center; padding: 2rem 0 3rem; }
+    .back a { color: #aaa; font-size: 0.82rem; text-decoration: none; }
+    .back a:hover { color: #666; }
+
+    /* VISUAL SWATCHES */
+    .swatch-row { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: 0.5rem; }
+    .swatch { width: 28px; height: 28px; border-radius: 6px; border: 1px solid rgba(0,0,0,0.08); }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>📋 Relatório de Briefing — Projeto Casa</h1>
+  <p>Lote 12, Quadra F · Villagio Brunelli · Araçoiaba da Serra / SP · 521,30 m²</p>
+  <div class="header-badges">
+    <span class="badge badge-luiz">■ Luiz — respondeu em 21–23/mai/2026</span>
+    <span class="badge badge-pris">■ Priscila — respondeu em 21–22/mai/2026</span>
+  </div>
+</header>
+
+<div class="container">
+
+  <!-- ══════════════════════════════════════════════════════ -->
+  <!--  SÍNTESE RÁPIDA                                       -->
+  <!-- ══════════════════════════════════════════════════════ -->
+  <div class="sec-head" style="margin-top:2rem">
+    <span class="sec-icon">⚡</span>
+    <div>
+      <div class="sec-title">Síntese rápida</div>
+      <div class="sec-sub">Consensos e divergências principais — leitura rápida para o arquiteto</div>
+    </div>
+  </div>
+
+  <div class="callout callout-ok">
+    <span class="callout-icon">✅</span>
+    <div class="callout-body">
+      <strong>Consenso forte — execute sem discussão</strong>
+      <p>Casa em L · Jardim central acessível dos cômodos · Garagem dupla frontal · Suíte no 1° andar · Churrasqueira integrada à cozinha (portas de vidro) · Lavanderia em área de serviço separada · Atmosfera aconchegante e quente · Revestimento externo em madeira natural · Alta prioridade em sustentabilidade · Insatisfação com o deck atual — necessita repensamento.</p>
+    </div>
+  </div>
+
+  <div class="callout callout-warn">
+    <span class="callout-icon">⚠️</span>
+    <div class="callout-body">
+      <strong>Pontos de divergência — requer mediação</strong>
+      <p>Piso interno (porcelanato claro vs madeira mel) · Fachada (minimalista branca vs orgânica+madeira) · Cozinha (mármore branco+prata vs azulejo artesanal) · Sala/cozinha layout (ilha separando vs open space total) · Jardim (convívio/grama vs horta+pomar) · Lavabo (corredor de serviço vs banheiro de suíte com 2 portas) · Número de quartos (4 vs 3).</p>
+    </div>
+  </div>
+
+  <div class="callout callout-warn">
+    <span class="callout-icon">🔧</span>
+    <div class="callout-body">
+      <strong>Críticas específicas ao projeto atual (feedback)</strong>
+      <p>Ambos criticaram o deck — Luiz: "preferia outra solução"; Priscila: "não vejo sentido". Ambos querem escritório e quarto de hóspedes com conexão ao jardim. Banheiro da suíte precisa ser maior — chuveiro duplo, bancada dupla, sanitário separado. Closet precisa de mais espaço. Lavabo/banheiro de serviço não podem ficar expostos na entrada.</p>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════════ -->
+  <!--  PERFIL GERAL                                         -->
+  <!-- ══════════════════════════════════════════════════════ -->
+  <div class="sec-head">
+    <span class="sec-icon">👤</span>
+    <div>
+      <div class="sec-title">1 · Perfil e briefing geral</div>
+      <div class="sec-sub">Questionário inicial — preferências de vida e programa</div>
+    </div>
+  </div>
+
+  <table class="cmp-table">
+    <thead>
+      <tr>
+        <th>Tema</th>
+        <th class="luiz-h">Luiz</th>
+        <th class="pris-h">Priscila</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Estilo arquitetônico</td>
+        <td class="luiz-c"><span class="pill pill-luiz">Contemporâneo com madeira</span></td>
+        <td class="pris-c"><span class="pill pill-pris">Aconchegante</span></td>
+      </tr>
+      <tr>
+        <td>Layout preferido</td>
+        <td class="luiz-c"><span class="pill pill-luiz">Híbrido</span></td>
+        <td class="pris-c"><span class="pill pill-pris">Integrado / Open</span></td>
+      </tr>
+      <tr>
+        <td>N° de quartos</td>
+        <td class="luiz-c"><span class="pill pill-warn">4 quartos</span></td>
+        <td class="pris-c"><span class="pill pill-warn">3 quartos</span></td>
+      </tr>
+      <tr>
+        <td>Filhos planejados</td>
+        <td class="luiz-c"><span class="pill pill-luiz">Dois</span></td>
+        <td class="pris-c">—</td>
+      </tr>
+      <tr>
+        <td>Home office</td>
+        <td class="luiz-c"><span class="pill pill-luiz">Alguns dias</span></td>
+        <td class="pris-c"><span class="pill pill-pris">Raramente</span></td>
+      </tr>
+      <tr>
+        <td>Cozinha</td>
+        <td class="luiz-c"><span class="pill pill-match">Adoro cozinhar</span></td>
+        <td class="pris-c"><span class="pill pill-match">Cozinho bastante</span></td>
+      </tr>
+      <tr>
+        <td>Lazer principal</td>
+        <td class="luiz-c"><span class="pill pill-match">Jardim / garden</span></td>
+        <td class="pris-c"><span class="pill pill-match">Área externa</span></td>
+      </tr>
+      <tr>
+        <td>Sustentabilidade</td>
+        <td class="luiz-c"><span class="pill pill-match">Alta prioridade</span></td>
+        <td class="pris-c"><span class="pill pill-match">Alta prioridade</span></td>
+      </tr>
+      <tr>
+        <td>Luz natural</td>
+        <td class="luiz-c"><span class="pill pill-luiz">Equilibrada</span></td>
+        <td class="pris-c">—</td>
+      </tr>
+      <tr>
+        <td>Sensação espacial</td>
+        <td class="luiz-c">—</td>
+        <td class="pris-c"><span class="pill pill-pris">Aconchegante</span></td>
+      </tr>
+      <tr>
+        <td>Plantas no interior</td>
+        <td class="luiz-c">—</td>
+        <td class="pris-c"><span class="pill pill-pris">Muitas plantas</span></td>
+      </tr>
+      <tr>
+        <td>Orçamento</td>
+        <td class="luiz-c"><span class="pill pill-luiz">R$ 600k – R$ 1M</span></td>
+        <td class="pris-c">—</td>
+      </tr>
+      <tr>
+        <td>Vagas garagem</td>
+        <td class="luiz-c"><span class="pill pill-luiz">2 vagas</span></td>
+        <td class="pris-c">—</td>
+      </tr>
+      <tr>
+        <td>Frequência social</td>
+        <td class="luiz-c"><span class="pill pill-luiz">Mensalmente</span></td>
+        <td class="pris-c"><span class="pill pill-pris">Intimista</span></td>
+      </tr>
+      <tr>
+        <td>Fachada preferência</td>
+        <td class="luiz-c"><span class="pill pill-warn">Cores neutras / branco</span></td>
+        <td class="pris-c">—</td>
+      </tr>
+      <tr>
+        <td>Paleta de cores</td>
+        <td class="luiz-c">—</td>
+        <td class="pris-c"><span class="pill pill-pris">Tons naturais</span></td>
+      </tr>
+      <tr>
+        <td>Espaço próprio</td>
+        <td class="luiz-c">—</td>
+        <td class="pris-c"><span class="pill pill-pris">Closet grande</span></td>
+      </tr>
+      <tr>
+        <td>Banheiro suíte (must-have)</td>
+        <td class="luiz-c">—</td>
+        <td class="pris-c"><span class="pill pill-pris">Chuveiro duplo · Bancada dupla · Sanitário separado</span></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="quotes">
+    <div class="quote-box quote-luiz">
+      <p>Inegociável: escritório confortável com mesa sobe/desce, garden, churrasqueira, quintal para crianças e cachorros. Sala de filmes bem legal para dias frios.</p>
+      <div class="quote-author">— Luiz</div>
+    </div>
+    <div class="quote-box quote-pris">
+      <p>Inegociável: pelo menos 2 banheiros e closet grande. Jamais: cozinha bagunçada, mofo, falta de higiene nas áreas molhadas.</p>
+      <div class="quote-author">— Priscila</div>
+    </div>
+  </div>
+
+  <table class="cmp-table">
+    <thead>
+      <tr>
+        <th>Ambientes indispensáveis</th>
+        <th class="luiz-h">Luiz</th>
+        <th class="pris-h">Priscila</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Churrasqueira</td>
+        <td class="luiz-c">✅</td>
+        <td class="pris-c">—</td>
+      </tr>
+      <tr>
+        <td>Escritório</td>
+        <td class="luiz-c">✅</td>
+        <td class="pris-c">—</td>
+      </tr>
+      <tr>
+        <td>Sala de TV</td>
+        <td class="luiz-c">✅</td>
+        <td class="pris-c">—</td>
+      </tr>
+      <tr>
+        <td>Jardim</td>
+        <td class="luiz-c"><span class="pill pill-match">✅</span></td>
+        <td class="pris-c"><span class="pill pill-match">✅</span></td>
+      </tr>
+      <tr>
+        <td>Suíte master</td>
+        <td class="luiz-c">—</td>
+        <td class="pris-c">✅</td>
+      </tr>
+      <tr>
+        <td>Closet</td>
+        <td class="luiz-c">—</td>
+        <td class="pris-c">✅</td>
+      </tr>
+      <tr>
+        <td>Lavanderia</td>
+        <td class="luiz-c">—</td>
+        <td class="pris-c">✅</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- ══════════════════════════════════════════════════════ -->
+  <!--  PLANTAS                                              -->
+  <!-- ══════════════════════════════════════════════════════ -->
+  <div class="sec-head">
+    <span class="sec-icon">🏠</span>
+    <div>
+      <div class="sec-title">2 · Plantas e layout funcional</div>
+      <div class="sec-sub">Escolhas de forma, setorização e ambientes</div>
+    </div>
+  </div>
+
+  <table class="cmp-table">
+    <thead>
+      <tr>
+        <th>Decisão</th>
+        <th class="luiz-h">Luiz</th>
+        <th class="pris-h">Priscila</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Forma da casa (S1)</td>
+        <td class="luiz-c"><span class="pill pill-match">Casa em L</span></td>
+        <td class="pris-c"><span class="pill pill-match">Casa em L</span></td>
+      </tr>
+      <tr>
+        <td>Posição do jardim (S2)</td>
+        <td class="luiz-c"><span class="pill pill-match">Jardim Central</span></td>
+        <td class="pris-c"><span class="pill pill-match">Jardim Central</span></td>
+      </tr>
+      <tr>
+        <td>Garagem (S3)</td>
+        <td class="luiz-c"><span class="pill pill-match">Dupla Frontal</span></td>
+        <td class="pris-c"><span class="pill pill-match">Dupla Frontal</span></td>
+      </tr>
+      <tr>
+        <td>Quartos (S4)</td>
+        <td class="luiz-c"><span class="pill pill-match">Suíte no 1° Andar</span></td>
+        <td class="pris-c"><span class="pill pill-match">Suíte no 1° Andar</span></td>
+      </tr>
+      <tr>
+        <td>Sala + Cozinha (S5)</td>
+        <td class="luiz-c"><span class="pill pill-warn">Ilha como Separação</span></td>
+        <td class="pris-c"><span class="pill pill-warn">Open Space Total</span></td>
+      </tr>
+      <tr>
+        <td>Churrasqueira (S6)</td>
+        <td class="luiz-c"><span class="pill pill-match">Integrada à Cozinha</span></td>
+        <td class="pris-c"><span class="pill pill-match">Integrada à Cozinha</span></td>
+      </tr>
+      <tr>
+        <td>Escada (S7)</td>
+        <td class="luiz-c"><span class="pill pill-warn">Hall de Entrada</span></td>
+        <td class="pris-c"><span class="pill pill-warn">Na Sala</span></td>
+      </tr>
+      <tr>
+        <td>Lavabo (S8)</td>
+        <td class="luiz-c"><span class="pill pill-warn">Corredor de Serviço</span></td>
+        <td class="pris-c"><span class="pill pill-warn">Banheiro c/ 2 portas*</span></td>
+      </tr>
+      <tr>
+        <td>Lavanderia (S9)</td>
+        <td class="luiz-c"><span class="pill pill-match">Área de Serviço Separada</span></td>
+        <td class="pris-c"><span class="pill pill-match">Área de Serviço Separada</span></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="quotes">
+    <div class="quote-box quote-luiz">
+      <p><strong>Jardim:</strong> Gosto da ideia do jardim fazer parte da casa — com o escritório e quarto de hóspedes com porta para o jardim.</p>
+      <div class="quote-author">— Luiz · S2</div>
+    </div>
+    <div class="quote-box quote-pris">
+      <p><strong>Lavabo (S8):</strong> Seria legal um dos banheiros das suítes ter duas portas — uma com acesso direto da sala, virando lavabo, e outra do cômodo.</p>
+      <div class="quote-author">— Priscila · S8</div>
+    </div>
+    <div class="quote-box quote-luiz">
+      <p><strong>Churrasqueira:</strong> Quero que a visita não passe por dentro da casa para acessar a área gourmet.</p>
+      <div class="quote-author">— Luiz · S6</div>
+    </div>
+    <div class="quote-box quote-pris">
+      <p><strong>Lavanderia:</strong> Um cômodo próprio, atrás da cozinha. Uma porta discreta. Lavanderia de tamanho bom com espaço de varal.</p>
+      <div class="quote-author">— Priscila · S9</div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════════ -->
+  <!--  ESCOLHAS VISUAIS                                     -->
+  <!-- ══════════════════════════════════════════════════════ -->
+  <div class="sec-head">
+    <span class="sec-icon">🎨</span>
+    <div>
+      <div class="sec-title">3 · Escolhas visuais e materiais</div>
+      <div class="sec-sub">Paleta, revestimentos, atmosfera</div>
+    </div>
+  </div>
+
+  <table class="cmp-table">
+    <thead>
+      <tr>
+        <th>Material / Elemento</th>
+        <th class="luiz-h">Luiz</th>
+        <th class="pris-h">Priscila</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Fachada (S1)</td>
+        <td class="luiz-c">
+          <span class="pill pill-warn">Minimalista Branca</span>
+          <div class="swatch-row" style="justify-content:center"><div class="swatch" style="background:#f5f5f5"></div><div class="swatch" style="background:#e0e0e0"></div><div class="swatch" style="background:#bdbdbd"></div></div>
+        </td>
+        <td class="pris-c">
+          <span class="pill pill-warn">Orgânica + Madeira</span>
+          <div class="swatch-row" style="justify-content:center"><div class="swatch" style="background:#a0785a"></div><div class="swatch" style="background:#7a9870"></div><div class="swatch" style="background:#c8a870"></div></div>
+        </td>
+      </tr>
+      <tr>
+        <td>Madeira interna (S2)</td>
+        <td class="luiz-c">
+          <span class="pill pill-warn">Freijó / Carvalho Claro</span>
+          <div class="swatch-row" style="justify-content:center"><div class="swatch" style="background:#c8a870"></div><div class="swatch" style="background:#d4b880"></div></div>
+        </td>
+        <td class="pris-c">
+          <span class="pill pill-warn">Teca / Cumaru Mel</span>
+          <div class="swatch-row" style="justify-content:center"><div class="swatch" style="background:#a06030"></div><div class="swatch" style="background:#c07840"></div></div>
+        </td>
+      </tr>
+      <tr>
+        <td>Piso (S3)</td>
+        <td class="luiz-c">
+          <span class="pill pill-warn">Porcelanato Claro</span>
+          <div class="swatch-row" style="justify-content:center"><div class="swatch" style="background:#f0ece8"></div><div class="swatch" style="background:#e8e0d8"></div></div>
+        </td>
+        <td class="pris-c">
+          <span class="pill pill-warn">Madeira Mel</span>
+          <div class="swatch-row" style="justify-content:center"><div class="swatch" style="background:#c89060"></div><div class="swatch" style="background:#d8a870"></div></div>
+        </td>
+      </tr>
+      <tr>
+        <td>Revestimento externo (S4)</td>
+        <td class="luiz-c"><span class="pill pill-match">Madeira Natural</span></td>
+        <td class="pris-c"><span class="pill pill-match">Madeira Natural</span></td>
+      </tr>
+      <tr>
+        <td>Cozinha (S5)</td>
+        <td class="luiz-c">
+          <span class="pill pill-warn">Mármore Branco + Prata</span>
+          <div class="swatch-row" style="justify-content:center"><div class="swatch" style="background:#f5f5f0"></div><div class="swatch" style="background:#c0c0c0"></div></div>
+        </td>
+        <td class="pris-c">
+          <span class="pill pill-warn">Azulejo Artesanal</span>
+          <div class="swatch-row" style="justify-content:center"><div class="swatch" style="background:#7a9870"></div><div class="swatch" style="background:#a8c890"></div><div class="swatch" style="background:#d4b060"></div></div>
+        </td>
+      </tr>
+      <tr>
+        <td>Jardim / paisagismo (S6)</td>
+        <td class="luiz-c"><span class="pill pill-warn">Grama + Área de Convívio</span></td>
+        <td class="pris-c"><span class="pill pill-warn">Horta + Pomar Produtivo</span></td>
+      </tr>
+      <tr>
+        <td>Atmosfera geral (S7)</td>
+        <td class="luiz-c"><span class="pill pill-match">Aconchegante e Quente</span></td>
+        <td class="pris-c"><span class="pill pill-match">Aconchegante e Quente</span></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="quotes">
+    <div class="quote-box quote-pris">
+      <p><strong>Fachada:</strong> Traz uma aparência de casa de verdade. De refúgio. De um lugar com paz e vida.</p>
+      <div class="quote-author">— Priscila · Escolhas S1</div>
+    </div>
+    <div class="quote-box quote-pris">
+      <p><strong>Jardim:</strong> Gosto muito de vegetação variada, mas acho legal que também sirvam de alimento — horta, pomar. Desde pequena tenho pomar em casa e amo poder pegar uma fruta ou cortar um tempero do próprio quintal.</p>
+      <div class="quote-author">— Priscila · Escolhas S6</div>
+    </div>
+    <div class="quote-box quote-pris">
+      <p><strong>Cozinha:</strong> Pensei em algo mais claro — pedra, detalhes em verde. Até um jardim de inverno no banheiro.</p>
+      <div class="quote-author">— Priscila · Escolhas S5</div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════════ -->
+  <!--  FEEDBACK DO PROJETO                                  -->
+  <!-- ══════════════════════════════════════════════════════ -->
+  <div class="sec-head">
+    <span class="sec-icon">💬</span>
+    <div>
+      <div class="sec-title">4 · Feedback do projeto atual</div>
+      <div class="sec-sub">Avaliações e pedidos de mudança sobre a proposta existente</div>
+    </div>
+  </div>
+
+  <div class="ratings-grid">
+    <div class="rating-card">
+      <div class="rating-label">Impressão geral</div>
+      <div class="rating-row"><span class="rating-name" style="color:var(--luiz)">Luiz</span><span class="rating-val">😄 Gostei muito</span></div>
+      <div class="rating-row"><span class="rating-name" style="color:var(--pris)">Priscila</span><span class="rating-val">🤔 Interessante</span></div>
+    </div>
+    <div class="rating-card">
+      <div class="rating-label">Estilo arquitetônico</div>
+      <div class="rating-row"><span class="rating-name" style="color:var(--luiz)">Luiz</span><span class="rating-val">✅ Meu estilo!</span></div>
+      <div class="rating-row"><span class="rating-name" style="color:var(--pris)">Priscila</span><span class="rating-val">🔧 Mudaria detalhes</span></div>
+    </div>
+    <div class="rating-card">
+      <div class="rating-label">Suíte Master</div>
+      <div class="rating-row"><span class="rating-name" style="color:var(--luiz)">Luiz</span><span class="rating-val">🌟 Adorei!</span></div>
+      <div class="rating-row"><span class="rating-name" style="color:var(--pris)">Priscila</span><span class="rating-val">👍 Bom</span></div>
+    </div>
+    <div class="rating-card">
+      <div class="rating-label">Varanda da Suíte</div>
+      <div class="rating-row"><span class="rating-name" style="color:var(--luiz)">Luiz</span><span class="rating-val">🌟 Incrível!</span></div>
+      <div class="rating-row"><span class="rating-name" style="color:var(--pris)">Priscila</span><span class="rating-val">🌟 Incrível!</span></div>
+    </div>
+    <div class="rating-card">
+      <div class="rating-label">Closet Walk-in</div>
+      <div class="rating-row"><span class="rating-name" style="color:var(--luiz)">Luiz</span><span class="rating-val">✅ Ótimo!</span></div>
+      <div class="rating-row"><span class="rating-name" style="color:var(--pris)">Priscila</span><span class="rating-val">👍 Bom (quer maior)</span></div>
+    </div>
+    <div class="rating-card">
+      <div class="rating-label">Banheiro da Suíte</div>
+      <div class="rating-row"><span class="rating-name" style="color:var(--luiz)">Luiz</span><span class="rating-val">👍 Bom (quer maior)</span></div>
+      <div class="rating-row"><span class="rating-name" style="color:var(--pris)">Priscila</span><span class="rating-val">😐 Razoável (quer muito maior)</span></div>
+    </div>
+    <div class="rating-card">
+      <div class="rating-label">Sala + Cozinha + Jantar</div>
+      <div class="rating-row"><span class="rating-name" style="color:var(--luiz)">Luiz</span><span class="rating-val">✅ Ótima!</span></div>
+      <div class="rating-row"><span class="rating-name" style="color:var(--pris)">Priscila</span><span class="rating-val">✅ Ótima!</span></div>
+    </div>
+    <div class="rating-card">
+      <div class="rating-label">Churrasqueira + Jardim</div>
+      <div class="rating-row"><span class="rating-name" style="color:var(--luiz)">Luiz</span><span class="rating-val">👍 Boa</span></div>
+      <div class="rating-row"><span class="rating-name" style="color:var(--pris)">Priscila</span><span class="rating-val">🌟 Perfeita!</span></div>
+    </div>
+    <div class="rating-card">
+      <div class="rating-label">⚠️ Deck Central</div>
+      <div class="rating-row"><span class="rating-name" style="color:var(--luiz)">Luiz</span><span class="rating-val">❌ Preferia outra solução</span></div>
+      <div class="rating-row"><span class="rating-name" style="color:var(--pris)">Priscila</span><span class="rating-val">😐 Razoável</span></div>
+    </div>
+  </div>
+
+  <table class="cmp-table">
+    <thead>
+      <tr>
+        <th>O que mudaria</th>
+        <th class="luiz-h">Luiz</th>
+        <th class="pris-h">Priscila</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>No térreo</td>
+        <td class="luiz-c" style="text-align:left;font-size:0.82rem">Escritório diferente · Quarto hóspedes diferente · Mais espaço de serviço</td>
+        <td class="pris-c" style="text-align:left;font-size:0.82rem">Escritório diferente · Quarto hóspedes diferente · Mais espaço de serviço</td>
+      </tr>
+      <tr>
+        <td>No 1° andar</td>
+        <td class="luiz-c" style="text-align:left;font-size:0.82rem">Banheiro diferente (mais espaço e conforto)</td>
+        <td class="pris-c" style="text-align:left;font-size:0.82rem">Closet maior · Banheiro muito maior</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="quotes">
+    <div class="quote-box quote-luiz">
+      <p>Gostaria que o escritório e quarto de hóspedes tivessem conexão com o jardim. Queria lavabo, lavanderia e banheiro mais escondidos — não na entrada, de cara com a sala. Mais integração entre churrasqueira, cozinha e jardim. Deck sem necessidade — poderia ser algo de melhor usabilidade.</p>
+      <div class="quote-author">— Luiz · Feedback geral</div>
+    </div>
+    <div class="quote-box quote-pris">
+      <p>O deck não faz sentido no meio da casa com jardim nos fundos. Quero o jardim no centro, casa em L. Lavanderia perto da cozinha. Todos os cômodos como suítes — um deles com 2 portas servindo de lavabo. Churrasqueira perto da cozinha com portas de vidro para integrar quando receber visitas.</p>
+      <div class="quote-author">— Priscila · Feedback geral</div>
+    </div>
+    <div class="quote-box quote-luiz">
+      <p>Quero um pouco mais de entusiasmo no home theater — uma sala de estar com cara mais de cinema.</p>
+      <div class="quote-author">— Luiz · Sonho ausente</div>
+    </div>
+    <div class="quote-box quote-pris">
+      <p>Quero uma distribuição do térreo diferente. (Descrição detalhada da visão — ver nota completa no relatório detalhado.)</p>
+      <div class="quote-author">— Priscila · Próxima versão</div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════════ -->
+  <!--  VISÃO DA PRISCILA (DETALHADA)                        -->
+  <!-- ══════════════════════════════════════════════════════ -->
+  <div class="sec-head">
+    <span class="sec-icon">📝</span>
+    <div>
+      <div class="sec-title">5 · Visão detalhada da Priscila</div>
+      <div class="sec-sub">Descrição completa de como ela imagina a casa — fluxo ambiente por ambiente</div>
+    </div>
+  </div>
+
+  <div style="background:white;border-radius:14px;padding:1.75rem;box-shadow:0 2px 8px rgba(0,0,0,0.05);font-size:0.85rem;line-height:1.8;color:#333;border-left:4px solid var(--pris);">
+    <p>Entrando da garagem pela porta de casa: logo na parede, uma estante bonita para guardar sapatos. Olhando à frente, vejo toda a casa integrada — sala, cozinha — e, pelas portas de vidro, o jardim.</p>
+    <p style="margin-top:1rem">Indo em direção à cozinha, há uma porta discreta que leva à <strong>lavanderia</strong> — pequena, com máquina de lavar e espaço de varal (se atrás da cozinha houver um muro, pode ter uma mini-área externa para estender roupas).</p>
+    <p style="margin-top:1rem">A <strong>cozinha</strong> é ampla, com hutop central. O que separa a cozinha da churrasqueira e do jardim é apenas a <strong>porta de vidro</strong> — quando há churrasco, pode-se abrir para integrar ou fechar para evitar cheiro.</p>
+    <p style="margin-top:1rem">A <strong>sala</strong> também é voltada para o jardim com portas de vidro opcionais. Depois das portas, o piso vira deck (pequeno, como contorno), depois grama, vegetação, árvores frutíferas e mini-horta.</p>
+    <p style="margin-top:1rem">Num <strong>corredor lateral</strong> ficam duas suítes. As janelas das suítes têm vista para o quintal. A primeira suíte será o <strong>escritório</strong>, cujo banheiro tem duas portas — uma de acesso da sala (funciona como lavabo), outra do próprio cômodo. A segunda é o <strong>quarto de hóspedes / futuros filhos</strong>, com banheiro privativo.</p>
+    <p style="margin-top:1rem">Voltando para a sala: ao subir as escadas, há uma <strong>mini adega</strong> embutida embaixo delas.</p>
+    <p style="margin-top:1rem">No <strong>1° andar</strong>, o quarto do casal é amplo, iluminado, com <strong>closet bem grande</strong> e um banheiro muito espaçoso: 2 pias, 2 chuveiros, espaço para plantas.</p>
+    <div class="quote-author" style="margin-top:1rem">— Priscila · Feedback detalhado do térreo</div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════════ -->
+  <!--  SUMMARY BOX                                          -->
+  <!-- ══════════════════════════════════════════════════════ -->
+  <div class="summary-box">
+    <h2>🏗️ Diretrizes para o arquiteto</h2>
+    <div class="sum-grid">
+      <div class="sum-col">
+        <h3>Decidido — execute</h3>
+        <div class="sum-item">Planta em L com jardim no centro / ângulo interno</div>
+        <div class="sum-item">Garagem dupla na frente, suíte master no 1° andar</div>
+        <div class="sum-item">Churrasqueira integrada à cozinha via porta de vidro</div>
+        <div class="sum-item">Lavanderia em área de serviço separada, atrás da cozinha</div>
+        <div class="sum-item">Escritório e quarto de hóspedes com acesso ao jardim</div>
+        <div class="sum-item">Revestimento externo em madeira natural</div>
+        <div class="sum-item">Atmosfera aconchegante e quente em toda a casa</div>
+        <div class="sum-item">Sustentabilidade como premissa de projeto</div>
+        <div class="sum-item">Amplo banheiro de suíte — chuveiro duplo, bancada dupla</div>
+        <div class="sum-item">Closet generoso no 1° andar</div>
+      </div>
+      <div class="sum-col">
+        <h3>Em aberto — mediar</h3>
+        <div class="sum-item">Piso: porcelanato claro (L) vs madeira mel (P) — talvez zonas diferentes</div>
+        <div class="sum-item">Fachada: branca/minimalista (L) vs orgânica/madeira (P)</div>
+        <div class="sum-item">Cozinha: mármore+prata (L) vs azulejo artesanal (P)</div>
+        <div class="sum-item">Jardim: convívio/grama (L) vs horta+pomar (P) — podem coexistir</div>
+        <div class="sum-item">Escada: hall de entrada (L) vs sala (P)</div>
+        <div class="sum-item">Lavabo: corredor de serviço (L) vs banheiro com 2 portas (P)</div>
+        <div class="sum-item">Sala/cozinha: ilha separando (L) vs open space total (P)</div>
+        <div class="sum-item">N° de quartos: 4 (L) vs 3 (P) — 4 com flexibilidade?</div>
+        <div class="sum-item">Deck: ambos insatisfeitos — eliminar ou reposicionar junto ao jardim</div>
+        <div class="sum-item">Home theater / sala de cinema como prioridade do Luiz</div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /container -->
+
+<div class="back"><a href="../conceito/">← Ver o projeto completo</a></div>
+
+</body>
+</html>
