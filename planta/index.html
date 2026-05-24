@@ -8,7 +8,7 @@
     *{margin:0;padding:0;box-sizing:border-box;}
     body{font-family:'Segoe UI',system-ui,sans-serif;background:#111;color:white;}
     header{padding:1.8rem 2rem 1.4rem;border-bottom:1px solid #222;}
-    header h1{font-size:1.3rem;font-weight:800;letter-spacing:-0.02em;}
+    header h1{font-size:1.3rem;font-weight:800;}
     header p{font-size:0.78rem;opacity:0.35;margin-top:0.3rem;}
     .wrap{max-width:1160px;margin:2rem auto;padding:0 1.5rem 4rem;}
     .card{background:#1a1a1a;border-radius:14px;overflow:hidden;margin-bottom:1.25rem;box-shadow:0 8px 40px rgba(0,0,0,0.4);}
@@ -17,376 +17,419 @@
     .grid2{display:grid;grid-template-columns:1fr 1fr;gap:1rem;}
     @media(max-width:680px){.grid2{grid-template-columns:1fr;}}
     .info{background:#1a1a1a;border-radius:14px;padding:1.25rem;}
-    .info h3{font-size:0.7rem;text-transform:uppercase;letter-spacing:0.08em;color:#666;margin-bottom:0.8rem;}
-    .info li{font-size:0.81rem;line-height:1.85;list-style:none;display:flex;gap:0.5rem;color:rgba(255,255,255,0.72);}
+    .info h3{font-size:0.7rem;text-transform:uppercase;letter-spacing:0.08em;color:#555;margin-bottom:0.8rem;}
+    .info li{font-size:0.81rem;line-height:1.9;list-style:none;display:flex;gap:0.5rem;color:rgba(255,255,255,0.7);}
     .info li::before{content:'→';color:#4a7;flex-shrink:0;}
     .leg{background:#1a1a1a;border-radius:14px;padding:1.25rem;margin-top:1rem;}
-    .leg h3{font-size:0.7rem;text-transform:uppercase;letter-spacing:0.08em;color:#666;margin-bottom:0.8rem;}
+    .leg h3{font-size:0.7rem;text-transform:uppercase;letter-spacing:0.08em;color:#555;margin-bottom:0.8rem;}
     .lg{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:0.45rem;}
-    .li{display:flex;align-items:center;gap:0.5rem;font-size:0.78rem;color:rgba(255,255,255,0.65);}
+    .li{display:flex;align-items:center;gap:0.5rem;font-size:0.78rem;color:rgba(255,255,255,0.6);}
     .sw{width:15px;height:15px;border-radius:3px;flex-shrink:0;border:1px solid rgba(255,255,255,0.08);}
     .back{text-align:center;padding:2rem 0;font-size:0.78rem;}
-    .back a{color:#555;text-decoration:none;}
+    .back a{color:#444;text-decoration:none;}
   </style>
 </head>
 <body>
 <header>
   <h1>🏠 Planta Conceitual — Casa em L · Lote 12</h1>
-  <p>Quadra F · Villagio Brunelli · Araçoiaba da Serra · 521,30 m² · Partido baseado no briefing Luiz + Priscila · Esquema conceitual, não cotado</p>
+  <p>Quadra F · Villagio Brunelli · Araçoiaba da Serra · 521,30 m² · Esquema conceitual — não cotado</p>
 </header>
 
 <div class="wrap">
 
 <!-- ══════════ TÉRREO ══════════ -->
 <div class="card">
-<div class="card-head">Térreo · Vista de cima · Escala aproximada 1:200</div>
+<div class="card-head">Térreo · Vista superior · Escala aproximada 1:200 · Entrada pelo canto inferior direito (via curva)</div>
 <svg viewBox="0 0 1020 780" xmlns="http://www.w3.org/2000/svg"
      font-family="'Segoe UI',system-ui,sans-serif">
 <defs>
-  <!-- grass -->
   <pattern id="grs" patternUnits="userSpaceOnUse" width="12" height="12">
-    <rect width="12" height="12" fill="#c0d890"/>
-    <circle cx="6" cy="6" r="2" fill="#b0c880" opacity="0.45"/>
+    <rect width="12" height="12" fill="#b8d488"/>
+    <circle cx="6" cy="6" r="1.8" fill="#a8c478" opacity="0.45"/>
   </pattern>
-  <!-- floor light -->
-  <pattern id="flr" patternUnits="userSpaceOnUse" width="18" height="18">
-    <rect width="18" height="18" fill="#f0ece4"/>
-    <rect width="9" height="9" fill="#ece8e0"/>
+  <pattern id="flr" patternUnits="userSpaceOnUse" width="20" height="20">
+    <rect width="20" height="20" fill="#f0ece4"/>
+    <rect width="10" height="10" fill="#ece8e0"/>
+    <rect x="10" y="10" width="10" height="10" fill="#ece8e0"/>
   </pattern>
-  <!-- glass grad -->
-  <linearGradient id="gl" x1="0" y1="0" x2="0" y2="1">
-    <stop offset="0%" stop-color="#90c8f0" stop-opacity="0.85"/>
-    <stop offset="100%" stop-color="#60a8e0" stop-opacity="0.7"/>
+  <pattern id="pav" patternUnits="userSpaceOnUse" width="12" height="12">
+    <rect width="12" height="12" fill="#ccc6ba"/>
+    <rect width="6" height="6" fill="#c8c2b6"/>
+  </pattern>
+  <linearGradient id="gl" x1="0" y1="0" x2="1" y2="0">
+    <stop offset="0%" stop-color="#80c0f0" stop-opacity="0.85"/>
+    <stop offset="100%" stop-color="#50a0e0" stop-opacity="0.7"/>
   </linearGradient>
-  <filter id="sh">
-    <feDropShadow dx="2" dy="3" stdDeviation="5" flood-color="#000" flood-opacity="0.22"/>
+  <linearGradient id="glv" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0%" stop-color="#80c0f0" stop-opacity="0.85"/>
+    <stop offset="100%" stop-color="#50a0e0" stop-opacity="0.7"/>
+  </linearGradient>
+  <filter id="sh" x="-5%" y="-5%" width="110%" height="110%">
+    <feDropShadow dx="2" dy="3" stdDeviation="5" flood-color="#000" flood-opacity="0.2"/>
   </filter>
 </defs>
 
 <!-- page bg -->
-<rect width="1020" height="780" fill="#e4dfd5"/>
+<rect width="1020" height="780" fill="#ddd8ce"/>
 
-<!-- ── ROAD (outside lot, right/lower-right) ── -->
-<!-- Road band following the curved frontage -->
-<path d="M 820,110 C 920,280 880,560 100,640 L 100,720 C 900,720 1020,480 1010,110 Z"
-      fill="#ccc6ba"/>
-<!-- Road surface markings -->
-<path d="M 820,110 C 920,280 880,560 100,640"
-      fill="none" stroke="#d8d2c6" stroke-width="40"/>
-<path d="M 820,110 C 920,280 880,560 100,640"
-      fill="none" stroke="#e0dbd0" stroke-width="2" stroke-dasharray="20,12" opacity="0.7"/>
-<!-- Road label along curve -->
-<text font-size="10" fill="#a8a298" font-weight="600" letter-spacing="3">
-  <textPath href="#roadcurve" startOffset="12%">VIA PÚBLICA — CURVA (R=9m)</textPath>
+<!-- ══════════════════════════════════════════════════════════ -->
+<!-- ROAD — lower-right, follows the curved frontage           -->
+<!-- ══════════════════════════════════════════════════════════ -->
+<path d="M 808,183 C 880,350 820,580 88,647 L 88,720 C 840,720 1010,480 940,183 Z"
+      fill="#c8c2b6"/>
+<path d="M 808,183 C 880,350 820,580 88,647"
+      fill="none" stroke="#d4cfc5" stroke-width="38"/>
+<path d="M 808,183 C 880,350 820,580 88,647"
+      fill="none" stroke="#e0dbd0" stroke-width="2.5" stroke-dasharray="20,12" opacity="0.7"/>
+<text font-size="10" fill="#a8a298" font-weight="600" letter-spacing="2">
+  <textPath href="#roadpath" startOffset="12%">VIA PÚBLICA — CURVA (entrada)</textPath>
 </text>
-<path id="roadcurve" d="M 820,110 C 920,280 880,560 100,640" fill="none" stroke="none"/>
+<path id="roadpath" d="M 808,183 C 880,350 820,580 88,647" fill="none" stroke="none"/>
 
-<!-- ── LOT BOUNDARY ── -->
-<!-- Lot 12: TL(88,48) TR(808,48) MR(808,183) road-arc BL(88,647) -->
+<!-- ══════════════════════════════════════════════════════════ -->
+<!-- LOT BOUNDARY                                              -->
+<!-- Lote 12: TL(88,48) TR(808,48) MR(808,183) arc BL(88,647) -->
+<!-- ══════════════════════════════════════════════════════════ -->
 <path d="M 88,48 L 808,48 L 808,183 C 880,350 820,580 88,647 Z"
-      fill="#d4e8c0" opacity="0.55"/>
+      fill="#d0e4b8" opacity="0.5"/>
 <path d="M 88,48 L 808,48 L 808,183 C 880,350 820,580 88,647 Z"
       fill="none" stroke="#5a7a40" stroke-width="2" stroke-dasharray="10,5"/>
 
-<!-- Dimension labels on lot -->
-<text x="448" y="34" text-anchor="middle" font-size="10" fill="#4a7030" font-weight="700">← 26,55 m →</text>
-<text x="56" y="360" text-anchor="middle" font-size="10" fill="#4a7030" font-weight="700"
-      transform="rotate(-90,56,360)">← 22,22 m →</text>
-<text x="825" y="120" font-size="9" fill="#4a7030" font-weight="600">5m</text>
-<text x="888" y="390" font-size="9" fill="#4a7030" font-weight="600"
-      transform="rotate(-72,888,390)">~30m</text>
-<text x="650" y="66" text-anchor="middle" font-size="9" fill="#4a7030" opacity="0.6">LOTE 12 · 521,30 m²</text>
-<text x="50" y="360" text-anchor="middle" font-size="8.5" fill="#8a9a80"
-      transform="rotate(-90,50,360)">Lote 11</text>
-<text x="448" y="18" text-anchor="middle" font-size="8.5" fill="#8a9a80">Lotes 25 / 26</text>
+<!-- lot dimension labels -->
+<text x="448" y="36" text-anchor="middle" font-size="10" fill="#4a6830" font-weight="700">← FUNDOS  26,55 m →</text>
+<text x="56" y="355" text-anchor="middle" font-size="10" fill="#4a6830" font-weight="700" transform="rotate(-90,56,355)">← 22,22 m →</text>
+<text x="828" y="120" font-size="9" fill="#4a6830" font-weight="600">5m</text>
+<text x="660" y="68" text-anchor="middle" font-size="9" fill="#4a6830" opacity="0.55">LOTE 12 · 521,30 m²</text>
+<text x="50" y="355" text-anchor="middle" font-size="8.5" fill="#7a8a70" transform="rotate(-90,50,355)">Lote 11</text>
+<text x="448" y="19" text-anchor="middle" font-size="8.5" fill="#7a8a70">Lotes 25 / 26  (fundos)</text>
 
-<!-- ── GARDEN (interior of L, center) ── -->
-<rect x="418" y="168" width="360" height="310" fill="url(#grs)"/>
-<!-- deck strip top of garden (below Wing A) -->
-<rect x="418" y="462" width="360" height="26" fill="#d0bc7a" stroke="#b09850" stroke-width="1" opacity="0.9"/>
-<text x="598" y="478" text-anchor="middle" font-size="9" fill="#6a5018" font-weight="700">DECK PERIMETRAL</text>
-<!-- deck strip left of garden (right of Wing B) -->
-<rect x="418" y="168" width="24" height="294" fill="#d0bc7a" stroke="#b09850" stroke-width="1" opacity="0.9"/>
-<!-- Lawn ellipse -->
-<ellipse cx="598" cy="314" rx="118" ry="88" fill="#a8cc80" stroke="#78a850" stroke-width="1.5"/>
-<text x="598" y="305" text-anchor="middle" font-size="14" fill="#1a4808" font-weight="800">JARDIM</text>
-<text x="598" y="323" text-anchor="middle" font-size="10" fill="#2a5810">CENTRAL</text>
-<!-- horta/pomar corner -->
-<rect x="674" y="174" width="96" height="80" rx="6" fill="#98be70" stroke="#689840" stroke-width="1" opacity="0.75"/>
-<text x="722" y="208" text-anchor="middle" font-size="9" fill="#1a4008" font-weight="700">HORTA</text>
-<text x="722" y="223" text-anchor="middle" font-size="8" fill="#2a5018">Pomar</text>
-<!-- trees -->
-<circle cx="462" cy="214" r="20" fill="#88b060" stroke="#608840" stroke-width="1.5" opacity="0.9"/>
-<circle cx="750" cy="320" r="16" fill="#90b868" stroke="#688048" stroke-width="1.5" opacity="0.9"/>
-<circle cx="470" cy="410" r="18" fill="#7aaa58" stroke="#589038" stroke-width="1.5" opacity="0.9"/>
-<circle cx="720" cy="424" r="14" fill="#8ab860" stroke="#689040" stroke-width="1.5" opacity="0.9"/>
-<circle cx="574" cy="420" r="12" fill="#82b258" stroke="#609038" stroke-width="1.5" opacity="0.9"/>
+<!-- ENTRADA label -->
+<text x="870" y="420" font-size="9" fill="#8a7858" font-weight="600" transform="rotate(-70,870,420)">ENTRADA / ROTA ACESSO</text>
 
-<!-- ── WING A: horizontal across the top ── -->
-<!-- outer wall shadow -->
-<rect x="117" y="72" width="686" height="196" fill="#111" opacity="0.12" rx="2" transform="translate(3,5)"/>
+<!-- ══════════════════════════════════════════════════════════ -->
+<!-- GARDEN — left side, interior of the L                    -->
+<!-- ══════════════════════════════════════════════════════════ -->
+<rect x="118" y="90" width="382" height="380" fill="url(#grs)"/>
+
+<!-- deck perimetral strips -->
+<!-- right edge of garden (left wall of Wing B) -->
+<rect x="484" y="90" width="26" height="380" fill="#d0bc7a" stroke="#b09850" stroke-width="1" opacity="0.9"/>
+<!-- top edge of garden (top wall of Wing A, where sala opens) -->
+<rect x="118" y="454" width="490" height="22" fill="#d0bc7a" stroke="#b09850" stroke-width="1" opacity="0.9"/>
+<text x="363" y="469" text-anchor="middle" font-size="9" fill="#6a5018" font-weight="700">DECK PERIMETRAL</text>
+
+<!-- Lawn -->
+<ellipse cx="300" cy="280" rx="140" ry="100" fill="#a0cc78" stroke="#70a848" stroke-width="1.5"/>
+<text x="300" y="272" text-anchor="middle" font-size="16" fill="#1a4808" font-weight="800">JARDIM</text>
+<text x="300" y="292" text-anchor="middle" font-size="11" fill="#2a5818">CENTRAL</text>
+<text x="300" y="308" text-anchor="middle" font-size="9" fill="#3a6828" font-style="italic">Abre para o lado esquerdo do L</text>
+
+<!-- Horta + Pomar (fundos esquerdo) -->
+<rect x="128" y="98" width="130" height="100" rx="6" fill="#90be68" stroke="#60943a" stroke-width="1" opacity="0.75"/>
+<text x="193" y="140" text-anchor="middle" font-size="10" fill="#1a4008" font-weight="700">HORTA</text>
+<text x="193" y="156" text-anchor="middle" font-size="9" fill="#2a5018">+ Pomar</text>
+
+<!-- Trees -->
+<circle cx="460" cy="140" r="22" fill="#88b260" stroke="#609038" stroke-width="1.5" opacity="0.9"/>
+<circle cx="460" cy="140" r="7" fill="#689040" opacity="0.5"/>
+<circle cx="162" cy="340" r="18" fill="#90b868" stroke="#689040" stroke-width="1.5" opacity="0.9"/>
+<circle cx="430" cy="360" r="16" fill="#88b260" stroke="#609038" stroke-width="1.5" opacity="0.9"/>
+<circle cx="350" cy="430" r="14" fill="#7aaa58" stroke="#589038" stroke-width="1.5" opacity="0.9"/>
+<circle cx="190" cy="200" r="20" fill="#98c070" stroke="#709848" stroke-width="1.5" opacity="0.9"/>
+
+<!-- ══════════════════════════════════════════════════════════ -->
+<!-- WING A — horizontal, LOWER (entrance side)               -->
+<!-- Left → Right: Gourmet | Jantar/Cozinha | Sala | Hall | Garagem -->
+<!-- ══════════════════════════════════════════════════════════ -->
+<!-- shadow -->
+<rect x="118" y="476" width="602" height="184" fill="#000" opacity="0.12" rx="2" transform="translate(3,5)"/>
 <!-- wing A fill -->
-<rect x="117" y="72" width="686" height="196" fill="url(#flr)" stroke="#666" stroke-width="2.5"/>
+<rect x="118" y="476" width="602" height="184" fill="url(#flr)" stroke="#555" stroke-width="2.5" filter="url(#sh)"/>
 
-<!-- internal walls Wing A -->
-<!-- Gourmet | Coz/Jan | Sala | Hall | Garage -->
+<!-- ─ GOURMET / CHURRASQUEIRA (leftmost, opens to garden) ─ -->
+<rect x="118" y="476" width="148" height="184" fill="#f0e8d8" stroke="#888" stroke-width="1.5"/>
+<text x="192" y="552" text-anchor="middle" font-size="13" fill="#444" font-weight="700">GOURMET</text>
+<text x="192" y="570" text-anchor="middle" font-size="10" fill="#888">Churrasqueira</text>
+<!-- bbq symbol -->
+<rect x="132" y="492" width="52" height="30" rx="4" fill="#c8b090" stroke="#a89070" stroke-width="1"/>
+<ellipse cx="158" cy="507" rx="18" ry="11" fill="#b89070" stroke="#9a7050" stroke-width="1"/>
+<text x="158" y="510" text-anchor="middle" font-size="7" fill="#5a3010">grelha</text>
+<!-- seating -->
+<rect x="132" y="590" width="120" height="52" rx="5" fill="#d4c4a8" stroke="#b4a488" stroke-width="1"/>
+<text x="192" y="620" text-anchor="middle" font-size="8" fill="#7a6040">mesa externa</text>
+<!-- glass door LEFT (facing garden left wall) — big opening -->
+<rect x="118" y="490" width="12" height="100" fill="url(#glv)" stroke="#3878b8" stroke-width="1.5" opacity="0.9"/>
+<text x="113" y="542" font-size="7.5" fill="#2868a8" transform="rotate(-90,113,542)">vidro ↔ jardim</text>
+<!-- glass door TOP (facing garden, top of gourmet) — already covered by deck strip above -->
 
-<!-- GOURMET / CHURRASQUEIRA (left, opens to garden below) -->
-<rect x="117" y="72" width="162" height="196" fill="#f0e8d8" stroke="#888" stroke-width="1.5"/>
-<text x="198" y="155" text-anchor="middle" font-size="12" fill="#444" font-weight="700">GOURMET</text>
-<text x="198" y="172" text-anchor="middle" font-size="9.5" fill="#888">Churrasqueira</text>
-<rect x="131" y="86" width="52" height="30" rx="4" fill="#c8b090" stroke="#a89070" stroke-width="1"/>
-<ellipse cx="157" cy="101" rx="16" ry="10" fill="#b89070" stroke="#9a7050" stroke-width="1"/>
-<text x="157" y="104" text-anchor="middle" font-size="7" fill="#6a4020">grelha</text>
-<rect x="138" y="192" width="100" height="52" rx="5" fill="#d4c4a8" stroke="#b4a488" stroke-width="1"/>
-<text x="188" y="222" text-anchor="middle" font-size="8" fill="#8a7050">mesa</text>
+<!-- ─ JANTAR ─ -->
+<rect x="266" y="476" width="126" height="88" fill="#eae4d4" stroke="#888" stroke-width="1.5"/>
+<rect x="278" y="488" width="102" height="56" rx="5" fill="#ccc8b8" stroke="#aaa" stroke-width="1"/>
+<text x="329" y="560" text-anchor="middle" font-size="11" fill="#555" font-weight="700">JANTAR</text>
 
-<!-- JANTAR -->
-<rect x="279" y="72" width="126" height="92" fill="#eae4d4" stroke="#888" stroke-width="1.5"/>
-<text x="342" y="114" text-anchor="middle" font-size="11" fill="#555" font-weight="700">JANTAR</text>
-<rect x="291" y="82" width="102" height="52" rx="4" fill="#ccc8b8" stroke="#aaa" stroke-width="1"/>
-
-<!-- COZINHA -->
-<rect x="279" y="164" width="126" height="104" fill="#e4f0e0" stroke="#888" stroke-width="1.5"/>
-<text x="342" y="212" text-anchor="middle" font-size="11" fill="#444" font-weight="700">COZINHA</text>
+<!-- ─ COZINHA ─ -->
+<rect x="266" y="564" width="126" height="96" fill="#e4f0e0" stroke="#888" stroke-width="1.5"/>
+<text x="329" y="610" text-anchor="middle" font-size="11" fill="#444" font-weight="700">COZINHA</text>
 <!-- island -->
-<rect x="294" y="186" width="96" height="30" rx="3" fill="#c0d4b8" stroke="#8aaa80" stroke-width="1"/>
-<text x="342" y="206" text-anchor="middle" font-size="8" fill="#4a7040" font-style="italic">ilha</text>
-<!-- counter -->
-<rect x="279" y="164" width="126" height="12" fill="#b0c8a8" stroke="none"/>
+<rect x="280" y="584" width="98" height="30" rx="3" fill="#c0d4b8" stroke="#8aaa80" stroke-width="1"/>
+<text x="329" y="603" text-anchor="middle" font-size="8" fill="#4a7040" font-style="italic">ilha</text>
+<!-- counter top -->
+<rect x="266" y="564" width="126" height="12" fill="#b0c8a8" stroke="none"/>
+<rect x="266" y="564" width="12" height="96" fill="#b0c8a8" stroke="none"/>
+<!-- discrete door to lavanderia (top wall, indicated with dashed) -->
+<line x1="290" y1="564" x2="360" y2="564" stroke="#5a7898" stroke-width="2.5" stroke-dasharray="6,3"/>
+<text x="325" y="558" text-anchor="middle" font-size="7" fill="#4a6888">porta discreta → lavanderia</text>
 
-<!-- SALA / HOME THEATER -->
-<rect x="405" y="72" width="186" height="196" fill="#f4f0e6" stroke="#888" stroke-width="1.5"/>
-<rect x="413" y="80" width="170" height="10" fill="#c8c4bc" stroke="#aaa" stroke-width="0.5"/>
-<text x="498" y="89" text-anchor="middle" font-size="7.5" fill="#888">◼ TV / PROJETOR · BLACKOUT</text>
-<text x="498" y="174" text-anchor="middle" font-size="13" fill="#444" font-weight="700">SALA</text>
-<text x="498" y="192" text-anchor="middle" font-size="9.5" fill="#888">Home Theater</text>
+<!-- ─ SALA / HOME THEATER ─ -->
+<rect x="392" y="476" width="168" height="184" fill="#f4f0e6" stroke="#888" stroke-width="1.5"/>
+<!-- TV wall -->
+<rect x="400" y="484" width="152" height="10" fill="#c4c0b8" stroke="#aaa" stroke-width="0.5"/>
+<text x="476" y="492" text-anchor="middle" font-size="7" fill="#888">◼ TV / PROJETOR · BLACKOUT</text>
+<text x="476" y="556" text-anchor="middle" font-size="14" fill="#444" font-weight="700">SALA</text>
+<text x="476" y="574" text-anchor="middle" font-size="10" fill="#888">Home Theater</text>
 <!-- sofa -->
-<rect x="420" y="218" width="152" height="38" rx="5" fill="#ccc8c0" stroke="#aaa" stroke-width="1"/>
-<rect x="417" y="214" width="25" height="46" rx="5" fill="#ccc8c0" stroke="#aaa" stroke-width="1"/>
-<rect x="569" y="214" width="25" height="46" rx="5" fill="#ccc8c0" stroke="#aaa" stroke-width="1"/>
+<rect x="406" y="608" width="142" height="40" rx="5" fill="#ccc8c0" stroke="#aaa" stroke-width="1"/>
+<rect x="403" y="604" width="24" height="48" rx="5" fill="#ccc8c0" stroke="#aaa" stroke-width="1"/>
+<rect x="549" y="604" width="24" height="48" rx="5" fill="#ccc8c0" stroke="#aaa" stroke-width="1"/>
+<!-- glass doors TOP (sala → garden) -->
+<rect x="408" y="464" width="64" height="12" fill="url(#gl)" stroke="#3878b8" stroke-width="1.5" opacity="0.9"/>
+<rect x="484" y="464" width="64" height="12" fill="url(#gl)" stroke="#3878b8" stroke-width="1.5" opacity="0.9"/>
+<text x="476" y="460" text-anchor="middle" font-size="8" fill="#2868a8">portas de vidro → jardim</text>
 
-<!-- HALL + ESCADA -->
-<rect x="591" y="72" width="100" height="196" fill="#eae6dc" stroke="#888" stroke-width="1.5"/>
-<!-- stairs -->
-<g transform="translate(600,82)">
-  <rect width="82" height="100" fill="#d4d0c4" stroke="#bbb" stroke-width="1"/>
-  <line x1="0" y1="18" x2="82" y2="18" stroke="#bbb" stroke-width="0.8"/>
-  <line x1="0" y1="36" x2="82" y2="36" stroke="#bbb" stroke-width="0.8"/>
-  <line x1="0" y1="54" x2="82" y2="54" stroke="#bbb" stroke-width="0.8"/>
-  <line x1="0" y1="72" x2="82" y2="72" stroke="#bbb" stroke-width="0.8"/>
-  <line x1="0" y1="90" x2="82" y2="90" stroke="#bbb" stroke-width="0.8"/>
-  <polygon points="41,4 52,20 30,20" fill="#888" opacity="0.5"/>
+<!-- ─ HALL + ESCADA ─ -->
+<rect x="560" y="476" width="90" height="184" fill="#eae6dc" stroke="#888" stroke-width="1.5"/>
+<!-- stair treads -->
+<g transform="translate(568,488)">
+  <rect width="74" height="96" fill="#d4d0c4" stroke="#bbb" stroke-width="1"/>
+  <line x1="0" y1="16" x2="74" y2="16" stroke="#ccc" stroke-width="0.8"/>
+  <line x1="0" y1="32" x2="74" y2="32" stroke="#ccc" stroke-width="0.8"/>
+  <line x1="0" y1="48" x2="74" y2="48" stroke="#ccc" stroke-width="0.8"/>
+  <line x1="0" y1="64" x2="74" y2="64" stroke="#ccc" stroke-width="0.8"/>
+  <line x1="0" y1="80" x2="74" y2="80" stroke="#ccc" stroke-width="0.8"/>
+  <polygon points="37,3 48,18 26,18" fill="#888" opacity="0.4"/>
 </g>
-<text x="641" y="206" text-anchor="middle" font-size="11" fill="#555" font-weight="700">HALL</text>
-<text x="641" y="222" text-anchor="middle" font-size="8" fill="#8a7040" font-style="italic">adega sob escada</text>
+<text x="605" y="606" text-anchor="middle" font-size="11" fill="#555" font-weight="700">HALL</text>
+<text x="605" y="622" text-anchor="middle" font-size="8" fill="#8a7040" font-style="italic">adega sob</text>
+<text x="605" y="633" text-anchor="middle" font-size="8" fill="#8a7040" font-style="italic">escada</text>
+<!-- front door from street (bottom) -->
+<line x1="572" y1="660" x2="638" y2="660" stroke="#666" stroke-width="3"/>
+<path d="M 572,660 Q 605,635 638,660" fill="none" stroke="#aaa" stroke-width="1.5" stroke-dasharray="5,3"/>
+<text x="605" y="672" text-anchor="middle" font-size="8" fill="#666">PORTA PRINCIPAL</text>
 
-<!-- GARAGEM (right end, door faces road at right) -->
-<rect x="691" y="72" width="112" height="196" fill="#d4d0c4" stroke="#888" stroke-width="1.5"/>
-<text x="747" y="154" text-anchor="middle" font-size="12" fill="#555" font-weight="700">GARAGEM</text>
-<text x="747" y="171" text-anchor="middle" font-size="9" fill="#888">2 vagas</text>
-<!-- car silhouettes -->
-<rect x="702" y="84" width="50" height="88" rx="6" fill="#c0bcb4" stroke="#aaa" stroke-width="1"/>
-<rect x="757" y="84" width="42" height="88" rx="6" fill="#c0bcb4" stroke="#aaa" stroke-width="1"/>
-<!-- gate on RIGHT side facing road -->
-<rect x="795" y="72" width="8" height="196" fill="#b4ada0" stroke="#888" stroke-width="1"/>
-<text x="818" y="167" text-anchor="middle" font-size="8" fill="#6a6050"
-      transform="rotate(90,818,167)">PORTÃO</text>
-
-<!-- GLASS DOORS Wing A bottom → garden -->
-<!-- sala glass -->
-<rect x="405" y="260" width="62" height="12" fill="url(#gl)" stroke="#3878b8" stroke-width="1.5" opacity="0.9"/>
-<rect x="476" y="260" width="62" height="12" fill="url(#gl)" stroke="#3878b8" stroke-width="1.5" opacity="0.9"/>
-<text x="498" y="256" text-anchor="middle" font-size="8" fill="#2868a8">portas de vidro</text>
-<!-- gourmet glass -->
-<rect x="127" y="260" width="62" height="12" fill="url(#gl)" stroke="#3878b8" stroke-width="1.5" opacity="0.9"/>
-<rect x="196" y="260" width="62" height="12" fill="url(#gl)" stroke="#3878b8" stroke-width="1.5" opacity="0.9"/>
-<text x="190" y="256" text-anchor="middle" font-size="8" fill="#2868a8">vidro churrasqueira</text>
+<!-- ─ GARAGEM (rightmost, faces road) ─ -->
+<rect x="650" y="476" width="146" height="184" fill="#d4d0c4" stroke="#888" stroke-width="1.5"/>
+<text x="723" y="554" text-anchor="middle" font-size="13" fill="#555" font-weight="700">GARAGEM</text>
+<text x="723" y="572" text-anchor="middle" font-size="10" fill="#888">2 vagas</text>
+<!-- car spots -->
+<rect x="662" y="488" width="58" height="110" rx="7" fill="#c0bcb4" stroke="#aaa" stroke-width="1"/>
+<rect x="726" y="488" width="58" height="110" rx="7" fill="#c0bcb4" stroke="#aaa" stroke-width="1"/>
+<!-- gate facing road (right wall) -->
+<rect x="790" y="476" width="8" height="184" fill="#b4ad9e" stroke="#888" stroke-width="1"/>
+<text x="808" y="567" text-anchor="middle" font-size="8" fill="#6a6050" transform="rotate(90,808,567)">PORTÃO</text>
 
 <!-- driveway from garage to road -->
-<path d="M 803,130 C 840,130 840,140 820,155"
-      fill="none" stroke="#c8c0b0" stroke-width="18" opacity="0.5"/>
-<path d="M 803,130 C 840,130 840,140 820,155"
-      fill="none" stroke="#d0c8b8" stroke-width="10" opacity="0.4"/>
-<text x="850" y="128" font-size="8" fill="#8a8070" font-style="italic">acesso</text>
+<path d="M 798,520 C 838,480 840,260 812,193"
+      fill="none" stroke="#c8c0b0" stroke-width="16" opacity="0.45"/>
+<path d="M 798,520 C 838,480 840,260 812,193"
+      fill="none" stroke="#d4ccba" stroke-width="8" opacity="0.35"/>
+<text x="862" y="360" font-size="8.5" fill="#8a8070" font-style="italic" transform="rotate(-80,862,360)">driveway</text>
 
-<!-- ── LAVANDERIA atrás da cozinha (canto do L, discreta) ── -->
-<!-- small service alcove directly behind kitchen, accessed only via kitchen backdoor -->
-<rect x="279" y="268" width="139" height="120" fill="#e0e8f4" stroke="#888" stroke-width="1.5"/>
-<!-- service label -->
-<text x="349" y="310" text-anchor="middle" font-size="11" fill="#444" font-weight="700">LAVANDERIA</text>
-<text x="349" y="327" text-anchor="middle" font-size="8" fill="#5a7898" font-style="italic">atrás da cozinha</text>
-<!-- washer symbol -->
-<rect x="293" y="280" width="34" height="34" rx="3" fill="#c0ccd8" stroke="#aaa" stroke-width="1"/>
-<circle cx="310" cy="297" r="10" fill="none" stroke="#8898b8" stroke-width="1.5"/>
-<!-- discrete door from cozinha (dashed = sliding/pocket door, hidden) -->
-<line x1="300" y1="268" x2="380" y2="268" stroke="#5a7898" stroke-width="2.5" stroke-dasharray="6,3"/>
-<text x="340" y="262" text-anchor="middle" font-size="7.5" fill="#5a7898">porta discreta ← cozinha</text>
-<!-- varal door to small outdoor area (east wall toward garden) -->
-<rect x="412" y="296" width="10" height="48" fill="url(#gl)" stroke="#3878b8" stroke-width="1.2" opacity="0.85"/>
-<text x="430" y="318" font-size="7" fill="#2868a8">varal</text>
-<!-- small outdoor varal area (hatched) -->
-<rect x="422" y="290" width="40" height="60" fill="none" stroke="#8aaa70" stroke-width="1" stroke-dasharray="4,3" opacity="0.6"/>
-<text x="442" y="324" text-anchor="middle" font-size="6.5" fill="#4a7a30" font-style="italic">área</text>
-<text x="442" y="334" text-anchor="middle" font-size="6.5" fill="#4a7a30" font-style="italic">varal</text>
+<!-- ══════════════════════════════════════════════════════════ -->
+<!-- LAVANDERIA — corner of L, directly behind cozinha        -->
+<!-- Hidden from all social areas, discrete door from kitchen  -->
+<!-- ══════════════════════════════════════════════════════════ -->
+<rect x="266" y="400" width="164" height="76" fill="#dce8f4" stroke="#7a9ab8" stroke-width="1.5" stroke-dasharray="5,2"/>
+<!-- washer symbols -->
+<rect x="278" y="412" width="34" height="34" rx="3" fill="#b8ccd8" stroke="#9aacc0" stroke-width="1"/>
+<circle cx="295" cy="429" r="11" fill="none" stroke="#7898b8" stroke-width="1.5"/>
+<rect x="318" y="412" width="34" height="34" rx="3" fill="#b8ccd8" stroke="#9aacc0" stroke-width="1"/>
+<circle cx="335" cy="429" r="11" fill="none" stroke="#7898b8" stroke-width="1.5"/>
+<text x="349" y="430" text-anchor="middle" font-size="11" fill="#3a5878" font-weight="700">LAVANDERIA</text>
+<text x="349" y="446" text-anchor="middle" font-size="8" fill="#5a7898" font-style="italic">atrás da cozinha · invisível da sala</text>
+<!-- varal door to garden (left side) -->
+<rect x="254" y="418" width="12" height="40" fill="url(#glv)" stroke="#3878b8" stroke-width="1.2" opacity="0.85"/>
+<text x="245" y="440" text-anchor="middle" font-size="7" fill="#2868a8" transform="rotate(-90,245,440)">varal→jardim</text>
+<!-- bracket showing the "behind kitchen" relationship -->
+<path d="M 266,476 L 266,400 L 430,400" fill="none" stroke="#8aaaaaa" stroke-width="1" stroke-dasharray="3,3" opacity="0.5"/>
 
-<!-- ── WING B: vertical left (sem lavanderia — realocada atrás da cozinha) ── -->
+<!-- ══════════════════════════════════════════════════════════ -->
+<!-- WING B — vertical, RIGHT side, going UP (suítes)         -->
+<!-- ══════════════════════════════════════════════════════════ -->
 <!-- shadow -->
-<rect x="117" y="272" width="301" height="370" fill="#111" opacity="0.12" transform="translate(3,5)"/>
+<rect x="510" y="90" width="250" height="386" fill="#000" opacity="0.12" rx="2" transform="translate(3,5)"/>
 <!-- fill -->
-<rect x="117" y="272" width="301" height="370" fill="url(#flr)" stroke="#666" stroke-width="2.5"/>
+<rect x="510" y="90" width="250" height="386" fill="url(#flr)" stroke="#555" stroke-width="2.5" filter="url(#sh)"/>
 
-<!-- CORREDOR / CIRCULAÇÃO (topo da Wing B, dá acesso às suítes) -->
-<rect x="117" y="272" width="162" height="36" fill="#ede9e1" stroke="#999" stroke-width="1"/>
-<text x="198" y="294" text-anchor="middle" font-size="8.5" fill="#888">corredor</text>
-
-<!-- ESCRITÓRIO / SUÍTE 1 (coluna esquerda) -->
-<rect x="117" y="308" width="162" height="220" fill="#f2ede2" stroke="#888" stroke-width="1.5"/>
-<text x="198" y="402" text-anchor="middle" font-size="12" fill="#444" font-weight="700">ESCRITÓRIO</text>
-<text x="198" y="419" text-anchor="middle" font-size="10" fill="#888">Suíte 1</text>
+<!-- ─ SUÍTE MASTER / ESCRITÓRIO (upper half of Wing B) ─ -->
+<rect x="510" y="90" width="250" height="196" fill="#f2ede2" stroke="#888" stroke-width="1.5"/>
+<text x="590" y="178" text-anchor="middle" font-size="13" fill="#444" font-weight="700">ESCRITÓRIO</text>
+<text x="590" y="196" text-anchor="middle" font-size="10" fill="#888">Suíte 1</text>
 <!-- desk -->
-<rect x="131" y="322" width="90" height="50" rx="3" fill="#d4cec2" stroke="#aaa" stroke-width="1"/>
-<!-- garden door (right wall of escritório) -->
-<rect x="279" y="362" width="10" height="70" fill="url(#gl)" stroke="#3878b8" stroke-width="1.5" opacity="0.9"/>
-<text x="296" y="400" font-size="7.5" fill="#2868a8">→ jardim</text>
+<rect x="524" y="104" width="98" height="52" rx="3" fill="#d4cec2" stroke="#aaa" stroke-width="1"/>
+<!-- garden view window (left wall) -->
+<rect x="510" y="150" width="10" height="80" fill="url(#glv)" stroke="#3878b8" stroke-width="1.2" opacity="0.85"/>
+<text x="508" y="193" text-anchor="middle" font-size="7" fill="#2868a8" transform="rotate(-90,508,193)">vista jardim</text>
+<!-- WC suíte 1 (right portion) -->
+<rect x="686" y="90" width="74" height="196" fill="#d8e8f4" stroke="#888" stroke-width="1.2"/>
+<text x="723" y="166" text-anchor="middle" font-size="10" fill="#444" font-weight="700">WC</text>
+<text x="723" y="182" text-anchor="middle" font-size="8" fill="#888">suíte 1</text>
+<ellipse cx="723" cy="112" rx="14" ry="16" fill="#b8d4e8" stroke="#78aac8" stroke-width="1"/>
+<rect x="700" y="198" width="38" height="38" rx="2" fill="#a8cce4" stroke="#60a0c4" stroke-width="1"/>
+<!-- closet suíte 1 -->
+<rect x="686" y="200" width="74" height="86" fill="#ece8dc" stroke="#aaa" stroke-width="1"/>
+<text x="723" y="240" text-anchor="middle" font-size="9" fill="#666" font-weight="600">CLOSET</text>
+<rect x="694" y="214" width="58" height="9" fill="#d0ccc0" stroke="#bbb" stroke-width="0.8"/>
+<rect x="694" y="228" width="58" height="9" fill="#d0ccc0" stroke="#bbb" stroke-width="0.8"/>
+<rect x="694" y="242" width="58" height="9" fill="#d0ccc0" stroke="#bbb" stroke-width="0.8"/>
 
-<!-- WC 2 PORTAS (coluna direita da Wing B, colado à cozinha e à sala) -->
-<rect x="279" y="388" width="139" height="140" fill="#d8e8f4" stroke="#888" stroke-width="1.5"/>
-<text x="349" y="446" text-anchor="middle" font-size="11" fill="#444" font-weight="700">WC</text>
-<text x="349" y="462" text-anchor="middle" font-size="8" fill="#3868a8" font-style="italic">2 portas*</text>
-<!-- toilet -->
-<ellipse cx="349" cy="412" rx="14" ry="16" fill="#b8d4e8" stroke="#78aac8" stroke-width="1"/>
-<!-- shower -->
-<rect x="306" y="464" width="36" height="36" rx="2" fill="#a8cce4" stroke="#60a0c4" stroke-width="1"/>
-<!-- 2nd door indicator → sala social -->
-<line x1="418" y1="450" x2="418" y2="490" stroke="#3878b8" stroke-width="1.5" stroke-dasharray="4,3"/>
-<text x="432" y="473" font-size="7" fill="#3878b8">→ sala</text>
+<!-- wall between suíte 1 and suíte 2 -->
+<line x1="510" y1="286" x2="760" y2="286" stroke="#666" stroke-width="2.5"/>
 
-<!-- SUÍTE 2 / HÓSPEDES (base da Wing B, largura total) -->
-<rect x="117" y="528" width="301" height="114" fill="#f4f0e6" stroke="#888" stroke-width="1.5"/>
-<!-- bedroom left -->
-<text x="210" y="570" text-anchor="middle" font-size="12" fill="#444" font-weight="700">SUÍTE 2 · Hóspedes</text>
-<text x="210" y="587" text-anchor="middle" font-size="9" fill="#888">vista jardim</text>
+<!-- ─ SUÍTE 2 / HÓSPEDES (lower half of Wing B) ─ -->
+<rect x="510" y="286" width="250" height="190" fill="#f4f0e6" stroke="#888" stroke-width="1.5"/>
+<text x="590" y="368" text-anchor="middle" font-size="13" fill="#444" font-weight="700">SUÍTE 2</text>
+<text x="590" y="386" text-anchor="middle" font-size="10" fill="#888">Hóspedes</text>
 <!-- bed -->
-<rect x="131" y="598" width="150" height="36" rx="4" fill="#d0ccc0" stroke="#aaa" stroke-width="1"/>
-<rect x="131" y="598" width="150" height="14" rx="3" fill="#c8c4b8" stroke="#aaa" stroke-width="0.5"/>
-<!-- banheiro privativo right -->
-<rect x="318" y="528" width="100" height="114" fill="#d8e8f4" stroke="#888" stroke-width="1.2"/>
-<text x="368" y="574" text-anchor="middle" font-size="9" fill="#444" font-weight="700">WC</text>
-<text x="368" y="588" text-anchor="middle" font-size="8" fill="#888">privativo</text>
-<ellipse cx="368" cy="610" rx="12" ry="14" fill="#b8d4e8" stroke="#78aac8" stroke-width="1"/>
-<!-- garden window Suíte 2 -->
-<rect x="279" y="614" width="10" height="22" fill="url(#gl)" stroke="#3878b8" stroke-width="1" opacity="0.8"/>
+<rect x="524" y="410" width="150" height="54" rx="5" fill="#d0ccc0" stroke="#aaa" stroke-width="1.5"/>
+<rect x="524" y="410" width="150" height="20" rx="4" fill="#c8c4b8" stroke="#aaa" stroke-width="1"/>
+<!-- garden view window -->
+<rect x="510" y="330" width="10" height="80" fill="url(#glv)" stroke="#3878b8" stroke-width="1.2" opacity="0.85"/>
+<text x="508" y="372" text-anchor="middle" font-size="7" fill="#2868a8" transform="rotate(-90,508,372)">vista jardim</text>
+<!-- WC suíte 2 -->
+<rect x="686" y="286" width="74" height="190" fill="#d8e8f4" stroke="#888" stroke-width="1.2"/>
+<text x="723" y="360" text-anchor="middle" font-size="10" fill="#444" font-weight="700">WC</text>
+<text x="723" y="376" text-anchor="middle" font-size="8" fill="#888">privativo</text>
+<ellipse cx="723" cy="304" rx="13" ry="15" fill="#b8d4e8" stroke="#78aac8" stroke-width="1"/>
+<rect x="700" y="380" width="36" height="36" rx="2" fill="#a8cce4" stroke="#60a0c4" stroke-width="1"/>
+<!-- closet s2 -->
+<rect x="686" y="420" width="74" height="56" fill="#ece8dc" stroke="#aaa" stroke-width="1"/>
+<text x="723" y="450" text-anchor="middle" font-size="8.5" fill="#666" font-weight="600">CLOSET</text>
 
-<!-- ── COMPASS ── -->
-<g transform="translate(950,680)">
+<!-- ══════════════════════════════════════════════════════════ -->
+<!-- FLOW ARROWS (enter → hall → sala → garden)               -->
+<!-- ══════════════════════════════════════════════════════════ -->
+<!-- entry arrow from road -->
+<path d="M 780,660 L 660,660" fill="none" stroke="#8a7050" stroke-width="2"
+      marker-end="url(#arw)" opacity="0.6"/>
+<text x="728" y="656" text-anchor="middle" font-size="8.5" fill="#7a6040">entrada →</text>
+<defs>
+  <marker id="arw" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto">
+    <path d="M0,0 L6,3 L0,6 Z" fill="#8a7050"/>
+  </marker>
+</defs>
+<!-- hall → sala arrow -->
+<path d="M 560,560 L 402,560" fill="none" stroke="#8a7050" stroke-width="1.5"
+      marker-end="url(#arw)" opacity="0.45"/>
+
+<!-- ══════════════════════════════════════════════════════════ -->
+<!-- COMPASS                                                   -->
+<!-- ══════════════════════════════════════════════════════════ -->
+<g transform="translate(958,680)">
   <circle cx="0" cy="0" r="28" fill="white" stroke="#ccc" stroke-width="1.5"/>
   <polygon points="0,-20 5,5 0,22 -5,5" fill="#e0dcd8"/>
   <polygon points="0,-20 5,5 -5,5" fill="#1a1a1a"/>
   <text x="0" y="-24" text-anchor="middle" font-size="11" fill="#1a1a1a" font-weight="800">N</text>
 </g>
 
-<!-- ── SCALE BAR ── -->
-<g transform="translate(590,752)">
-  <rect x="-4" y="-10" width="292" height="24" rx="3" fill="white" opacity="0.55"/>
-  <line x1="0" y1="4" x2="280" y2="4" stroke="#444" stroke-width="2"/>
-  <line x1="0" y1="-2" x2="0" y2="10" stroke="#444" stroke-width="2"/>
-  <line x1="140" y1="0" x2="140" y2="8" stroke="#444" stroke-width="1.5"/>
-  <line x1="280" y1="-2" x2="280" y2="10" stroke="#444" stroke-width="2"/>
-  <text x="0" y="-5" text-anchor="middle" font-size="9" fill="#444">0</text>
-  <text x="140" y="-5" text-anchor="middle" font-size="9" fill="#444">~5m</text>
-  <text x="280" y="-5" text-anchor="middle" font-size="9" fill="#444">~10m</text>
+<!-- ══════════════════════════════════════════════════════════ -->
+<!-- SCALE BAR                                                 -->
+<!-- ══════════════════════════════════════════════════════════ -->
+<g transform="translate(580,748)">
+  <rect x="-4" y="-10" width="292" height="22" rx="3" fill="white" opacity="0.5"/>
+  <line x1="0" y1="4" x2="280" y2="4" stroke="#555" stroke-width="2"/>
+  <line x1="0" y1="-2" x2="0" y2="10" stroke="#555" stroke-width="2"/>
+  <line x1="140" y1="0" x2="140" y2="8" stroke="#555" stroke-width="1.5"/>
+  <line x1="280" y1="-2" x2="280" y2="10" stroke="#555" stroke-width="2"/>
+  <text x="0" y="-4" text-anchor="middle" font-size="9" fill="#444">0</text>
+  <text x="140" y="-4" text-anchor="middle" font-size="9" fill="#444">~5m</text>
+  <text x="280" y="-4" text-anchor="middle" font-size="9" fill="#444">~10m</text>
 </g>
 
 <!-- footnotes -->
-<text x="118" y="766" font-size="8.5" fill="#777">* WC da Suíte 1 com 2 portas: acesso do escritório + acesso discreto da área social → funciona como lavabo para visitas</text>
-<text x="118" y="778" font-size="8.5" fill="#777">** 1° andar (suíte master + closet + banheiro duplo + varanda) projetado sobre a ala horizontal — ver planta abaixo</text>
+<text x="118" y="763" font-size="8.5" fill="#777">* L abre para a esquerda: jardim no lado esquerdo, Wing B (suítes) sobe pelo lado direito, entrada/garagem no canto inferior direito (via curva)</text>
+<text x="118" y="776" font-size="8.5" fill="#777">** 1° andar: suíte master + closet + banheiro duplo + varanda — sobre a ala horizontal (Wing A) · ver planta abaixo</text>
 </svg>
 </div>
 
 <!-- ══════════ 1° ANDAR ══════════ -->
 <div class="card">
-<div class="card-head">1° Andar · Suíte Master · Closet · Banheiro Duplo</div>
-<svg viewBox="0 0 1020 310" xmlns="http://www.w3.org/2000/svg"
+<div class="card-head">1° Andar · Suíte Master · Closet · Banheiro Duplo + Varanda</div>
+<svg viewBox="0 0 1020 300" xmlns="http://www.w3.org/2000/svg"
      font-family="'Segoe UI',system-ui,sans-serif">
-<rect width="1020" height="310" fill="#e4dfd5"/>
-<!-- outline showing position over wing A -->
-<rect x="40" y="20" width="940" height="272" fill="none" stroke="#9a9080" stroke-width="1.5" stroke-dasharray="12,6" rx="4"/>
-<text x="510" y="13" text-anchor="middle" font-size="9.5" fill="#9a9080" font-weight="600">PROJEÇÃO SOBRE A ALA HORIZONTAL DO TÉRREO</text>
+<rect width="1020" height="300" fill="#ddd8ce"/>
+<rect x="40" y="18" width="940" height="268" fill="none" stroke="#9a9080" stroke-width="1.5" stroke-dasharray="12,6" rx="4"/>
+<text x="510" y="11" text-anchor="middle" font-size="9.5" fill="#9a9080" font-weight="600">PROJEÇÃO SOBRE A ALA HORIZONTAL (WING A)</text>
 
-<!-- SUÍTE MASTER -->
-<rect x="50" y="28" width="330" height="252" fill="#f2ede0" stroke="#888" stroke-width="2"/>
-<text x="215" y="140" text-anchor="middle" font-size="14" fill="#444" font-weight="700">SUÍTE MASTER</text>
-<rect x="68" y="162" width="200" height="98" rx="6" fill="#d4cfc4" stroke="#aaa" stroke-width="1.5"/>
-<rect x="68" y="162" width="200" height="26" rx="4" fill="#c8c4b8" stroke="#aaa" stroke-width="1"/>
-<text x="168" y="234" text-anchor="middle" font-size="9.5" fill="#888">cama casal</text>
-<!-- varanda strip -->
-<rect x="50" y="268" width="330" height="12" fill="#d0bc7a" stroke="#b09850" stroke-width="1"/>
-<text x="215" y="292" text-anchor="middle" font-size="9" fill="#6a5018" font-weight="600">VARANDA PRIVATIVA — vista jardim e churrasqueira</text>
+<!-- Suíte Master -->
+<rect x="50" y="26" width="320" height="244" fill="#f2ede0" stroke="#888" stroke-width="2"/>
+<text x="210" y="130" text-anchor="middle" font-size="14" fill="#444" font-weight="700">SUÍTE MASTER</text>
+<rect x="68" y="152" width="200" height="100" rx="6" fill="#d4cfc4" stroke="#aaa" stroke-width="1.5"/>
+<rect x="68" y="152" width="200" height="26" rx="4" fill="#c8c4b8" stroke="#aaa" stroke-width="1"/>
+<text x="168" y="228" text-anchor="middle" font-size="9.5" fill="#888">cama casal</text>
+<!-- varanda -->
+<rect x="50" y="256" width="320" height="12" fill="#d0bc7a" stroke="#b09850" stroke-width="1"/>
+<text x="210" y="282" text-anchor="middle" font-size="9" fill="#6a5018" font-weight="600">VARANDA — vista jardim e churrasqueira</text>
 
-<!-- CLOSET WALK-IN -->
-<rect x="380" y="28" width="210" height="252" fill="#ece8dc" stroke="#888" stroke-width="2"/>
-<text x="485" y="128" text-anchor="middle" font-size="13" fill="#444" font-weight="700">CLOSET</text>
-<text x="485" y="146" text-anchor="middle" font-size="10" fill="#888">Walk-in</text>
-<rect x="392" y="42" width="186" height="11" fill="#d0ccc0" stroke="#bbb" stroke-width="0.8"/>
-<rect x="392" y="60" width="186" height="11" fill="#d0ccc0" stroke="#bbb" stroke-width="0.8"/>
-<rect x="392" y="78" width="186" height="11" fill="#d0ccc0" stroke="#bbb" stroke-width="0.8"/>
-<rect x="392" y="96" width="186" height="11" fill="#d0ccc0" stroke="#bbb" stroke-width="0.8"/>
-<text x="485" y="220" text-anchor="middle" font-size="8.5" fill="#7a7060" font-style="italic">closet amplo — pedido Priscila</text>
+<!-- Closet -->
+<rect x="370" y="26" width="208" height="244" fill="#ece8dc" stroke="#888" stroke-width="2"/>
+<text x="474" y="118" text-anchor="middle" font-size="13" fill="#444" font-weight="700">CLOSET</text>
+<text x="474" y="136" text-anchor="middle" font-size="10" fill="#888">Walk-in (amplo)</text>
+<rect x="382" y="42" width="184" height="11" fill="#d0ccc0" stroke="#bbb" stroke-width="0.8"/>
+<rect x="382" y="60" width="184" height="11" fill="#d0ccc0" stroke="#bbb" stroke-width="0.8"/>
+<rect x="382" y="78" width="184" height="11" fill="#d0ccc0" stroke="#bbb" stroke-width="0.8"/>
+<rect x="382" y="96" width="184" height="11" fill="#d0ccc0" stroke="#bbb" stroke-width="0.8"/>
+<text x="474" y="220" text-anchor="middle" font-size="8.5" fill="#6a7050" font-style="italic">pedido Priscila: closet generoso</text>
 
-<!-- BANHEIRO MASTER -->
-<rect x="590" y="28" width="360" height="252" fill="#d8e8f4" stroke="#888" stroke-width="2"/>
-<text x="770" y="78" text-anchor="middle" font-size="13" fill="#444" font-weight="700">BANHEIRO MASTER</text>
+<!-- Banheiro Master -->
+<rect x="578" y="26" width="382" height="244" fill="#d8e8f4" stroke="#888" stroke-width="2"/>
+<text x="769" y="70" text-anchor="middle" font-size="13" fill="#444" font-weight="700">BANHEIRO MASTER</text>
 <!-- double shower -->
-<rect x="606" y="40" width="110" height="85" rx="4" fill="#a8cce8" stroke="#3878b8" stroke-width="1.5"/>
-<text x="661" y="87" text-anchor="middle" font-size="8.5" fill="#2860a0" font-weight="700">ducha dupla</text>
+<rect x="594" y="38" width="112" height="88" rx="4" fill="#a8cce8" stroke="#3878b8" stroke-width="1.5"/>
+<text x="650" y="86" text-anchor="middle" font-size="8.5" fill="#2060a0" font-weight="700">ducha dupla</text>
 <!-- double sink -->
-<rect x="728" y="40" width="210" height="44" rx="3" fill="#c0d8ec" stroke="#70a8c8" stroke-width="1"/>
-<circle cx="768" cy="62" r="14" fill="#b0d0e8" stroke="#70a8c8" stroke-width="1"/>
-<circle cx="822" cy="62" r="14" fill="#b0d0e8" stroke="#70a8c8" stroke-width="1"/>
-<circle cx="880" cy="62" r="8" fill="#b0d0e8" stroke="#70a8c8" stroke-width="1"/>
-<text x="810" y="102" text-anchor="middle" font-size="8.5" fill="#2860a0">bancada dupla</text>
+<rect x="722" y="38" width="224" height="46" rx="3" fill="#c0d8ec" stroke="#70a8c8" stroke-width="1"/>
+<circle cx="764" cy="61" r="16" fill="#b0d0e8" stroke="#70a8c8" stroke-width="1"/>
+<circle cx="824" cy="61" r="16" fill="#b0d0e8" stroke="#70a8c8" stroke-width="1"/>
+<circle cx="900" cy="61" r="10" fill="#b0d0e8" stroke="#70a8c8" stroke-width="1"/>
+<text x="824" y="100" text-anchor="middle" font-size="8.5" fill="#2060a0">bancada dupla</text>
 <!-- toilet separate -->
-<rect x="728" y="116" width="110" height="80" rx="3" fill="#c8e0f0" stroke="#70a8c8" stroke-width="1"/>
-<ellipse cx="783" cy="160" rx="26" ry="22" fill="#b0d0e8" stroke="#70a8c8" stroke-width="1"/>
-<text x="783" y="208" text-anchor="middle" font-size="8.5" fill="#2860a0">sanitário separado</text>
+<rect x="722" y="118" width="112" height="88" rx="3" fill="#c8e0f0" stroke="#70a8c8" stroke-width="1"/>
+<ellipse cx="778" cy="166" rx="28" ry="24" fill="#b0d0e8" stroke="#70a8c8" stroke-width="1"/>
+<text x="778" y="218" text-anchor="middle" font-size="8.5" fill="#2060a0">sanitário separado</text>
 <!-- plant nook -->
-<text x="858" y="175" text-anchor="middle" font-size="10" fill="#4a8050">🪴</text>
-<text x="858" y="192" text-anchor="middle" font-size="7.5" fill="#4a8050" font-style="italic">jardim</text>
-<text x="858" y="203" text-anchor="middle" font-size="7.5" fill="#4a8050" font-style="italic">inverno</text>
-<text x="661" y="226" text-anchor="middle" font-size="8.5" fill="#4878a0" font-style="italic">pedido Priscila: espaço generoso,</text>
-<text x="661" y="240" text-anchor="middle" font-size="8.5" fill="#4878a0" font-style="italic">2 chuveiros, bancada dupla</text>
+<text x="898" y="160" text-anchor="middle" font-size="12" fill="#4a8050">🪴</text>
+<text x="898" y="180" text-anchor="middle" font-size="8" fill="#4a8050" font-style="italic">jardim</text>
+<text x="898" y="192" text-anchor="middle" font-size="8" fill="#4a8050" font-style="italic">inverno</text>
+<text x="650" y="230" text-anchor="middle" font-size="8.5" fill="#3878a8" font-style="italic">chuveiro duplo · bancada dupla · sanitário sep.</text>
 </svg>
 </div>
 
-<!-- INFO GRID -->
-<div class="grid2" style="margin-top:0">
+<!-- INFO -->
+<div class="grid2">
 <div class="info">
-  <h3>Partido arquitetônico</h3>
+  <h3>Fluxo e partido</h3>
   <ul>
-    <li>Terreno trapezoidal com via curva no flanco direito — garagem na ala direita com acesso direto à rua</li>
-    <li>Casa em L — ala horizontal no topo (social) + ala vertical à esquerda (serviço e suítes) + jardim no ângulo interior</li>
-    <li>Sala dual-use: living de dia (luz natural, plantas), home theater à noite (blackout motorizado, projetor retrátil, iluminação cênica)</li>
-    <li>Gourmet + cozinha + jantar integrados; portas de vidro separam churrasqueira do jardim sem bloquear visão</li>
-    <li>WC com 2 portas — serve o escritório e, discretamente, a área social como lavabo</li>
-    <li>Escritório / Suíte 1 com porta para o jardim</li>
-    <li>Deck perimetral estreito como transição casa ↔ jardim</li>
-    <li>Jardim: convívio e grama no centro, horta + pomar no fundo (proposta Priscila)</li>
-    <li>Adega embutida sob a escada</li>
-    <li>1° andar: suíte master, closet amplo, banheiro duplo, varanda com vista para a churrasqueira e jardim</li>
+    <li>Entrada pela via curva (canto inferior direito) → garagem ou porta principal → hall → sala é o primeiro ambiente</li>
+    <li>L abre para a ESQUERDA: jardim fica no lado esquerdo, Wing B (suítes) sobe pelo lado direito</li>
+    <li>Gourmet no extremo esquerdo da Wing A, com vidro para o jardim nos dois lados — visita acessa sem atravessar a casa</li>
+    <li>Cozinha + jantar + sala integrados; ilha separa cozinha visualmente sem fechar o espaço</li>
+    <li>Lavanderia atrás da cozinha, no canto interno do L — visível apenas pela cozinha, com porta discreta e varal voltado ao jardim</li>
+    <li>Hall com escada + adega embutida embaixo → sobe para suíte master</li>
+    <li>Wing B (direita, para cima): Suíte 1 / Escritório + Suíte 2 / Hóspedes — ambas com vista para o jardim à esquerda</li>
+    <li>Suíte master no 1° andar com varanda sobre a churrasqueira e o jardim</li>
   </ul>
 </div>
 <div class="info">
-  <h3>Materiais · consensos e propostas</h3>
+  <h3>Decisões baseadas no briefing</h3>
   <ul>
-    <li>Piso térreo social: porcelanato claro (Luiz)</li>
-    <li>Piso quartos e 1° andar: madeira mel (Priscila)</li>
-    <li>Fachada: massa branca/cinza claro + painéis de madeira natural nos recortes</li>
-    <li>Revestimento externo: madeira natural — consenso de ambos</li>
-    <li>Cozinha: bancada Calacatta Oro (mármore branco com veios dourados) + armários em madeira mel + backsplash azulejo artesanal creme/areia + metais latão champagne</li>
-    <li>Banheiro master: pedra clara, 2 chuveiros, 2 pias, espelho amplo, planta natural</li>
-    <li>Atmosfera: aconchegante e quente — consenso de ambos</li>
-    <li>Sustentabilidade: cobertura verde, reaproveitamento de água da chuva, painéis solares</li>
+    <li>Piso social (térreo): porcelanato claro</li>
+    <li>Piso íntimo (suítes, 1° andar): madeira mel</li>
+    <li>Fachada: massa branca + painéis de madeira natural</li>
+    <li>Cozinha: bancada mármore Calacatta Oro + armários madeira mel + backsplash azulejo artesanal creme + metais latão</li>
+    <li>Sala dual-use: blackout motorizado + projetor retrátil (de dia = sala, de noite = cinema)</li>
+    <li>Jardim: convívio/grama no centro, horta + pomar nos fundos (esquerda)</li>
+    <li>Deck perimetral estreito como transição casa ↔ jardim</li>
+    <li>Sustentabilidade como premissa: cobertura verde, reuso de água, solar</li>
   </ul>
 </div>
 </div>
@@ -400,18 +443,18 @@
     <div class="li"><div class="sw" style="background:#eae4d4"></div>Sala de Jantar</div>
     <div class="li"><div class="sw" style="background:#e4f0e0"></div>Cozinha</div>
     <div class="li"><div class="sw" style="background:#f0e8d8"></div>Gourmet / Churrasqueira</div>
-    <div class="li"><div class="sw" style="background:#e0e8f4"></div>Lavanderia / Serviço</div>
+    <div class="li"><div class="sw" style="background:#dce8f4"></div>Lavanderia (discreta)</div>
     <div class="li"><div class="sw" style="background:#f2ede2"></div>Escritório / Suítes</div>
-    <div class="li"><div class="sw" style="background:#d8e8f4"></div>Banheiros</div>
-    <div class="li"><div class="sw" style="background:#c0d890"></div>Jardim / Paisagismo</div>
+    <div class="li"><div class="sw" style="background:#d8e8f4"></div>Banheiros / WC</div>
+    <div class="li"><div class="sw" style="background:#b8d488"></div>Jardim / Paisagismo</div>
     <div class="li"><div class="sw" style="background:#d0bc7a"></div>Deck / Varanda</div>
-    <div class="li"><div class="sw" style="background:#90c8f0"></div>Esquadrias de vidro</div>
+    <div class="li"><div class="sw" style="background:#80c0f0"></div>Esquadrias de vidro</div>
   </div>
 </div>
 
-</div><!-- /wrap -->
+</div>
 <div class="back">
-  <a href="../relatorio/">← Relatório de briefing</a> &nbsp;·&nbsp;
+  <a href="../relatorio/">← Relatório</a> &nbsp;·&nbsp;
   <a href="../conceito/">← Projeto</a>
 </div>
 </body>
